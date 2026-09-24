@@ -263,4 +263,10 @@ export const en: Record<string, string> = {
   "tour6desc": "A dosing question is declined, with a route to the right help.",
   "tour7title": "Check the audit trail",
   "tour7desc": "Everything you just did is logged, without storing formulation details.",
+  "example0title": "Ashwagandha CO2 extract",
+  "example0desc": "A startup patents a new extraction process.",
+  "example1title": "Classical Chyawanprash, saffron added",
+  "example1desc": "One added ingredient moves it from classical to proprietary.",
+  "example2title": "Farmer selling cultivated Ashwagandha",
+  "example2desc": "A grower's biodiversity duties, in Hindi.",
 };
