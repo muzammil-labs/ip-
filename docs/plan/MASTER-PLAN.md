@@ -363,7 +363,7 @@ Mobile <768px
 - The disclaimer is always visible in the footer, never covered. Nothing floats over the footer.
 - Z-index scale in `src/ui/layers.ts`: header 30, rail 20, drawer 40, sheet 50, toast 60. No other z-index values.
 
-### Phase S. Screening sprint (run right after Phase 1; must be live by 28 Sep 2026)
+### Phase S. Screening sprint (run right after Phase 1; deploy S-1 to S-3 by the evening of 26 Sep 2026)
 
 Why: the national idea deadline is 30 Sep 2026 and the first screen is the 6-slide PDF plus whatever an evaluator sees in 30 seconds on the prototype link (see `STRATEGY-V9.md` §1 and §3). These tasks work on the Phase 1 shell and tokens with the **existing** screens; they do not wait for Phases 2 to 4. Build them with the Phase 1 tokens and keep them consistent with Part C; they will be rebuilt on the full primitives in Phase 4.
 
@@ -527,7 +527,7 @@ Specs and reasons are in `docs/plan/SPOTLIGHT.md`. Build on the same primitives;
 | Phase | Days (1 dev) | Can overlap with |
 |---|---|---|
 | 0 Safety net | 0.5 | |
-| S Screening sprint | 2.5 | Must be live by 28 Sep |
+| S Screening sprint | 2.5 | S-1 to S-3 live by 26 Sep evening |
 | 1 Foundations | 2 | Content work for 6.1, 6.5 |
 | 2 Primitives | 2.5 | |
 | 3 Case and routing | 2 | |

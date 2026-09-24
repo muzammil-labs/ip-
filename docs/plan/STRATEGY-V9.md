@@ -41,16 +41,15 @@ Two halves, both in the PS background ("legitimate Ayurvedic innovation is under
 
 ## 3. The screening sprint (24 to 29 September)
 
-Goal: a PDF that survives a 2-minute read, and a live link that looks finished in 30 seconds. Submit on **29 September**, not the 30th (portals slow down on deadline day).
+Goal: a PDF that survives a 2-minute read, a live link that looks finished in 30 seconds, and a clean demo video. **Target submission 27 September**; 28 or 29 September as fallback; never the 30th (portals and SPOCs are overloaded on deadline day). See §3A for why the 27th.
 
 | Day | Build (Sonnet sessions, from MASTER-PLAN.md) | Team (people) |
 |---|---|---|
-| **Wed 24** | Phase 0 (grid bug, mobile language switch, screenshot script, tests, CLAUDE.md update). | Confirm SPOC nomination and team composition. Message an AIIA faculty contact and a patent agent (templates in §7). Turn off the Netlify badge. |
-| **Thu 25** | Phase 1 (tokens, fonts, remove Three.js and GSAP, shell). The site now looks light-first and consistent. | Collect 3 to 5 facts to verify for slides (§16 of FINALS-STRATEGY). |
-| **Fri 26** | **Sprint tasks S-1 to S-4** (below). | Draft the 6 slides on the official template (§5). |
-| **Sat 27** | S-5, S-6; screenshots; fix anything failing Part E. | Record the 2-minute demo video (§5.2); get any expert quote you can. |
-| **Sun 28** | Buffer. Deploy the final screening build to Netlify. | Finalise PDF; peer review by two people who have not seen it (the 2-minute test). |
-| **Mon 29** | Freeze. | **Submit.** |
+| **Wed 24** | Phase 0 (grid bug, mobile language switch, screenshot script, tests, CLAUDE.md update). | Confirm SPOC nomination, the SPOC's own upload cut-off, and whether a video and an abstract are required (§3A). Message the AIIA faculty contact and a patent agent (§7). Turn off the Netlify badge; point Netlify at the build branch. |
+| **Thu 25** | Phase 1 (tokens, fonts, remove Three.js and GSAP, shell). The site now looks light-first and consistent. | Draft the 6 slides on the official template (§5) and the abstract (§3A). |
+| **Fri 26** | S-1, S-2, S-3. Deploy by evening. | Screenshots of the deployed build for the slides; record the demo video (§5.2); 2-minute test with two outsiders. |
+| **Sat 27** | S-4 to S-6 only if time allows; otherwise freeze. | Final PDF, video link and abstract to the SPOC by midday. **Target submission: 27 Sep.** |
+| **Sun 28 / Mon 29** | Buffer, fixes only. | Fallback submission window. Do not wait for 30 Sep. |
 
 ### Sprint tasks (added to MASTER-PLAN as Phase S; they reuse the Phase 1 tokens, and do not need the full Phase 2 to 4)
 
@@ -62,6 +61,36 @@ Goal: a PDF that survives a 2-minute read, and a live link that looks finished i
 - **S-6 Evaluation panel named exactly as the PS**: "Answer accuracy, citation correctness, safe abstention, multilingual quality", showing live-computed results on the scripted set (P1-6 in simplified form).
 
 After 29 September, continue MASTER-PLAN Phase 2 onward. There are about 6 to 9 weeks until the finale, enough for the full build plus the angles below.
+
+## 3A. Submission tactics (what is known, what is not)
+
+**Evaluation order.** There is no public evidence, official or from participants, on whether evaluators read ideas in submission order, randomly, or in batches. The evaluation portal (`evaluations.sih.gov.in`) is not public. Shortlisting is by rubric score across all ideas for the statement, not first-come. Two things are plausible but unproven: portal lists often default to ascending ID, and reviewer attention fades over a long pile. So treat "the first 100 are favoured" as a rumour, but note that it costs little to be early anyway:
+
+- PS 26045 had 62 ideas on 24 Sep, growing about 8 a day, so idea 100 arrives around 27 to 28 Sep. **Submitting on the 27th almost certainly puts you in the first 100** with no loss of quality.
+- Never trade quality for position. A strong PDF on the 28th beats a weak one on the 26th.
+- Ask the SPOC whether a submitted idea can be replaced before the deadline. If yes, submit a complete version on the 27th and replace it only if something important improves.
+
+**Numbers that set expectations.** SIH 2025 had 72,165 ideas for 271 statements (about 266 per statement on average) and 1,360 finalist teams (about 5 per statement). PS 26045 will likely close at 100 to 160 ideas, so the selection rate is about 3 to 5%.
+
+**What goes in with the PDF.** Several guides and walkthroughs describe the SPOC uploading the idea PDF **and a video demonstration** for national screening, and walkthrough videos for 2025 and 2026 mention an **abstract** and a **business model** in the submission. Confirm the exact fields with your SPOC today. Prepare all three anyway:
+
+- **Demo video:** 2 minutes, unlisted YouTube, script in §5.2. For a frontend demo this is where you stand out: many teams submit no video or a slideshow recording, and "no prototype, no video, no screenshot" is listed as a critical mistake in screening guides.
+- **Abstract (about 200 words; trim to the portal limit):**
+
+> IP-SAKTI Sahayak helps Ayurveda innovators, practitioners, researchers and cultivators understand what their product legally is, what they can protect, what they owe under biodiversity law and what they may claim, with a clause-level citation under every answer. It first classifies the formulation (classical, proprietary, new ASU drug, phytopharmaceutical, Ayurveda Aahara or cosmetic) with a few adaptive questions, because every IP and access-and-benefit-sharing answer depends on that category. Answers keep Indian law and international regimes in two visibly separate columns, compute confidence from the evidence rather than self-reporting it, abstain when evidence is insufficient, and hand off to a human IP facilitator with consent. A version-tracked corpus of statutes, rules, treaties, pharmacopoeial standards, registry records and case law tracks when each clause is in force, so answers stay correct as law changes (for example the 2024 to 2025 changes to Rule 170 on Ayurvedic advertising). Beyond protecting innovation, IP-SAKTI helps defend India's traditional knowledge: it compares a formulation or a foreign patent against classical formulations and points to the right challenge route. The assistant works in English, Hindi and Telugu with voice, and aligns with DPDP, India's AI Governance Guidelines and GIGW 3.0.
+
+- **Business model (if asked, 3 lines):** public deployment by Ministry of Ayush and AIIA as a free information service; SIPP facilitators and IP cells use the triage queue and dossiers; MSMEs and exporters pay for dossier exports, claim checks at scale and export-market packs, with the curated, versioned corpus as the moat.
+
+**Coordinate with the SPOC.** The SPOC uploads for the college and may set an earlier internal cut-off. Send them the final PDF, video link and abstract by **27 Sep midday**, and get a screenshot of the submitted entry.
+
+**A second problem statement (optional, decide today).** Guides report that a team leader can select **up to 2 problem statements**. Confirm with the SPOC. The other AIIA software statement, **SIH26046 (AIIA Clinical Trials Dashboard: CTMS with CTRI, GCP-ASU, pharmacovigilance, CDISC/FHIR)**, had only **25 ideas** on 24 Sep, the lowest of all MedTech software statements, and the same organisation evaluates it. A 6-slide PDF for it could be written by one or two team members in a day, reusing the same visual language, without touching the PS 26045 build. Trade-offs: it splits attention in the busiest week, it is a different domain (clinical research operations, not IP law), and you should check with the SPOC what happens if both are shortlisted. Recommendation: do it only if two team members are free and PS 26045's PDF is on track by Thursday.
+
+**Avoid screening killers:**
+- More than 6 slides, a modified template, or a non-PDF file.
+- Copying the PS text into slides instead of restating it.
+- Generic AI phrasing ("revolutionise", "seamless", "cutting-edge"); evaluators say they can spot recycled or AI-generated content.
+- Invented statistics. Use cited facts or qualitative framing.
+- A prototype link that opens to a blank, broken or slow page. Test it on a phone over mobile data before submitting.
 
 ---
 
@@ -160,6 +189,8 @@ Before submitting, give the PDF to two people who have not seen the project, for
 ---
 
 ## 8. Sources used for this strategy
+
+- SIH 2025 totals (72,165 ideas, 271 statements, 1,360 finalist teams): SIH 2025 reporting. Submission components (PDF, video demonstration, abstract): SIH 2026 guides and walkthroughs; confirm with the SPOC. Two problem statements per team: SIH 2026 portal guidance as reported; confirm with the SPOC.
 
 - Official PS text and live submission counts: `Zaidusyy/sih-2026-problem-statements` (GitHub dataset, snapshot 24 Sep 2026); verify on sih.gov.in.
 - SIH 2026 timeline and template guidance: reskilll.com and thenewviews.com SIH 2026 guides; `tharsan1305/SIH-2026` template notes; SIH 2025 guidance on 6-slide PDF, evaluator time and team composition.

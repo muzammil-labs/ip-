@@ -14,7 +14,7 @@ Project: IP-SAKTI Sahayak, our Smart India Hackathon entry for PS 26045 (Ministr
 2. Use the plans in the repo. They are the source of truth; do not re-plan or re-research.
 - Read CLAUDE.md, then docs/plan/README.md.
 - docs/plan/README.md has a "What to read per phase" table. Read ONLY the sections listed for the phase you are on, plus D0 (operating rules) and Part E (pre-flight) of docs/plan/MASTER-PLAN.md. Do not read the PDFs.
-- docs/plan/STRATEGY-V9.md holds the current priorities and docs/plan/PS-26045.md the official problem statement text. The national idea deadline is 30 Sep 2026, so the screening sprint (Phase S) comes right after Phases 0 and 1.
+- docs/plan/STRATEGY-V9.md holds the current priorities and docs/plan/PS-26045.md the official problem statement text. The team submits the idea on 27 Sep 2026 (national deadline 30 Sep), so the screening sprint (Phase S) comes right after Phases 0 and 1.
 - Decisions in the plans are final (light-first "Clean Record" palette, remove Three.js and GSAP, Motion only, hash routing, real licence-checked plant images only, no rewording of legal content).
 
 3. Work loop
@@ -28,7 +28,7 @@ Project: IP-SAKTI Sahayak, our Smart India Hackathon entry for PS 26045 (Ministr
 - Load the design-taste-frontend skill before UI work.
 
 5. This session
-- Do Phase 0 (UI-0.1 to UI-0.5), then Phase 1, then Phase S (S-1 to S-6). The screening build must be deployed by 28 Sep 2026. If time runs short, finish S-1, S-2 and S-3 before polishing anything else.
+- Do Phase 0 (UI-0.1 to UI-0.5), then Phase 1, then Phase S (S-1 to S-6). The screening build must be deployed by the evening of 26 Sep 2026 (the team submits on 27 Sep). If time runs short, finish S-1, S-2 and S-3 and deploy; S-4 to S-6 only if time allows.
 - At the end, stop and report: what changed, screenshot paths for touched routes, open questions, and the next phase.
 ```
 
