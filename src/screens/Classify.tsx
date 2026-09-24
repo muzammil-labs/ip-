@@ -7,7 +7,7 @@ import { CQ } from "../data/classifyQuestions";
 import { CAT } from "../data/classifyCategories";
 import { SNAPSHOT } from "../data/pathwaySnapshot";
 import { SNAPLABEL, SNAPWORD_KEY, PRESETS } from "../data/constants";
-import { buildResult, meterColor, shortCite, nextSteps } from "../lib/classify";
+import { buildResult, meterColor, shortCite, nextSteps } from "../engines/classify";
 import Reveal from "../components/Reveal";
 import type { ClassifyState } from "../lib/types";
 

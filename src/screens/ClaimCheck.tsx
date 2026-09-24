@@ -4,8 +4,8 @@ import { Warning } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
 import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
-import { runClaims } from "../lib/claims";
-import { shortCite } from "../lib/classify";
+import { runClaims } from "../engines/claims";
+import { shortCite } from "../engines/classify";
 import Reveal from "../components/Reveal";
 
 const CATEGORIES = [

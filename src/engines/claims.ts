@@ -1,5 +1,7 @@
 import { CLAIM_RULES, type ClaimRule } from "../data/claimRules";
 import { CAT_RULES } from "../data/claimCategoryRules";
+import { classify } from "./classify";
+import type { Case } from "../state/case";
 
 export interface ClaimFinding {
   start: number;
@@ -55,4 +57,11 @@ export function runClaims(text: string, claimCat: string): ClaimReport {
   const bad = kept.filter((f) => f.rule.lvl === "bad").length;
   const warn = kept.length - bad;
   return { segments, findings: kept, bad, warn, ruleFlagged: claimCat === "drug" };
+}
+
+/** Case-based entry point: the category comes from the Case classification, not a separate picker. */
+export function claimsCheck(kase: Case, text: string): ClaimReport {
+  const result = classify(kase);
+  const claimCat = result?.cat === "aahara" || result?.cat === "cosmetic" ? result.cat : "drug";
+  return runClaims(text, claimCat);
 }

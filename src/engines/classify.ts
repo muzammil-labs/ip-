@@ -1,7 +1,8 @@
 import { CAT } from "../data/classifyCategories";
 import { SOURCES } from "../data/sources";
 import { ROWNAME } from "../data/constants";
-import type { ClassifyState } from "./types";
+import type { ClassifyState } from "../lib/types";
+import type { Case } from "../state/case";
 
 export function categoryOf(c: ClassifyState): string | null {
   if (c.use === "food") return "aahara";
@@ -120,6 +121,11 @@ export function buildResult(c: ClassifyState, prev: { cat: string; rowsByKey: Re
     return { key: k, label: ROWNAME[k], text: txt, cites: cs, changedFrom: was };
   });
   return { cat, def, rows, changedLabels, categoryChanged: !!prev && prev.cat !== cat };
+}
+
+/** Case-based entry point: classifies a Case by reading its answers. Thin wrapper over buildResult, kept alongside it so callers that already have a full Case do not have to unpack it. */
+export function classify(kase: Case, prev: { cat: string; rowsByKey: Record<string, string> } | null = null): ClassifyResult | null {
+  return buildResult(kase.answers, prev);
 }
 
 export function sourceTitle(id: string): string {

@@ -1,6 +1,6 @@
 import { ANSWERS } from "../data/answers";
 import { PRESETS } from "../data/constants";
-import { performAsk } from "./ask";
+import { performAsk } from "../engines/ask";
 import type { useApp } from "../state/store";
 import type { useSession } from "../state/session";
 

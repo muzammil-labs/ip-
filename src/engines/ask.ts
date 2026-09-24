@@ -1,5 +1,5 @@
 import { ANSWERS } from "../data/answers";
-import type { Answer } from "./types";
+import type { Answer } from "../lib/types";
 
 /** Keyword-overlap match against the scripted corpus. Requires a real score, so near-misses abstain. */
 export function matchQuestion(q: string): Answer | null {

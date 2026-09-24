@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { runClaims } from "../../src/lib/claims";
+import { runClaims } from "../../src/engines/claims";
 
 function citesOf(text: string, claimCat = "drug") {
   return runClaims(text, claimCat).findings.map((f) => f.rule.cite);

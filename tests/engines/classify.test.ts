@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { categoryOf, absOf } from "../../src/lib/classify";
+import { categoryOf, absOf } from "../../src/engines/classify";
 import type { ClassifyState } from "../../src/lib/types";
 
 describe("categoryOf: every use/text/frac combination", () => {

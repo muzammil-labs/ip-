@@ -1,5 +1,5 @@
 import { SOURCES } from "../data/sources";
-import type { Answer, Confidence } from "./types";
+import type { Answer, Confidence } from "../lib/types";
 
 /** Lowest tier number (0 = primary law) among a point's citations. Uncited points count as tier 4 (weakest). */
 function bestTier(cites: string[]): number {

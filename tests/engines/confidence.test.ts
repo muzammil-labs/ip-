@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeConfidence } from "../../src/lib/confidence";
+import { computeConfidence } from "../../src/engines/confidence";
 import { ANSWERS } from "../../src/data/answers";
 import type { Answer, Confidence } from "../../src/lib/types";
 
@@ -10,7 +10,7 @@ function byId(id: string): Answer {
 }
 
 // Each expectation below was hand-derived from the current src/data/answers.ts and
-// src/data/sources.ts content, tracing src/lib/confidence.ts's computeConfidence
+// src/data/sources.ts content, tracing src/engines/confidence.ts's computeConfidence
 // exactly. These freeze today's behaviour: if the underlying data or the engine
 // changes, this test should be revisited deliberately, not silently.
 const EXPECTED: Record<string, Confidence> = {
