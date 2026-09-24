@@ -46,8 +46,8 @@ Goal: a PDF that survives a 2-minute read, a live link that looks finished in 30
 | Day | Build (Sonnet sessions, from MASTER-PLAN.md) | Team (people) |
 |---|---|---|
 | **Wed 24** | Phase 0 (grid bug, mobile language switch, screenshot script, tests, CLAUDE.md update). | Confirm SPOC nomination, the SPOC's own upload cut-off, and whether a video and an abstract are required (§3A). Message the AIIA faculty contact and a patent agent (§7). Turn off the Netlify badge; point Netlify at the build branch. |
-| **Thu 25** | Phase 1 (tokens, fonts, remove Three.js and GSAP, shell). The site now looks light-first and consistent. | Draft the 6 slides on the official template (§5) and the abstract (§3A). |
-| **Fri 26** | S-1, S-2, S-3. Deploy by evening. | Screenshots of the deployed build for the slides; record the demo video (§5.2); 2-minute test with two outsiders. |
+| **Thu 25** | Phase 1 (tokens, fonts, remove Three.js and GSAP, shell). The site now looks light-first and consistent. | Fill the 6 slides on the official template and adapt the title, abstract and description (SUBMISSION-KIT §3 to §6). |
+| **Fri 26** | S-1, S-2, S-3. Deploy by evening. | Screenshots of the deployed build for the slides; record the demo video (SUBMISSION-KIT §7); 2-minute test with two outsiders. |
 | **Sat 27** | S-4 to S-6 only if time allows; otherwise freeze. | Final PDF, video link and abstract to the SPOC by midday. **Target submission: 27 Sep.** |
 | **Sun 28 / Mon 29** | Buffer, fixes only. | Fallback submission window. Do not wait for 30 Sep. |
 
@@ -64,7 +64,7 @@ After 29 September, continue MASTER-PLAN Phase 2 onward. There are about 6 to 9 
 
 ## 3A. Submission tactics (what is known, what is not)
 
-**Evaluation order.** There is no public evidence, official or from participants, on whether evaluators read ideas in submission order, randomly, or in batches. The evaluation portal (`evaluations.sih.gov.in`) is not public. Shortlisting is by rubric score across all ideas for the statement, not first-come. Two things are plausible but unproven: portal lists often default to ascending ID, and reviewer attention fades over a long pile. So treat "the first 100 are favoured" as a rumour, but note that it costs little to be early anyway:
+**Evaluation order.** There is no public evidence, official or from participants, on whether evaluators read ideas in submission order. Evaluator accounts describe receiving a batch (about 100 ideas for one statement, to be scored in a day), which makes a global "first 100" advantage even less likely. The evaluation portal (`evaluations.sih.gov.in`) is not public. Shortlisting is by rubric score across all ideas for the statement, not first-come. Two things are plausible but unproven: portal lists often default to ascending ID, and reviewer attention fades over a long pile. So treat "the first 100 are favoured" as a rumour, but note that it costs little to be early anyway:
 
 - PS 26045 had 62 ideas on 24 Sep, growing about 8 a day, so idea 100 arrives around 27 to 28 Sep. **Submitting on the 27th almost certainly puts you in the first 100** with no loss of quality.
 - Never trade quality for position. A strong PDF on the 28th beats a weak one on the 26th.
@@ -72,7 +72,7 @@ After 29 September, continue MASTER-PLAN Phase 2 onward. There are about 6 to 9 
 
 **Numbers that set expectations.** SIH 2025 had 72,165 ideas for 271 statements (about 266 per statement on average) and 1,360 finalist teams (about 5 per statement). PS 26045 will likely close at 100 to 160 ideas, so the selection rate is about 3 to 5%.
 
-**What goes in with the PDF.** Several guides and walkthroughs describe the SPOC uploading the idea PDF **and a video demonstration** for national screening, and walkthrough videos for 2025 and 2026 mention an **abstract** and a **business model** in the submission. Confirm the exact fields with your SPOC today. Prepare all three anyway:
+**What goes in with the PDF (now confirmed by evaluator accounts; details and ready text in `SUBMISSION-KIT.md`).** The team leader logs in with SPOC-issued credentials and fills: idea title (about 100 characters), idea description (about 50,000 characters), abstract (about 10,000 characters), the 6-slide PDF, an optional demo video link, optional additional documents (not visible to evaluators on the 2025 portal), and team and mentor details. Evaluators spend under 5 minutes per idea; one was given 100 ideas for a statement and one day. The earlier short drafts below are superseded by the kit:
 
 - **Demo video:** 2 minutes, unlisted YouTube, script in §5.2. For a frontend demo this is where you stand out: many teams submit no video or a slideshow recording, and "no prototype, no video, no screenshot" is listed as a critical mistake in screening guides.
 - **Abstract (about 200 words; trim to the portal limit):**
@@ -81,7 +81,7 @@ After 29 September, continue MASTER-PLAN Phase 2 onward. There are about 6 to 9 
 
 - **Business model (if asked, 3 lines):** public deployment by Ministry of Ayush and AIIA as a free information service; SIPP facilitators and IP cells use the triage queue and dossiers; MSMEs and exporters pay for dossier exports, claim checks at scale and export-market packs, with the curated, versioned corpus as the moat.
 
-**Coordinate with the SPOC.** The SPOC uploads for the college and may set an earlier internal cut-off. Send them the final PDF, video link and abstract by **27 Sep midday**, and get a screenshot of the submitted entry.
+**Coordinate with the SPOC.** The SPOC registers the team and issues the team leader's login; the team leader submits. Check the team leader's email and team name are spelled identically everywhere (a misspelled email has knocked teams out). Aim to submit by **27 Sep**, and save a screenshot of the submitted entry.
 
 **A second problem statement (optional, decide today).** Guides report that a team leader can select **up to 2 problem statements**. Confirm with the SPOC. The other AIIA software statement, **SIH26046 (AIIA Clinical Trials Dashboard: CTMS with CTRI, GCP-ASU, pharmacovigilance, CDISC/FHIR)**, had only **25 ideas** on 24 Sep, the lowest of all MedTech software statements, and the same organisation evaluates it. A 6-slide PDF for it could be written by one or two team members in a day, reusing the same visual language, without touching the PS 26045 build. Trade-offs: it splits attention in the busiest week, it is a different domain (clinical research operations, not IP law), and you should check with the SPOC what happens if both are shortlisted. Recommendation: do it only if two team members are free and PS 26045's PDF is on track by Thursday.
 
@@ -124,45 +124,15 @@ After 29 September, continue MASTER-PLAN Phase 2 onward. There are about 6 to 9 
 
 ---
 
-## 5. The 6-slide PDF (content blueprint)
+## 5. The 6-slide PDF, portal text and demo video
 
-Use the **official SIH 2026 template unchanged** (fonts, layout, slide count). Put the content below into its placeholders. Keep text as real text, not images, so it stays readable if evaluators search or skim the PDF, and use the PS's own words where they fit. No invented statistics.
+Moved to **`SUBMISSION-KIT.md`**, which follows the **official template's order** (1 Title, 2 Proposed solution, 3 Technical approach, 4 Feasibility and viability, 5 Impact and benefits, 6 Research and references) and adds evaluator-reported rules. The corrections versus the earlier draft here:
 
-**Slide 1: Title.** Problem Statement ID SIH26045; title as on the portal; theme; organisation (Ministry of Ayush, AIIA); team name; category Software. Add a small QR to the live prototype and one to the 2-minute video if the template allows it on this slide; otherwise put them on slide 3.
-
-**Slide 2: Idea / problem understanding.**
-- Two users in one line each: an Ayurveda startup founder with a new extract, and an Ashwagandha grower selling to a company.
-- The problem in three facts, each with a source: overlapping regimes (patents, GI, TM, designs, copyright, PPV&FR, BD Act, D&C Act, DMR Act, FSSAI); law in motion (Rule 170: omitted Jul 2024, stayed Aug 2024, stay vacated Aug 2025); TK exposure abroad (turmeric 1997, neem 2000/2005).
-- The positioning line from §2.
-
-**Slide 3: Proposed solution.**
-- The one-case flow diagram (Describe → Classify → Protect → Owe → Say → Search → Dossier) with Sahayak (cited Q&A) beside it.
-- Five differentiators in short lines: classification before advice; India and international kept visibly separate; confidence computed from evidence, not self-reported; law-change awareness with effective dates; TK Guard against misappropriation abroad.
-- One screenshot of the real app (light mode, answer with cite chips) and the QR codes.
-
-**Slide 4: Technical approach.**
-- Architecture: version-tracked clause corpus (statutes, rules, treaties, pharmacopoeial standards, registry records, case law) → hybrid retrieval → agentic orchestration (classify, retrieve per jurisdiction, verify each sentence against its cited clause, compute confidence) → cited answer or abstention → escalation to a human IP facilitator. Relational knowledge graph beside the corpus. Bhashini for language and voice.
-- Stack in one line. Prototype status: frontend with in-browser engines and a mocked API contract; Stage 1 backend (FastAPI, Qdrant, Postgres graph) planned.
-- Staging, mirroring the PS: citation-grounded MVP → graph and agentic layers → paid-source connectors, full multilingual and voice.
-
-**Slide 5: Feasibility and viability / impact.**
-- Guardrails and compliance: information-not-advice disclaimer, abstention, consented and logged paid-source access, DPDP handling, mapping to India AI Governance Guidelines (2025) and ICMR AI ethics guidelines (2023), GIGW 3.0-aligned accessibility.
-- Evaluation, named as in the PS: answer accuracy, citation correctness, safe abstention, multilingual quality, with the live prototype-bench numbers once measured (label them as such).
-- Risks and mitigations in three lines (law changes → effective-dated corpus and watcher; hallucination → sentence-level verification and abstention; TKDL access → pointer and consented queries).
-- Impact in qualitative terms (Low/Medium/High framing, no invented figures): innovators, cultivators, SIPP facilitators, AIIA IP cell, export.
-
-**Slide 6: Research and references.**
-- 8 to 10 primary references: Patents Act §§3(d), 3(e), 3(p), 10(4)(d)(ii)(D); CGPDTM AYUSH examination guidelines (23 Sep 2025); BD Act 2002 (amended 2023) and ABS Regulations 2025; D&C Act and Rule 158B; DMR Act; FSS (Ayurveda Aahara) Regulations 2022; Novartis (SC 2013); Divya Pharmacy (Uttarakhand HC 2018); WIPO GRATK (2024); NAMASTE / ICD-11 TM2.
-- "Reviewed by" line if you have it (name, role, date).
-- Existing tools studied and the gap: general chatbots (no versioned law, no jurisdiction split), TKDL (prior-art database, not guidance), IP India resources (not Ayurveda-specific).
-
-### 5.1 The 2-minute test
-
-Before submitting, give the PDF to two people who have not seen the project, for exactly 2 minutes. Then ask: what does it do, for whom, and what is different? If either cannot answer all three, simplify slides 2 and 3.
-
-### 5.2 Demo video (2 minutes, unlisted YouTube, linked from the slides)
-
-0:00 the question on screen · 0:10 classification · 0:30 TK proximity result · 0:50 claim check catching "Madhumeha" · 1:05 time machine on Rule 170 · 1:20 Hindi answer read aloud · 1:35 dossier export · 1:50 PS coverage page. Voice-over by a team member; captions on; no music.
+- Slide 2 is **Proposed solution** (explanation, how it solves AIIA's challenge, innovation and uniqueness), not a separate problem slide.
+- **No QR codes** on slides; evaluators do not scan them. Use titled hyperlinks (no URL shorteners). QR codes are for the in-person finale only.
+- Slide 3 must have **one clear flow or architecture diagram**; about half of 2025 submissions reviewed by one evaluator lacked one.
+- White space and one message per slide; clutter was the single largest elimination reason reported.
+- Demo video **2 minutes maximum**, own voice, unlisted, English.
 
 ---
 

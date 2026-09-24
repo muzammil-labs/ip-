@@ -3,6 +3,7 @@
 | File | What it is | When to read |
 |---|---|---|
 | `STRATEGY-V9.md` | **Current priorities.** Facts that decide selection (deadline 30 Sep, 6-slide PDF screening, ~100 to 160 competitors), the screening sprint, unique angles A to M, the 6-slide content blueprint, messages to experts. | Before Phase S and when preparing the PDF. |
+| `SUBMISSION-KIT.md` | **Screening submission:** evaluator-reported rules, portal fields and limits, ready idea title, abstract and description, slide-by-slide content in the official order, 2-minute video script, checklist. | Before submitting (target 27 Sep). |
 | `PS-26045.md` | Official problem statement text and live submission count. | Phase S, the PDF, and whenever checking coverage. |
 | `MASTER-PLAN.md` | **The build spec.** Audit (Part A), product shape (B), design system "The Clean Record" (C), phased tasks with operating rules (D, D0), pre-flight checklist (E), exact code for tokens, Tailwind mapping, CLAUDE.md, screenshot script, MCP config (appendices). | Every session. |
 | `SPOTLIGHT.md` | Ranked ideas that make the project stand out, with build tasks (Phase 8). | Phase 8, and when preparing the pitch. |
