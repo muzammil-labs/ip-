@@ -42,15 +42,36 @@ function t(lang: Lang, k: string) {
   return I18N[lang]?.[k] || I18N.en[k] || k;
 }
 
+const THEME_KEY = "ips.theme";
+type Theme = "light" | "dark";
+
+function readStoredTheme(): Theme {
+  try {
+    const v = localStorage.getItem(THEME_KEY);
+    return v === "dark" ? "dark" : "light";
+  } catch {
+    return "light";
+  }
+}
+
+function writeStoredTheme(theme: Theme) {
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    // localStorage unavailable (private mode, blocked storage); theme just won't persist.
+  }
+}
+
 export default function App() {
   const { screen, go, lang, setLang } = useApp();
-  const [theme, setTheme] = useState<"light" | "dark">(() =>
-    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  );
+  // Light is the default and the designed theme; it does not follow system preference.
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
   const reduce = useReducedMotion();
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0A1410" : "#F7F9F6");
+    writeStoredTheme(theme);
   }, [theme]);
 
   useEffect(() => {
