@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   House, ChatCircleText, FlowArrow, MagnifyingGlass, Megaphone,
-  BookBookmark, ShieldCheck, MapTrifold, Sun, Moon, Globe,
+  BookBookmark, ShieldCheck, MapTrifold, Sun, Moon,
 } from "@phosphor-icons/react";
 import { useApp, type Screen } from "./state/store";
 import { I18N, type Lang } from "./data/i18n";
@@ -16,6 +16,12 @@ import Trust from "./screens/Trust";
 import Blueprint from "./screens/Blueprint";
 import ScrollProgress from "./components/ScrollProgress";
 import SourceDrawer from "./components/SourceDrawer";
+
+const LANG_OPTIONS: { value: Lang; label: string }[] = [
+  { value: "en", label: "EN" },
+  { value: "hi", label: "हि" },
+  { value: "te", label: "తె" },
+];
 
 const NAV: { key: Screen; icon: typeof House }[] = [
   { key: "overview", icon: House },
@@ -92,19 +98,25 @@ export default function App() {
           </nav>
 
           <div className="ml-auto flex items-center gap-1.5">
-            <label className="relative hidden sm:flex items-center">
-              <Globe size={15} className="pointer-events-none absolute left-2.5 text-ink-3" />
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value as Lang)}
-                aria-label={t(lang, "lang")}
-                className="appearance-none rounded-full border border-line bg-surface py-1.5 pl-7 pr-3 text-[13px] text-ink-2"
-              >
-                <option value="en">EN</option>
-                <option value="hi">हिन्दी</option>
-                <option value="te">తెలుగు</option>
-              </select>
-            </label>
+            <div
+              role="group"
+              aria-label={t(lang, "lang")}
+              className="flex items-center gap-0.5 rounded-full border border-line bg-surface p-0.5"
+            >
+              {LANG_OPTIONS.map(({ value, label }) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setLang(value)}
+                  aria-pressed={lang === value}
+                  className={`rounded-full px-2 py-1 text-[12.5px] font-semibold transition-colors ${
+                    lang === value ? "bg-brand-soft text-brand-strong" : "text-ink-3 hover:text-ink"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
             <button
               type="button"
               onClick={() => setTheme((th) => (th === "light" ? "dark" : "light"))}
