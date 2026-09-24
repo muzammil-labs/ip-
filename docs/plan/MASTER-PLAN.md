@@ -243,7 +243,7 @@ Page change: 160ms opacity plus 4px rise on the main column only. **No** curtain
 Read these before any task. They apply to every task.
 
 1. **Branch.** Work on the branch you are told to use for this session. Commit after each task with the task ID in the message (for example `UI-1.3: Add Button and IconButton primitives`). Push after each phase.
-2. **Order.** Do the phases in order. Inside a phase, do tasks in order unless marked *parallel-safe*. Do not start a task whose "Depends on" is unfinished.
+2. **Order.** Do the phases in this order: 0, 1, **S**, 2, 3, 4, 5, 6, 7, 8. Inside a phase, do tasks in order unless marked *parallel-safe*. Do not start a task whose "Depends on" is unfinished.
 3. **Verify after every task:** `npm run typecheck` and `npm run build` must pass. After any task that changes UI, run `npm run shots` (Appendix E) and look at the light-mode screenshots for the routes you touched at 1440 and 390 widths. If a screenshot shows overflow, overlap, clipped text or a blank region larger than half the viewport, fix it before committing.
 4. **Do not change legal meaning.** You may restructure data files (split fields, add IDs, move files) but must not reword any statement, citation, category rule or claim rule unless the task quotes the new text. If something looks legally wrong, leave it and list it in `docs/plan/QUESTIONS.md`.
 5. **Tokens only.** Never write a hex colour, raw pixel font size, or ad-hoc radius in a component. Use the Tailwind theme classes mapped from the tokens (Appendix B). If a class you need does not exist, add the token first.
@@ -363,6 +363,24 @@ Mobile <768px
 - The disclaimer is always visible in the footer, never covered. Nothing floats over the footer.
 - Z-index scale in `src/ui/layers.ts`: header 30, rail 20, drawer 40, sheet 50, toast 60. No other z-index values.
 
+### Phase S. Screening sprint (run right after Phase 1; must be live by 28 Sep 2026)
+
+Why: the national idea deadline is 30 Sep 2026 and the first screen is the 6-slide PDF plus whatever an evaluator sees in 30 seconds on the prototype link (see `STRATEGY-V9.md` §1 and §3). These tasks work on the Phase 1 shell and tokens with the **existing** screens; they do not wait for Phases 2 to 4. Build them with the Phase 1 tokens and keep them consistent with Part C; they will be rebuilt on the full primitives in Phase 4.
+
+**S-1 Home that sells in 30 seconds.** Replace the Overview hero: `display` headline "Every answer has a clause behind it.", sub (≤ 20 words) "Know what your Ayurveda product legally is, what you can protect, what you owe and what you may claim.", buttons **Start a case** (goes to Classify for now) and **Ask Sahayak** (goes to Ask). Right column: the live q1 answer card (India column, first three points, working cite chips that open the source drawer). Below the hero: the positioning line "Protects Ayurvedic innovation and defends India's traditional knowledge, with a clause behind every answer." and three example-case cards that load presets into Classify and Ask. *Accept:* fits the first viewport at 1440×900 and 390×844; no blank regions.
+
+**S-2 PS coverage page.** Rework `Blueprint` into **How it works**. Top section: every expectation from `docs/plan/PS-26045.md` quoted in the PS's own words (jurisdiction toggle, formulation classification, routing across IP types, ABS helper, TKDL/prior-art pointer, citations, confidence indicator, escalation, Bhashini/multilingual, disclaimer, DPDP and AI standards, version-tracked corpus, knowledge graph, agentic orchestration, staged build, evaluation metrics, registry/record/form navigation, export markets, case law and pharmacopoeial standards), each with a status chip **Built**, **Prototype** or **Planned** and a link to the screen that shows it. Be honest: mark only what works as Built. Keep the architecture and stages below it as a divided list.
+
+**S-3 Ayurvedic-term claim screening.** Add `src/data/ayurvedicTerms.ts`: entries `{ term: string; scripts: { dev?: string; te?: string; latin: string }; condition: string; note: string; reviewed: boolean }`, seeded only with the terms the team supplies (placeholder list in `docs/plan/QUESTIONS.md` until reviewed). Extend the claim rules so any matching term (Devanagari, Telugu or Latin) is flagged like the mapped DMR Schedule condition, with the explanation "Ayurvedic term for <condition>, which is in the Schedule to the DMR Act" and the citations `dmr-3` plus a new source `namaste` (NAMASTE portal, Ministry of Ayush, tier 1) and `icd11-tm2` (WHO ICD-11 Chapter 26, tier 1). Unreviewed entries show a "Review pending" chip. Add tests.
+
+**S-4 Case law and next steps.** Add sources (tier 1, jurisdiction set correctly, `kind: "case"`): `case-novartis` (Novartis AG v. Union of India, Supreme Court of India, 2013, on §3(d)); `case-divya` (Divya Pharmacy v. Union of India, Uttarakhand High Court, 21 Dec 2018, benefit sharing applies to Indian entities); `case-turmeric` (USPTO re-examination revoking the turmeric wound-healing patent, 1997); `case-neem` (EPO revocation of the neem fungicide patent, 2000, upheld 2005). Summaries only from text the team approves. Then add `next?: { labelKey: string; url: string }[]` to `Answer` and render a "Next steps" row of secondary buttons (external link icon, `rel="noopener"`) at the end of each scripted answer. URLs to official portal home pages the team has checked (IP India, NBA, GI Registry, FSSAI FoSCoS, TKDL, WIPO Patentscope, Startup India SIPP). Do not guess deep links.
+
+**S-5 Agent trace.** Under each answer, a collapsible "How this answer was built" list: Classify → Retrieve India → Retrieve international → Verify each sentence → Compute confidence → Compose (or Abstain). Each step shows the sources it touched (derived from the answer's citations by jurisdiction) and a Stamp when complete. Generated from the answer data, labelled "Prototype trace".
+
+**S-6 Evaluation panel.** On How it works: a "Run evaluation" button that computes, on the scripted set, the four PS metrics by name: **Answer accuracy** (scripted questions matched to the intended answer), **Citation correctness** (every cite ID resolves to a source with version and status; target 100%), **Safe abstention** (dosing, grant-prediction and out-of-scope prompts abstain), **Multilingual quality** (the Hindi and Telugu prompts route to the right answer and every UI string has hi and te keys). Show counts, not just percentages, and label "Prototype evaluation on the demo set".
+
+*Phase accept:* deploy to Netlify; take light-mode screenshots of Home, How it works, Ask (answer with trace), Claim check (Madhumeha example) at 1440 and 390 for the slides; all pass Part E.
+
 ### Phase 2. Primitives (2.5 days, parallel-safe within the phase)
 
 Build each in `src/ui/`. Each primitive gets: typed props, all states (default, hover, active, focus-visible, disabled, loading where relevant), light and dark, and a story entry on a hidden `#/dev/ui` page that renders every primitive in every state (used by the screenshot script).
@@ -470,6 +488,16 @@ These carry the v7 product strategy; build them on the primitives.
 
 **UI-6.6 Clause retrieval** (`workers/search.worker.ts`, `data/chunks.json`). MiniSearch index over clause chunks, jurisdiction as a field, with the glossary used for Hindi and Telugu query expansion. When no scripted answer matches, Sahayak shows "Relevant clauses" (top 5 per jurisdiction, as EvidenceRows in state U) and an honest note that composing an answer needs the live model.
 
+**UI-6.10 TK Guard** (STRATEGY-V9 angle A). New page `#/guard`: TextArea for a foreign patent's title, abstract or claims; extract plant names with the plants dictionary; run `tkProximity` against the formulation set; show matched formulations with book references; then a "How to challenge" EvidenceList: EPO third-party observations (Art. 115 EPC), US preissuance submission (35 U.S.C. 122(e)), and the TKDL unit as the national channel, with the turmeric and neem cases as context. Legal text from the team's patent agent only.
+
+**UI-6.11 Responsible-AI conformance** (angle F). On How it works, a table mapping each guardrail to the India AI Governance Guidelines 2025 sutras, ICMR AI ethics guidelines 2023 and DPDP Act provisions. Wording supplied by the team.
+
+**UI-6.12 Accessibility menu and GIGW 3.0 statement** (angle G). IconButton in the TopBar opening a Sheet: text size (3 steps), high-contrast mode (token overrides), dyslexia-friendly font toggle, reduce motion. Persist in `localStorage`. Add an accessibility statement page stating GIGW 3.0 / WCAG 2.1 AA alignment and the axe results.
+
+**UI-6.13 Knowledge graph view** (angle I). Library tab "Graph": nodes (act, section, case, category, plant) and edges (amends, cites, applies-to, interprets) from data; force layout with a small library or a static computed layout; click opens ClauseSheet. Keyboard-accessible list view alongside.
+
+**UI-6.14 Export-market packs** (angle J). `data/markets.ts` with EU, UK, US, Canada, Australia entries (only verified fields); Chapter 4 and 5 show a comparison for markets selected in the Case; unverified markets say "Pack in preparation".
+
 ### Phase 7. Proof and demo (2 days)
 
 **UI-7.1 CI.** `.github/workflows/ci.yml`: install, typecheck, `vitest run`, build, bundle-size check (fail above 200 KB gzip initial), Playwright e2e of the demo path with axe checks.
@@ -499,6 +527,7 @@ Specs and reasons are in `docs/plan/SPOTLIGHT.md`. Build on the same primitives;
 | Phase | Days (1 dev) | Can overlap with |
 |---|---|---|
 | 0 Safety net | 0.5 | |
+| S Screening sprint | 2.5 | Must be live by 28 Sep |
 | 1 Foundations | 2 | Content work for 6.1, 6.5 |
 | 2 Primitives | 2.5 | |
 | 3 Case and routing | 2 | |
@@ -506,8 +535,9 @@ Specs and reasons are in `docs/plan/SPOTLIGHT.md`. Build on the same primitives;
 | 5 Reach | 2 | Phase 6 |
 | 6 Differentiators | 4 | Phase 5 |
 | 7 Proof | 2 | |
+| 6 extra angles (UI-6.10 to 6.14) | 5 | |
 | 8 Spotlight | 3.5 | Team tasks in SPOTLIGHT.md |
-| **Total** | **~24 dev-days** | About 2.5 weeks with three developers |
+| **Total** | **~32 dev-days** | Phase 0, 1 and S before 29 Sep; the rest before the finale |
 
 ---
 

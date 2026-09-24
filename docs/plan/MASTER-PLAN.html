@@ -658,7 +658,7 @@ main{ } main > h2:first-child{ break-before:page; }
 <p>Read these before any task. They apply to every task.</p>
 <ol>
 <li><strong>Branch.</strong> Work on the branch you are told to use for this session. Commit after each task with the task ID in the message (for example <code>UI-1.3: Add Button and IconButton primitives</code>). Push after each phase.</li>
-<li><strong>Order.</strong> Do the phases in order. Inside a phase, do tasks in order unless marked <em>parallel-safe</em>. Do not start a task whose "Depends on" is unfinished.</li>
+<li><strong>Order.</strong> Do the phases in this order: 0, 1, <strong>S</strong>, 2, 3, 4, 5, 6, 7, 8. Inside a phase, do tasks in order unless marked <em>parallel-safe</em>. Do not start a task whose "Depends on" is unfinished.</li>
 <li><strong>Verify after every task:</strong> <code>npm run typecheck</code> and <code>npm run build</code> must pass. After any task that changes UI, run <code>npm run shots</code> (Appendix E) and look at the light-mode screenshots for the routes you touched at 1440 and 390 widths. If a screenshot shows overflow, overlap, clipped text or a blank region larger than half the viewport, fix it before committing.</li>
 <li><strong>Do not change legal meaning.</strong> You may restructure data files (split fields, add IDs, move files) but must not reword any statement, citation, category rule or claim rule unless the task quotes the new text. If something looks legally wrong, leave it and list it in <code>docs/plan/QUESTIONS.md</code>.</li>
 <li><strong>Tokens only.</strong> Never write a hex colour, raw pixel font size, or ad-hoc radius in a component. Use the Tailwind theme classes mapped from the tokens (Appendix B). If a class you need does not exist, add the token first.</li>
@@ -752,6 +752,15 @@ Mobile &lt;768px
 <li>The disclaimer is always visible in the footer, never covered. Nothing floats over the footer.</li>
 <li>Z-index scale in <code>src/ui/layers.ts</code>: header 30, rail 20, drawer 40, sheet 50, toast 60. No other z-index values.</li>
 </ul>
+<h3>Phase S. Screening sprint (run right after Phase 1; must be live by 28 Sep 2026)</h3>
+<p>Why: the national idea deadline is 30 Sep 2026 and the first screen is the 6-slide PDF plus whatever an evaluator sees in 30 seconds on the prototype link (see <code>STRATEGY-V9.md</code> §1 and §3). These tasks work on the Phase 1 shell and tokens with the <strong>existing</strong> screens; they do not wait for Phases 2 to 4. Build them with the Phase 1 tokens and keep them consistent with Part C; they will be rebuilt on the full primitives in Phase 4.</p>
+<p><strong>S-1 Home that sells in 30 seconds.</strong> Replace the Overview hero: <code>display</code> headline "Every answer has a clause behind it.", sub (≤ 20 words) "Know what your Ayurveda product legally is, what you can protect, what you owe and what you may claim.", buttons <strong>Start a case</strong> (goes to Classify for now) and <strong>Ask Sahayak</strong> (goes to Ask). Right column: the live q1 answer card (India column, first three points, working cite chips that open the source drawer). Below the hero: the positioning line "Protects Ayurvedic innovation and defends India's traditional knowledge, with a clause behind every answer." and three example-case cards that load presets into Classify and Ask. <em>Accept:</em> fits the first viewport at 1440×900 and 390×844; no blank regions.</p>
+<p><strong>S-2 PS coverage page.</strong> Rework <code>Blueprint</code> into <strong>How it works</strong>. Top section: every expectation from <code>docs/plan/PS-26045.md</code> quoted in the PS's own words (jurisdiction toggle, formulation classification, routing across IP types, ABS helper, TKDL/prior-art pointer, citations, confidence indicator, escalation, Bhashini/multilingual, disclaimer, DPDP and AI standards, version-tracked corpus, knowledge graph, agentic orchestration, staged build, evaluation metrics, registry/record/form navigation, export markets, case law and pharmacopoeial standards), each with a status chip <strong>Built</strong>, <strong>Prototype</strong> or <strong>Planned</strong> and a link to the screen that shows it. Be honest: mark only what works as Built. Keep the architecture and stages below it as a divided list.</p>
+<p><strong>S-3 Ayurvedic-term claim screening.</strong> Add <code>src/data/ayurvedicTerms.ts</code>: entries <code>{ term: string; scripts: { dev?: string; te?: string; latin: string }; condition: string; note: string; reviewed: boolean }</code>, seeded only with the terms the team supplies (placeholder list in <code>docs/plan/QUESTIONS.md</code> until reviewed). Extend the claim rules so any matching term (Devanagari, Telugu or Latin) is flagged like the mapped DMR Schedule condition, with the explanation "Ayurvedic term for <condition>, which is in the Schedule to the DMR Act" and the citations <code>dmr-3</code> plus a new source <code>namaste</code> (NAMASTE portal, Ministry of Ayush, tier 1) and <code>icd11-tm2</code> (WHO ICD-11 Chapter 26, tier 1). Unreviewed entries show a "Review pending" chip. Add tests.</p>
+<p><strong>S-4 Case law and next steps.</strong> Add sources (tier 1, jurisdiction set correctly, <code>kind: "case"</code>): <code>case-novartis</code> (Novartis AG v. Union of India, Supreme Court of India, 2013, on §3(d)); <code>case-divya</code> (Divya Pharmacy v. Union of India, Uttarakhand High Court, 21 Dec 2018, benefit sharing applies to Indian entities); <code>case-turmeric</code> (USPTO re-examination revoking the turmeric wound-healing patent, 1997); <code>case-neem</code> (EPO revocation of the neem fungicide patent, 2000, upheld 2005). Summaries only from text the team approves. Then add <code>next?: { labelKey: string; url: string }[]</code> to <code>Answer</code> and render a "Next steps" row of secondary buttons (external link icon, <code>rel="noopener"</code>) at the end of each scripted answer. URLs to official portal home pages the team has checked (IP India, NBA, GI Registry, FSSAI FoSCoS, TKDL, WIPO Patentscope, Startup India SIPP). Do not guess deep links.</p>
+<p><strong>S-5 Agent trace.</strong> Under each answer, a collapsible "How this answer was built" list: Classify → Retrieve India → Retrieve international → Verify each sentence → Compute confidence → Compose (or Abstain). Each step shows the sources it touched (derived from the answer's citations by jurisdiction) and a Stamp when complete. Generated from the answer data, labelled "Prototype trace".</p>
+<p><strong>S-6 Evaluation panel.</strong> On How it works: a "Run evaluation" button that computes, on the scripted set, the four PS metrics by name: <strong>Answer accuracy</strong> (scripted questions matched to the intended answer), <strong>Citation correctness</strong> (every cite ID resolves to a source with version and status; target 100%), <strong>Safe abstention</strong> (dosing, grant-prediction and out-of-scope prompts abstain), <strong>Multilingual quality</strong> (the Hindi and Telugu prompts route to the right answer and every UI string has hi and te keys). Show counts, not just percentages, and label "Prototype evaluation on the demo set".</p>
+<p><em>Phase accept:</em> deploy to Netlify; take light-mode screenshots of Home, How it works, Ask (answer with trace), Claim check (Madhumeha example) at 1440 and 390 for the slides; all pass Part E.</p>
 <h3>Phase 2. Primitives (2.5 days, parallel-safe within the phase)</h3>
 <p>Build each in <code>src/ui/</code>. Each primitive gets: typed props, all states (default, hover, active, focus-visible, disabled, loading where relevant), light and dark, and a story entry on a hidden <code>#/dev/ui</code> page that renders every primitive in every state (used by the screenshot script).</p>
 <table>
@@ -908,6 +917,11 @@ Mobile &lt;768px
 <p><strong>UI-6.4 Dossier print</strong> (<code>pages/DossierPrint.tsx</code>, <code>styles/print.css</code>). A4, <code>@page</code> margins, page numbers, cover with Plate and Seal, one section per chapter using the same EvidenceRow in a print variant, clause appendix, QR code (<code>qrcode</code>) encoding corpus version plus SHA-256 of the Case JSON (<code>crypto.subtle.digest</code>). "Export PDF" calls <code>window.print()</code>. Test that Devanagari and Telugu render in the printed PDF.</p>
 <p><strong>UI-6.5 Corpus corrections</strong> (content, from v7 §9): add §3(e), §3(i), §3(j), AYUSH examination guidelines (23 Sep 2025), BD (ABS) Regulations 2025, BD Rules 2024 entries; grow scripted answers toward 40. Only text supplied or approved by the team's legal reviewer goes in; the executing model structures it but does not write legal statements.</p>
 <p><strong>UI-6.6 Clause retrieval</strong> (<code>workers/search.worker.ts</code>, <code>data/chunks.json</code>). MiniSearch index over clause chunks, jurisdiction as a field, with the glossary used for Hindi and Telugu query expansion. When no scripted answer matches, Sahayak shows "Relevant clauses" (top 5 per jurisdiction, as EvidenceRows in state U) and an honest note that composing an answer needs the live model.</p>
+<p><strong>UI-6.10 TK Guard</strong> (STRATEGY-V9 angle A). New page <code>#/guard</code>: TextArea for a foreign patent's title, abstract or claims; extract plant names with the plants dictionary; run <code>tkProximity</code> against the formulation set; show matched formulations with book references; then a "How to challenge" EvidenceList: EPO third-party observations (Art. 115 EPC), US preissuance submission (35 U.S.C. 122(e)), and the TKDL unit as the national channel, with the turmeric and neem cases as context. Legal text from the team's patent agent only.</p>
+<p><strong>UI-6.11 Responsible-AI conformance</strong> (angle F). On How it works, a table mapping each guardrail to the India AI Governance Guidelines 2025 sutras, ICMR AI ethics guidelines 2023 and DPDP Act provisions. Wording supplied by the team.</p>
+<p><strong>UI-6.12 Accessibility menu and GIGW 3.0 statement</strong> (angle G). IconButton in the TopBar opening a Sheet: text size (3 steps), high-contrast mode (token overrides), dyslexia-friendly font toggle, reduce motion. Persist in <code>localStorage</code>. Add an accessibility statement page stating GIGW 3.0 / WCAG 2.1 AA alignment and the axe results.</p>
+<p><strong>UI-6.13 Knowledge graph view</strong> (angle I). Library tab "Graph": nodes (act, section, case, category, plant) and edges (amends, cites, applies-to, interprets) from data; force layout with a small library or a static computed layout; click opens ClauseSheet. Keyboard-accessible list view alongside.</p>
+<p><strong>UI-6.14 Export-market packs</strong> (angle J). <code>data/markets.ts</code> with EU, UK, US, Canada, Australia entries (only verified fields); Chapter 4 and 5 show a comparison for markets selected in the Case; unverified markets say "Pack in preparation".</p>
 <h3>Phase 7. Proof and demo (2 days)</h3>
 <p><strong>UI-7.1 CI.</strong> <code>.github/workflows/ci.yml</code>: install, typecheck, <code>vitest run</code>, build, bundle-size check (fail above 200 KB gzip initial), Playwright e2e of the demo path with axe checks.</p>
 <p><strong>UI-7.2 Presenter mode.</strong> <code>?present=1</code>: base font +1 step, step counter, keys <code>→</code> next demo step, <code>R</code> reset to example case, <code>D</code> API inspector, <code>L</code> cycle language. Demo steps from v7 §12.</p>
@@ -934,6 +948,11 @@ Mobile &lt;768px
 <td>0 Safety net</td>
 <td>0.5</td>
 <td></td>
+</tr>
+<tr>
+<td>S Screening sprint</td>
+<td>2.5</td>
+<td>Must be live by 28 Sep</td>
 </tr>
 <tr>
 <td>1 Foundations</td>
@@ -971,14 +990,19 @@ Mobile &lt;768px
 <td></td>
 </tr>
 <tr>
+<td>6 extra angles (UI-6.10 to 6.14)</td>
+<td>5</td>
+<td></td>
+</tr>
+<tr>
 <td>8 Spotlight</td>
 <td>3.5</td>
 <td>Team tasks in SPOTLIGHT.md</td>
 </tr>
 <tr>
 <td><strong>Total</strong></td>
-<td><strong>~24 dev-days</strong></td>
-<td>About 2.5 weeks with three developers</td>
+<td><strong>~32 dev-days</strong></td>
+<td>Phase 0, 1 and S before 29 Sep; the rest before the finale</td>
 </tr>
 </tbody>
 </table>
