@@ -12,7 +12,7 @@ Start with `docs/plan/README.md`. It lists every plan and what to read for each 
 
 ## Commands
 - npm run dev / build / preview / typecheck
-- npm test (Vitest, added in UI-0.4), npm run shots (screenshots of every route, added in UI-0.3)
+- npm test (Vitest), npm run shots (screenshots of every route, light and dark, 1440 and 390)
 
 ## Rules
 - Use only token-based Tailwind classes (bg-canvas, text-ink-2, border-line, rounded-control, rounded-container, text-h1, ...). No hex values or raw px sizes in components.
