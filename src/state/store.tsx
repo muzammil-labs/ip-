@@ -1,23 +1,11 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import type { Answer, ClassifyState } from "../lib/types";
+import type { Answer, AuditEntry, ClassifyState, LedgerEntry } from "../lib/types";
 
+export type { AuditEntry, LedgerEntry } from "../lib/types";
 export type Screen = "overview" | "ask" | "classify" | "tk" | "claims" | "sources" | "trust" | "blueprint";
 export type Persona = "startup" | "vaidya" | "research" | "farmer";
 export type Jurisdiction = "both" | "in" | "intl";
 export type Detail = "plain" | "expert";
-
-export interface AuditEntry {
-  time: string;
-  ev: string;
-  detail: string;
-}
-
-export interface LedgerEntry {
-  src: string;
-  scope: string;
-  time: string;
-  active: boolean;
-}
 
 interface AppState {
   screen: Screen;

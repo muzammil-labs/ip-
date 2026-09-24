@@ -77,3 +77,16 @@ export interface ClassifyCategory {
   sum: string;
   rows: Record<string, [string, string[]]>;
 }
+
+export interface AuditEntry {
+  time: string;
+  ev: string;
+  detail: string;
+}
+
+export interface LedgerEntry {
+  src: string;
+  scope: string;
+  time: string;
+  active: boolean;
+}
