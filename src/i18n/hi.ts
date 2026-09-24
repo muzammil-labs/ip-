@@ -217,6 +217,7 @@ export const hi: Record<string, string> = {
   "paidAccessNote": "सशुल्क सदस्यता, केवल आपकी दर्ज अनुमति से उपयोग की गई",
   "freeAccessNote": "निःशुल्क, आधिकारिक",
   "openOfficialRecord": "आधिकारिक अभिलेख खोलें",
+  "plateCredit": "श्रेय",
   "sourcesConflict": "स्रोत टकराते हैं",
   "howDisagreementHandled": "असहमति को कैसे संभाला जाता है",
   "theSentenceLabel": "वाक्य:",

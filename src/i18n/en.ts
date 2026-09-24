@@ -217,6 +217,7 @@ export const en: Record<string, string> = {
   "paidAccessNote": "Paid subscription, used only with your logged permission",
   "freeAccessNote": "Free, official",
   "openOfficialRecord": "Open the official record",
+  "plateCredit": "Credit",
   "sourcesConflict": "Sources conflict",
   "howDisagreementHandled": "How the disagreement is handled",
   "theSentenceLabel": "The sentence:",

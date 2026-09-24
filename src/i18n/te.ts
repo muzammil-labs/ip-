@@ -217,6 +217,7 @@ export const te: Record<string, string> = {
   "paidAccessNote": "చెల్లింపు సభ్యత్వం, మీ నమోదైన అనుమతితో మాత్రమే ఉపయోగించబడుతుంది",
   "freeAccessNote": "ఉచితం, అధికారికం",
   "openOfficialRecord": "అధికారిక రికార్డును తెరవండి",
+  "plateCredit": "క్రెడిట్",
   "sourcesConflict": "మూలాలు విభేదిస్తున్నాయి",
   "howDisagreementHandled": "విభేదం ఎలా నిర్వహించబడుతుంది",
   "theSentenceLabel": "వాక్యం:",
