@@ -14,7 +14,6 @@ import ClaimCheck from "./screens/ClaimCheck";
 import Sources from "./screens/Sources";
 import Trust from "./screens/Trust";
 import Blueprint from "./screens/Blueprint";
-import ScrollProgress from "./components/ScrollProgress";
 import SourceDrawer from "./components/SourceDrawer";
 
 const LANG_OPTIONS: { value: Lang; label: string }[] = [
@@ -66,7 +65,6 @@ export default function App() {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-paper text-ink">
-      <ScrollProgress />
       <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4 sm:px-6">
           <button
@@ -150,25 +148,14 @@ export default function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={screen}
-            initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
-            animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+            initial={reduce ? false : { opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={reduce ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
           >
             <Active />
           </motion.div>
         </AnimatePresence>
-        {!reduce && (
-          <motion.div
-            key={`wipe-${screen}`}
-            aria-hidden
-            className="pointer-events-none fixed inset-0 z-50 bg-brand"
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: [0, 1, 1, 0] }}
-            transition={{ duration: 0.6, times: [0, 0.42, 0.58, 1], ease: [0.76, 0, 0.24, 1] }}
-            style={{ transformOrigin: "bottom" }}
-          />
-        )}
       </main>
 
       <footer className="border-t border-line px-4 py-5 text-center text-[12.5px] text-ink-3 sm:px-6">

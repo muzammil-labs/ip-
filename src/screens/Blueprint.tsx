@@ -4,7 +4,6 @@ import { I18N } from "../data/i18n";
 import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import Reveal from "../components/Reveal";
-import HorizontalPan from "../components/scroll/HorizontalPan";
 
 const STACK: [string, string, string][] = [
   ["API", "FastAPI + Pydantic", "/ask, /classify, /claims/check, /sources, /escalate"],
@@ -69,15 +68,13 @@ export default function Blueprint() {
           <h2 className="text-[15px] font-bold text-ink">{t("stagedDeliveryHeading")}</h2>
           <p className="mt-1 text-[13px] text-ink-3">{t("stagedDeliveryLede")}</p>
         </div>
-        <div className="mt-4">
-          <HorizontalPan
-            items={STAGES.map((s) => (
-              <div key={s.nameKey} className="flex h-full flex-col justify-center rounded-lg border border-line bg-surface p-7 shadow-md">
-                <p className="text-lg font-bold text-brand-strong">{t(s.nameKey)}</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">{t(s.detailKey)}</p>
-              </div>
-            ))}
-          />
+        <div className="mx-auto mt-4 grid max-w-[1100px] gap-4 px-4 sm:grid-cols-3 sm:px-6">
+          {STAGES.map((s) => (
+            <div key={s.nameKey} className="flex h-full flex-col justify-center rounded-lg border border-line bg-surface p-7 shadow-md">
+              <p className="text-lg font-bold text-brand-strong">{t(s.nameKey)}</p>
+              <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">{t(s.detailKey)}</p>
+            </div>
+          ))}
         </div>
       </div>
 

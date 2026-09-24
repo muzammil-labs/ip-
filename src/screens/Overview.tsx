@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Compass, Columns, Gauge, ClockCounterClockwise, Scales, Play, CaretRight } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
@@ -6,11 +6,7 @@ import { I18N } from "../data/i18n";
 import EvidenceGraph from "../components/EvidenceGraph";
 import HeroDemo from "../components/HeroDemo";
 import Reveal from "../components/Reveal";
-import MagneticButton from "../components/MagneticButton";
-import StickyStack from "../components/scroll/StickyStack";
 import { TOUR } from "../lib/tour";
-
-const HeroScene = lazy(() => import("../components/three/HeroScene"));
 
 const DIFFERENTIATORS = [
   { icon: Compass, tKey: "diff0t", bKey: "diff0b" },
@@ -57,12 +53,13 @@ export default function Overview() {
               {t("heroSubhead")}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <MagneticButton
+              <button
+                type="button"
                 onClick={() => go("ask")}
-                className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm"
+                className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm transition-transform active:scale-[0.98]"
               >
                 {t("askQuestionBtn")} <ArrowRight size={16} />
-              </MagneticButton>
+              </button>
               <button
                 type="button"
                 onClick={() => go("blueprint")}
@@ -80,9 +77,7 @@ export default function Overview() {
             className="aspect-[4/3] overflow-hidden rounded-lg border border-line p-4 shadow-sm"
             style={{ background: "radial-gradient(circle at 50% 42%, var(--brand-soft) 0%, var(--surface) 72%)" }}
           >
-            <Suspense fallback={<EvidenceGraph />}>
-              <HeroScene reduce={!!reduce} />
-            </Suspense>
+            <EvidenceGraph />
           </motion.div>
         </div>
       </section>
@@ -99,25 +94,22 @@ export default function Overview() {
         </div>
       </section>
 
-      {/* Differentiators: GSAP sticky-stack, one panel pinned in full attention at a time */}
+      {/* Differentiators: plain stacked cards. A pinned scroll treatment returns with the Phase 4 Home rebuild. */}
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6">
         <Reveal>
           <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">{t("diffHeading")}</h2>
         </Reveal>
-        <div className="mt-6">
-          <StickyStack
-            items={DIFFERENTIATORS.map((d, i) => (
-              <div
-                key={d.tKey}
-                className="mx-auto flex w-full max-w-[720px] flex-col gap-4 rounded-lg border border-line bg-surface p-8 shadow-md sm:p-10"
-              >
+        <div className="mt-6 space-y-4">
+          {DIFFERENTIATORS.map((d, i) => (
+            <Reveal key={d.tKey} delay={i * 0.05}>
+              <div className="mx-auto flex w-full max-w-[720px] flex-col gap-4 rounded-lg border border-line bg-surface p-8 shadow-md sm:p-10">
                 <span className="text-[12px] font-bold text-ink-3">{String(i + 1).padStart(2, "0")} / {DIFFERENTIATORS.length}</span>
                 <d.icon size={30} weight="duotone" className="text-brand" />
                 <h3 className="text-xl font-bold text-ink sm:text-2xl">{t(d.tKey)}</h3>
                 <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">{t(d.bKey)}</p>
               </div>
-            ))}
-          />
+            </Reveal>
+          ))}
         </div>
       </section>
 
