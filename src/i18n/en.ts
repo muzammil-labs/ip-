@@ -227,6 +227,7 @@ export const en: Record<string, string> = {
   "menuAria": "Menu",
   "sourceDetailAria": "Source detail",
   "lawChanged": "Law changed",
+  "changedLabel": "Changed",
   "tierName0": "Primary law or official record",
   "tierName1": "Official guidance",
   "tierName2": "Peer-reviewed",

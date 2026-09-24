@@ -227,6 +227,7 @@ export const te: Record<string, string> = {
   "menuAria": "మెనూ",
   "sourceDetailAria": "మూల వివరాలు",
   "lawChanged": "చట్టం మారింది",
+  "changedLabel": "మారింది",
   "tierName0": "ప్రాథమిక చట్టం లేదా అధికారిక రికార్డు",
   "tierName1": "అధికారిక మార్గదర్శకత్వం",
   "tierName2": "సహచర-సమీక్షించినది",

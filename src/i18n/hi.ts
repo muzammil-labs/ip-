@@ -227,6 +227,7 @@ export const hi: Record<string, string> = {
   "menuAria": "मेनू",
   "sourceDetailAria": "स्रोत विवरण",
   "lawChanged": "कानून बदला",
+  "changedLabel": "बदला गया",
   "tierName0": "प्राथमिक कानून या आधिकारिक अभिलेख",
   "tierName1": "आधिकारिक मार्गदर्शन",
   "tierName2": "सहकर्मी-समीक्षित",
