@@ -125,9 +125,9 @@ main{ } main > h2:first-child{ break-before:page; }
 </tr>
 <tr>
 <td><code>chrome-devtools</code></td>
-<td><strong>Connected but cannot launch Chrome.</strong> It looks for Google Chrome at <code>/opt/google/chrome/chrome</code> and refuses to run as root.</td>
-<td>The audit below was done with the same pre-installed Chromium through a Playwright script instead (screenshots of all 8 screens, light mode, desktop 1440×900 and mobile 390×844, plus computed-style statistics).</td>
-<td>Replace the <code>chrome-devtools</code> entry in <code>.mcp.json</code> with the config in Appendix F (points at <code>/opt/pw-browsers/chromium-1194/chrome-linux/chrome</code>, headless, isolated, no sandbox).</td>
+<td><strong>Fixed and verified.</strong> It originally looked for Google Chrome and refused to run as root. <code>.mcp.json</code> now starts it through <code>scripts/chrome-devtools-mcp.sh</code>, which uses the pre-installed Chromium (headless, isolated, no sandbox, proxy certificate accepted) in the cloud and plain Chrome on a local machine. Tested end to end: it opened https://ip-sa.netlify.app/ and ran scripts on the page.</td>
+<td>It loads at session start, so it is available from the next session. The audit below was done with the same Chromium through a Playwright script.</td>
+<td>Done (Appendix F).</td>
 </tr>
 <tr>
 <td><code>design-taste-frontend</code> skill</td>
@@ -609,6 +609,7 @@ main{ } main > h2:first-child{ break-before:page; }
 <li><strong>Icons:</strong> <code>@phosphor-icons/react</code> only (already installed), weight <code>regular</code> at 20px, <code>fill</code> for the active state, stroke never mixed. No hand-drawn SVG icons.</li>
 <li><strong>Seal mark:</strong> one simple geometric mark (concentric circles with the § glyph) used as logo, chapter numbers, evidence seals and the dossier stamp. This is the only custom SVG allowed; it is a geometric mark, not an illustration.</li>
 <li><strong>Botanical plates:</strong> 6 to 8 real plant images for the demo cases (Ashwagandha, Amla, Tulsi, Turmeric, Brahmi, Guduchi, Shatavari, Neem). Source from Wikimedia Commons (for example <code>Category:Withania_somnifera</code>, which includes Biodiversity Heritage Library scans) and <strong>check the licence on each file page</strong>; use only public domain or CC BY / CC BY-SA with attribution in <code>public/plates/CREDITS.md</code>. Process to a neem duotone on white (Appendix D gives the exact CSS filter approach). If a licensed image cannot be found for a plant, show no image; do not draw one.</li>
+<li><strong>Decision (final): real, licence-checked botanical plates only; no AI-generated plant images.</strong> An AIIA judge will notice wrong leaf shape or fruit on a generated plant, and a botanical error undermines a product whose pitch is accuracy. The cloud session cannot reach Wikimedia (network policy), so either allow <code>commons.wikimedia.org</code> and <code>upload.wikimedia.org</code> in the environment's network settings, or a team member downloads the chosen files and commits them to <code>public/plates/src/</code> with <code>CREDITS.md</code>. Until the plates exist, <code>Plate</code> renders its EmptyState variant (a seal outline and the botanical name) so nothing looks broken.</li>
 <li><strong>No fake screenshots.</strong> The Home hero shows a real, working, interactive answer card component, not a mock.</li>
 </ul>
 <h3>C7. What gets removed (and why)</h3>
@@ -642,7 +643,7 @@ main{ } main > h2:first-child{ break-before:page; }
 </tr>
 </tbody>
 </table>
-<p><strong>Board note on removing the WebGL work:</strong> it was good engineering, but it currently costs more than it earns. The judges will remember the TK proximity overlay and the dossier, not a 3D seal. If the team insists on keeping it, it may only appear on Home, lazy-loaded, on devices with <code>navigator.deviceMemory &gt;= 4</code>, with the SVG seal as the default. This plan assumes removal.</p>
+<p><strong>Decision (final): remove the WebGL hero.</strong> It was good engineering, but it currently costs more than it earns: most of the bundle, a blob in light mode, and a second animation engine. The judges will remember the TK proximity overlay and the dossier, not a 3D seal. Do not keep a fallback path; delete it.</p>
 <h3>C8. Copy rules</h3>
 <ul>
 <li><strong>No em-dashes or en-dashes in any visible UI string.</strong> Use a comma, colon, full stop or parentheses. This includes <code>src/data/*</code> titles shown in the UI: split source titles into <code>act</code> and <code>section</code> fields (for example act "Patents Act, 1970", section "Section 3(p)") and render them on two lines.</li>
@@ -912,6 +913,13 @@ Mobile &lt;768px
 <p><strong>UI-7.2 Presenter mode.</strong> <code>?present=1</code>: base font +1 step, step counter, keys <code>→</code> next demo step, <code>R</code> reset to example case, <code>D</code> API inspector, <code>L</code> cycle language. Demo steps from v7 §12.</p>
 <p><strong>UI-7.3 Mobile QA</strong> on a real Android phone (Chrome) and an iPhone (Safari): demo path, voice, bottom sheets, print.</p>
 <p><strong>UI-7.4 Final screenshot review</strong> against Part E, both themes, all routes.</p>
+<h3>Phase 8. Spotlight features (3 to 4 days, after Phase 7 gates pass)</h3>
+<p>Specs and reasons are in <code>docs/plan/SPOTLIGHT.md</code>. Build on the same primitives; nothing here may introduce a new visual style.</p>
+<p><strong>UI-6.7 Examiner's view.</strong> Toggle on any Case (Chapter 3 header and Dossier). Rules table <code>data/examinerRules.ts</code>: each rule has <code>id</code>, <code>provision</code> (cite ID), <code>trigger(case)</code>, <code>objection</code> text, <code>evidenceNeeded[]</code>, <code>satisfiedBy(case)</code>. Render as an EvidenceList in FER order with StatusChip <code>risk</code> (not answered) or <code>done</code> (evidence present). Rule text comes from the team's patent agent; the executing model writes only the structure and triggers.</p>
+<p><strong>UI-6.8 Benefit flow.</strong> Under the benefit-share estimate, a horizontal flow (company → NBA → BMC → community) using Seals and Thread lines, amounts computed from <code>benefitShare(case)</code>. Only confirmed percentages; unconfirmed ones render as "Confirm in Regulation".</p>
+<p><strong>UI-6.9 Law-changed banner.</strong> Store <code>corpusVersion</code> in the Case. On load, if the current corpus is newer, compute the clauses whose <code>versions</code> changed between the two dates and that the Case cites; show a Callout (<code>warn</code>) listing them, and Shift the affected rows. Add an example Case dated 2024 to demo it.</p>
+<p><strong>UI-7.5 Coverage tracker.</strong> In presenter mode only, a 17-segment bar under the header driven by <code>data/coverage.ts</code>. Each chapter or action marks its requirement IDs as shown (<code>useCoverage().mark(id)</code>). Segment tooltip names the requirement. Completion state persists for the session.</p>
+<p><strong>UI-7.6 Try to trick it.</strong> On How it works: five preset adversarial prompts plus free text; each runs through <code>api.ask</code> and shows which guardrail fired (abstain reason, scope gate, claim-rule hit) as an EvidenceRow.</p>
 <h3>D3. Estimated effort</h3>
 <table>
 <thead>
@@ -963,9 +971,14 @@ Mobile &lt;768px
 <td></td>
 </tr>
 <tr>
+<td>8 Spotlight</td>
+<td>3.5</td>
+<td>Team tasks in SPOTLIGHT.md</td>
+</tr>
+<tr>
 <td><strong>Total</strong></td>
-<td><strong>~20 dev-days</strong></td>
-<td>About 2 weeks with three developers</td>
+<td><strong>~24 dev-days</strong></td>
+<td>About 2.5 weeks with three developers</td>
 </tr>
 </tbody>
 </table>
@@ -1244,25 +1257,18 @@ await browser.close();
 server.kill();
 process.exit(failures ? 1 : 0);
 </code></pre>
-<h2 class="part">Appendix F. MCP configuration fix (<code>.mcp.json</code>)</h2>
+<h2 class="part">Appendix F. MCP configuration (applied and verified)</h2>
+<p><code>.mcp.json</code>:</p>
 <pre><code class="language-json">{
   &quot;mcpServers&quot;: {
     &quot;context7&quot;: { &quot;type&quot;: &quot;http&quot;, &quot;url&quot;: &quot;https://mcp.context7.com/mcp&quot; },
     &quot;magic&quot;: { &quot;type&quot;: &quot;http&quot;, &quot;url&quot;: &quot;https://mcp.21st.dev/mcp&quot; },
-    &quot;chrome-devtools&quot;: {
-      &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [
-        &quot;-y&quot;, &quot;chrome-devtools-mcp@latest&quot;,
-        &quot;--headless&quot;, &quot;--isolated&quot;,
-        &quot;--executablePath=/opt/pw-browsers/chromium-1194/chrome-linux/chrome&quot;,
-        &quot;--chromeArg=--no-sandbox&quot;,
-        &quot;--chromeArg=--disable-setuid-sandbox&quot;
-      ]
-    }
+    &quot;chrome-devtools&quot;: { &quot;command&quot;: &quot;sh&quot;, &quot;args&quot;: [&quot;scripts/chrome-devtools-mcp.sh&quot;] }
   }
 }
 </code></pre>
-<p><code>context7</code> and <code>magic</code> also need their hosts (<code>mcp.context7.com</code>, <code>mcp.21st.dev</code>) allowed in the cloud environment's network settings. On a local machine with Chrome installed, the original <code>chrome-devtools</code> entry works as is.</p>
+<p><code>scripts/chrome-devtools-mcp.sh</code> finds the pre-installed Chromium at <code>/opt/pw-browsers/chromium-*/chrome-linux/chrome</code> and launches <code>chrome-devtools-mcp</code> with <code>--headless --isolated --executablePath=… --chromeArg=--no-sandbox --chromeArg=--disable-setuid-sandbox --chromeArg=--ignore-certificate-errors</code>. On a machine without that folder it runs <code>chrome-devtools-mcp</code> normally, so the same config works locally.</p>
+<p><code>context7</code> and <code>magic</code> are HTTP servers. They connect only once <code>mcp.context7.com</code> and <code>mcp.21st.dev</code> are allowed in the cloud environment's network settings. No file change can fix that.</p>
 <h2 class="part">Appendix G. Handing this to Sonnet</h2>
 <p>Paste this as the first message of a new session on the repo:</p>
 <blockquote>

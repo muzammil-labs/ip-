@@ -32,7 +32,7 @@ A simulated board of seven. Each finding below names the seat that raised it.
 |---|---|---|---|
 | `context7` (library docs) | **Not connected.** The environment's network policy rejected `mcp.context7.com` (proxy 403). | No live library docs lookup. | Add `mcp.context7.com` to the environment's allowed domains (cloud environment menu → Edit → Network access), or pick a broader access level. |
 | `magic` (21st.dev components) | **Not connected.** Network policy rejected `mcp.21st.dev` (proxy 403). | No component generation from 21st.dev. | Allow `mcp.21st.dev` the same way. **Board note:** this plan deliberately does not depend on generated components; a homogeneous product needs one hand-owned primitive set, and generated components are a common source of visual inconsistency. |
-| `chrome-devtools` | **Connected but cannot launch Chrome.** It looks for Google Chrome at `/opt/google/chrome/chrome` and refuses to run as root. | The audit below was done with the same pre-installed Chromium through a Playwright script instead (screenshots of all 8 screens, light mode, desktop 1440×900 and mobile 390×844, plus computed-style statistics). | Replace the `chrome-devtools` entry in `.mcp.json` with the config in Appendix F (points at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, headless, isolated, no sandbox). |
+| `chrome-devtools` | **Fixed and verified.** It originally looked for Google Chrome and refused to run as root. `.mcp.json` now starts it through `scripts/chrome-devtools-mcp.sh`, which uses the pre-installed Chromium (headless, isolated, no sandbox, proxy certificate accepted) in the cloud and plain Chrome on a local machine. Tested end to end: it opened https://ip-sa.netlify.app/ and ran scripts on the page. | It loads at session start, so it is available from the next session. The audit below was done with the same Chromium through a Playwright script. | Done (Appendix F). |
 | `design-taste-frontend` skill | **Loaded and applied.** Its rules (one accent, one radius system, zero em-dashes in UI copy, motion must be motivated, no GSAP/Three mixed with Motion, reduced motion, contrast checks) are written into Part C and the pre-flight in Part E. | | |
 
 ### A3. What the live-site audit found (evidence, light mode)
@@ -211,6 +211,7 @@ Page change: 160ms opacity plus 4px rise on the main column only. **No** curtain
 - **Icons:** `@phosphor-icons/react` only (already installed), weight `regular` at 20px, `fill` for the active state, stroke never mixed. No hand-drawn SVG icons.
 - **Seal mark:** one simple geometric mark (concentric circles with the § glyph) used as logo, chapter numbers, evidence seals and the dossier stamp. This is the only custom SVG allowed; it is a geometric mark, not an illustration.
 - **Botanical plates:** 6 to 8 real plant images for the demo cases (Ashwagandha, Amla, Tulsi, Turmeric, Brahmi, Guduchi, Shatavari, Neem). Source from Wikimedia Commons (for example `Category:Withania_somnifera`, which includes Biodiversity Heritage Library scans) and **check the licence on each file page**; use only public domain or CC BY / CC BY-SA with attribution in `public/plates/CREDITS.md`. Process to a neem duotone on white (Appendix D gives the exact CSS filter approach). If a licensed image cannot be found for a plant, show no image; do not draw one.
+- **Decision (final): real, licence-checked botanical plates only; no AI-generated plant images.** An AIIA judge will notice wrong leaf shape or fruit on a generated plant, and a botanical error undermines a product whose pitch is accuracy. The cloud session cannot reach Wikimedia (network policy), so either allow `commons.wikimedia.org` and `upload.wikimedia.org` in the environment's network settings, or a team member downloads the chosen files and commits them to `public/plates/src/` with `CREDITS.md`. Until the plates exist, `Plate` renders its EmptyState variant (a seal outline and the botanical name) so nothing looks broken.
 - **No fake screenshots.** The Home hero shows a real, working, interactive answer card component, not a mock.
 
 ### C7. What gets removed (and why)
@@ -223,7 +224,7 @@ Page change: 160ms opacity plus 4px rise on the main column only. **No** curtain
 | Curtain wipe in `App.tsx` | Makes every navigation feel like leaving the site. |
 | `src/components/ScrollProgress.tsx` | Replaced by chapter progress (Thread). |
 
-**Board note on removing the WebGL work:** it was good engineering, but it currently costs more than it earns. The judges will remember the TK proximity overlay and the dossier, not a 3D seal. If the team insists on keeping it, it may only appear on Home, lazy-loaded, on devices with `navigator.deviceMemory >= 4`, with the SVG seal as the default. This plan assumes removal.
+**Decision (final): remove the WebGL hero.** It was good engineering, but it currently costs more than it earns: most of the bundle, a blob in light mode, and a second animation engine. The judges will remember the TK proximity overlay and the dossier, not a 3D seal. Do not keep a fallback path; delete it.
 
 ### C8. Copy rules
 
@@ -479,6 +480,20 @@ These carry the v7 product strategy; build them on the primitives.
 
 **UI-7.4 Final screenshot review** against Part E, both themes, all routes.
 
+### Phase 8. Spotlight features (3 to 4 days, after Phase 7 gates pass)
+
+Specs and reasons are in `docs/plan/SPOTLIGHT.md`. Build on the same primitives; nothing here may introduce a new visual style.
+
+**UI-6.7 Examiner's view.** Toggle on any Case (Chapter 3 header and Dossier). Rules table `data/examinerRules.ts`: each rule has `id`, `provision` (cite ID), `trigger(case)`, `objection` text, `evidenceNeeded[]`, `satisfiedBy(case)`. Render as an EvidenceList in FER order with StatusChip `risk` (not answered) or `done` (evidence present). Rule text comes from the team's patent agent; the executing model writes only the structure and triggers.
+
+**UI-6.8 Benefit flow.** Under the benefit-share estimate, a horizontal flow (company → NBA → BMC → community) using Seals and Thread lines, amounts computed from `benefitShare(case)`. Only confirmed percentages; unconfirmed ones render as "Confirm in Regulation".
+
+**UI-6.9 Law-changed banner.** Store `corpusVersion` in the Case. On load, if the current corpus is newer, compute the clauses whose `versions` changed between the two dates and that the Case cites; show a Callout (`warn`) listing them, and Shift the affected rows. Add an example Case dated 2024 to demo it.
+
+**UI-7.5 Coverage tracker.** In presenter mode only, a 17-segment bar under the header driven by `data/coverage.ts`. Each chapter or action marks its requirement IDs as shown (`useCoverage().mark(id)`). Segment tooltip names the requirement. Completion state persists for the session.
+
+**UI-7.6 Try to trick it.** On How it works: five preset adversarial prompts plus free text; each runs through `api.ask` and shows which guardrail fired (abstain reason, scope gate, claim-rule hit) as an EvidenceRow.
+
 ### D3. Estimated effort
 
 | Phase | Days (1 dev) | Can overlap with |
@@ -491,7 +506,8 @@ These carry the v7 product strategy; build them on the primitives.
 | 5 Reach | 2 | Phase 6 |
 | 6 Differentiators | 4 | Phase 5 |
 | 7 Proof | 2 | |
-| **Total** | **~20 dev-days** | About 2 weeks with three developers |
+| 8 Spotlight | 3.5 | Team tasks in SPOTLIGHT.md |
+| **Total** | **~24 dev-days** | About 2.5 weeks with three developers |
 
 ---
 
@@ -790,28 +806,23 @@ server.kill();
 process.exit(failures ? 1 : 0);
 ```
 
-## Appendix F. MCP configuration fix (`.mcp.json`)
+## Appendix F. MCP configuration (applied and verified)
+
+`.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "context7": { "type": "http", "url": "https://mcp.context7.com/mcp" },
     "magic": { "type": "http", "url": "https://mcp.21st.dev/mcp" },
-    "chrome-devtools": {
-      "command": "npx",
-      "args": [
-        "-y", "chrome-devtools-mcp@latest",
-        "--headless", "--isolated",
-        "--executablePath=/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
-        "--chromeArg=--no-sandbox",
-        "--chromeArg=--disable-setuid-sandbox"
-      ]
-    }
+    "chrome-devtools": { "command": "sh", "args": ["scripts/chrome-devtools-mcp.sh"] }
   }
 }
 ```
 
-`context7` and `magic` also need their hosts (`mcp.context7.com`, `mcp.21st.dev`) allowed in the cloud environment's network settings. On a local machine with Chrome installed, the original `chrome-devtools` entry works as is.
+`scripts/chrome-devtools-mcp.sh` finds the pre-installed Chromium at `/opt/pw-browsers/chromium-*/chrome-linux/chrome` and launches `chrome-devtools-mcp` with `--headless --isolated --executablePath=… --chromeArg=--no-sandbox --chromeArg=--disable-setuid-sandbox --chromeArg=--ignore-certificate-errors`. On a machine without that folder it runs `chrome-devtools-mcp` normally, so the same config works locally.
+
+`context7` and `magic` are HTTP servers. They connect only once `mcp.context7.com` and `mcp.21st.dev` are allowed in the cloud environment's network settings. No file change can fix that.
 
 ## Appendix G. Handing this to Sonnet
 
