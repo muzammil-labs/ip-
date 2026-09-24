@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { HERO_EXAMPLES } from "../data/heroExamples";
+import { useT } from "../i18n/useT";
 import CiteChip from "./CiteChip";
 
 const ROTATE_MS = 7000;
 
 export default function HeroDemo() {
+  const t = useT();
   const [ix, setIx] = useState(0);
   const [typed, setTyped] = useState("");
   const [paused, setPaused] = useState(false);
@@ -44,7 +46,7 @@ export default function HeroDemo() {
     >
       <div className="flex items-center gap-2 border-b border-line pb-3">
         <span className="h-2 w-2 rounded-full bg-brand" />
-        <span className="text-[12px] font-semibold uppercase tracking-wide text-ink-3">Live sample answer</span>
+        <span className="text-[12px] font-semibold uppercase tracking-wide text-ink-3">{t("liveSampleAnswer")}</span>
       </div>
 
       <p className="mt-4 min-h-[3.5em] text-[15.5px] font-medium leading-snug text-ink">
@@ -62,7 +64,7 @@ export default function HeroDemo() {
           className="mt-4 grid gap-4 sm:grid-cols-2"
         >
           <div>
-            <h4 className="mb-1.5 text-[11.5px] font-bold uppercase tracking-wide text-brand-strong">India</h4>
+            <h4 className="mb-1.5 text-[11.5px] font-bold uppercase tracking-wide text-brand-strong">{t("juIndia")}</h4>
             <ul className="space-y-1.5">
               {ex.in.map(([txt, c], i) => (
                 <li key={i} className="text-[13.5px] leading-snug text-ink-2">
@@ -72,7 +74,7 @@ export default function HeroDemo() {
             </ul>
           </div>
           <div>
-            <h4 className="mb-1.5 text-[11.5px] font-bold uppercase tracking-wide text-focus">International</h4>
+            <h4 className="mb-1.5 text-[11.5px] font-bold uppercase tracking-wide text-focus">{t("juIntl")}</h4>
             <ul className="space-y-1.5">
               {ex.intl.map(([txt, c], i) => (
                 <li key={i} className="text-[13.5px] leading-snug text-ink-2">
@@ -91,7 +93,7 @@ export default function HeroDemo() {
             type="button"
             role="tab"
             aria-selected={i === ix}
-            aria-label={`Sample question ${i + 1}`}
+            aria-label={t("sampleQuestionAria").replace("{n}", String(i + 1))}
             onClick={() => setIx(i)}
             className="h-2 rounded-full transition-all"
             style={{ width: i === ix ? 20 : 8, background: i === ix ? "var(--brand)" : "var(--line)" }}

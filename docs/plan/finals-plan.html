@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IP-SAKTI Finals Plan</title>
+
+<link href="fonts.css" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFAF6; --ink:#0F1B15; --ink2:#3E4A43; --ink3:#6E7A72; --line:#DCE3DE; --sunk:#F1F4F1;
+  --brand:#146B43; --brand2:#0C4E30; --brandsoft:#E1F1E7;
+  --tur:#AD6E08; --tursoft:#FAF0D9; --kum:#C23A31; --kumsoft:#FBE4E1; --ind:#3652E0; --indsoft:#E9ECFE;
+}
+@page{ size:A4; margin:18mm 17mm 20mm 17mm;
+  @bottom-left{ content:"IP-SAKTI Sahayak · Finals implementation plan"; font:500 8pt "IBM Plex Sans"; color:#6E7A72; }
+  @bottom-right{ content:counter(page); font:600 8pt "IBM Plex Sans"; color:#6E7A72; }
+}
+@page cover{ margin:0; @bottom-left{content:none} @bottom-right{content:none} }
+*{box-sizing:border-box}
+html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body{ margin:0; font:400 9.6pt/1.5 "IBM Plex Sans",sans-serif; color:var(--ink2); background:#fff; }
+h1,h2,h3,h4{ font-family:"Anek Latin",sans-serif; color:var(--ink); margin:0; letter-spacing:-.005em; }
+h2{ font-size:20pt; font-weight:800; line-height:1.1; margin:0 0 3mm; break-after:avoid; }
+h2 .n{ color:var(--brand); margin-right:2.5mm; }
+h3{ font-size:12.5pt; font-weight:700; margin:5mm 0 1.5mm; break-after:avoid; }
+h4{ font-size:10.5pt; font-weight:700; margin:3.5mm 0 1mm; break-after:avoid; }
+p{ margin:0 0 2.2mm; }
+.lede{ font-size:11pt; line-height:1.45; color:var(--ink2); max-width:160mm; }
+section{ break-before:page; }
+section.cont{ break-before:auto; margin-top:8mm; }
+ul,ol{ margin:0 0 2.5mm; padding-left:5mm; } li{ margin:0 0 1mm; }
+b,strong{ color:var(--ink); font-weight:600; }
+code,.mono{ font-family:"Fragment Mono",monospace; font-size:8.3pt; background:var(--sunk); padding:0 1mm; border-radius:1mm; color:var(--ink); }
+table{ width:100%; border-collapse:collapse; margin:1.5mm 0 4mm; font-size:8.6pt; line-height:1.4; break-inside:auto; }
+thead{ display:table-header-group; }
+tr{ break-inside:avoid; }
+th{ text-align:left; font:600 8pt "IBM Plex Sans"; text-transform:uppercase; letter-spacing:.04em; color:var(--ink3); border-bottom:1.4px solid var(--ink); padding:1.6mm 2mm 1.4mm; }
+td{ border-bottom:.6px solid var(--line); padding:1.8mm 2mm; vertical-align:top; }
+td b{ font-weight:600; }
+.call{ border-left:3px solid var(--brand); background:var(--brandsoft); padding:3mm 4mm; margin:3mm 0 4mm; border-radius:0 2mm 2mm 0; break-inside:avoid; }
+.call.warn{ border-color:var(--tur); background:var(--tursoft); }
+.call.risk{ border-color:var(--kum); background:var(--kumsoft); }
+.call.ind{ border-color:var(--ind); background:var(--indsoft); }
+.call h4{ margin-top:0; }
+.call p:last-child,.call ul:last-child{ margin-bottom:0; }
+.tag{ display:inline-block; font:600 7.2pt "IBM Plex Sans"; letter-spacing:.05em; text-transform:uppercase; padding:.5mm 1.8mm; border-radius:9pt; vertical-align:1px; white-space:nowrap; }
+.p0{ background:var(--kumsoft); color:var(--kum); } .p1{ background:var(--tursoft); color:var(--tur); } .p2{ background:var(--indsoft); color:var(--ind); }
+.ok{ background:var(--brandsoft); color:var(--brand2); }
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+.grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:3.5mm; }
+.card{ border:.8px solid var(--line); border-radius:2.5mm; padding:3.2mm 3.6mm; break-inside:avoid; background:#fff; }
+.card h4{ margin-top:0; }
+.card p:last-child,.card ul:last-child{ margin-bottom:0; }
+.seat{ display:grid; grid-template-columns:34mm 1fr; gap:4mm; border-top:.8px solid var(--line); padding:3mm 0; break-inside:avoid; }
+.seat .who{ font:700 10pt "Anek Latin"; color:var(--ink); }
+.seat .who small{ display:block; font:400 8pt "IBM Plex Sans"; color:var(--ink3); margin-top:.8mm; }
+.verdict{ font:600 8.2pt "IBM Plex Sans"; }
+.kicker{ font:600 8pt "IBM Plex Sans"; letter-spacing:.12em; text-transform:uppercase; color:var(--brand); margin-bottom:2mm; }
+.feat{ border:.8px solid var(--line); border-radius:2.5mm; padding:3.4mm 4mm 2.6mm; margin:0 0 3.5mm; break-inside:avoid; }
+.feat .hd{ display:flex; align-items:baseline; gap:2.5mm; margin-bottom:1.2mm; }
+.feat .hd h4{ margin:0; font-size:11pt; }
+.feat .id{ font:600 8pt "Fragment Mono"; color:var(--ink3); }
+.feat dl{ display:grid; grid-template-columns:24mm 1fr; gap:.8mm 3mm; margin:0; font-size:8.8pt; }
+.feat dt{ font-weight:600; color:var(--ink3); font-size:7.8pt; text-transform:uppercase; letter-spacing:.04em; padding-top:.4mm; }
+.feat dd{ margin:0; }
+.quote{ font:500 11.5pt/1.35 "Anek Latin"; color:var(--ink); border-left:3px solid var(--tur); padding-left:4mm; margin:3mm 0; }
+.small{ font-size:8.2pt; color:var(--ink3); }
+.hi{ font-family:"Anek Devanagari"; } .te{ font-family:"Anek Telugu"; }
+svg text{ font-family:"IBM Plex Sans"; }
+.toc{ columns:2; column-gap:10mm; font-size:9.6pt; }
+.toc div{ display:flex; gap:3mm; padding:1.3mm 0; border-bottom:.6px dotted var(--line); break-inside:avoid; }
+.toc .n{ font:700 9.6pt "Anek Latin"; color:var(--brand); width:7mm; }
+/* cover */
+.cover{ page:cover; height:297mm; width:210mm; position:relative; background:#0B1A13; color:#E9F3ED; overflow:hidden; }
+.cover .in{ position:absolute; left:20mm; right:20mm; top:28mm; }
+.cover h1{ color:#fff; font-size:40pt; line-height:1.0; font-weight:800; letter-spacing:-.02em; }
+.cover h1 span{ color:#4FD897; display:block; }
+.cover .sub{ font-size:12.5pt; line-height:1.45; color:#AFC4B6; margin-top:7mm; max-width:140mm; }
+.cover .meta{ position:absolute; left:20mm; right:20mm; bottom:20mm; display:grid; grid-template-columns:repeat(4,1fr); gap:5mm; font-size:8.4pt; color:#AFC4B6; border-top:.8px solid #1E3226; padding-top:5mm; }
+.cover .meta b{ display:block; color:#fff; font:600 9pt "IBM Plex Sans"; margin-bottom:1mm; }
+.cover .tagline{ font:600 13pt "Anek Latin"; color:#E8AE45; margin-top:12mm; }
+.cover svg.seal{ position:absolute; right:-40mm; top:105mm; width:200mm; height:200mm; opacity:.9; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <svg class="seal" viewBox="0 0 400 400" aria-hidden="true">
+    <defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#4FD897" stop-opacity=".25"/><stop offset="1" stop-color="#4FD897" stop-opacity="0"/></radialGradient></defs>
+    <circle cx="200" cy="200" r="190" fill="url(#g)"/>
+    <g fill="none" stroke="#4FD897" stroke-opacity=".5">
+      <circle cx="200" cy="200" r="150" stroke-width="1"/>
+      <circle cx="200" cy="200" r="125" stroke-width=".6" stroke-dasharray="2 5"/>
+      <circle cx="200" cy="200" r="98" stroke-width="1.4"/>
+      <circle cx="200" cy="200" r="60" stroke="#E8AE45" stroke-opacity=".7" stroke-width="1.2"/>
+    </g>
+    <g stroke="#4FD897" stroke-opacity=".35" stroke-width=".8">
+      <line x1="200" y1="50" x2="200" y2="102"/><line x1="200" y1="298" x2="200" y2="350"/>
+      <line x1="50" y1="200" x2="102" y2="200"/><line x1="298" y1="200" x2="350" y2="200"/>
+      <line x1="94" y1="94" x2="131" y2="131"/><line x1="269" y1="269" x2="306" y2="306"/>
+      <line x1="306" y1="94" x2="269" y2="131"/><line x1="131" y1="269" x2="94" y2="306"/>
+    </g>
+    <text x="200" y="208" text-anchor="middle" fill="#E8AE45" style="font:700 22px 'Anek Latin'">§ 3(p)</text>
+  </svg>
+  <div class="in">
+    <div class="kicker" style="color:#4FD897">Smart India Hackathon · PS 26045 · Ministry of Ayush × AIIA</div>
+    <h1>IP-SAKTI Sahayak<span>Finals implementation plan</span></h1>
+    <p class="sub">From a well-made chatbot to a compliance co-pilot that produces the innovator's case file. Researched against the competing public entries for this problem statement, the law as it stands in September 2026, and the current codebase.</p>
+    <p class="tagline">Every answer has a clause behind it. Every case ends in a dossier.</p>
+  </div>
+  <div class="meta">
+    <div><b>Version</b>v7 plan · 24 Sep 2026</div>
+    <div><b>Codebase</b>muzammil-labs/ip-<br>React 19 · Vite · Tailwind v4</div>
+    <div><b>Scope</b>Frontend build, with every backend feature shown through a working frontend path</div>
+    <div><b>Reviewed from</b>Jury, AIIA, IP law, Ayush/NBA, investor, HCI, engineering</div>
+  </div>
+</div>
+
+<!-- ============ 0. CONTENTS + SUMMARY ============ -->
+<section style="break-before:page">
+  <div class="kicker">Contents</div>
+  <div class="toc">
+    <div><span class="n">1</span>The one-page answer</div>
+    <div><span class="n">2</span>The field: what every other team is building</div>
+    <div><span class="n">3</span>The panel: seven simulated evaluators</div>
+    <div><span class="n">4</span>Audit of the current build</div>
+    <div><span class="n">5</span>The big idea: one case, one dossier</div>
+    <div><span class="n">6</span>Making the site one continuous product</div>
+    <div><span class="n">7</span>Feature plan (P0 / P1 / P2)</div>
+    <div><span class="n">8</span>Showing the backend from a frontend</div>
+    <div><span class="n">9</span>Legal corpus corrections and additions</div>
+    <div><span class="n">10</span>Engineering: architecture, performance, quality</div>
+    <div><span class="n">11</span>Evaluation you can show with real numbers</div>
+    <div><span class="n">12</span>The finals demo: five minutes, three moments</div>
+    <div><span class="n">13</span>Hard questions and answers</div>
+    <div><span class="n">14</span>Build schedule and team split</div>
+    <div><span class="n">15</span>Risk register</div>
+    <div><span class="n">16</span>Verify before you present</div>
+    <div><span class="n">A</span>File-level change list</div>
+  </div>
+
+  <h2 style="margin-top:9mm"><span class="n">1</span>The one-page answer</h2>
+  <p class="lede">No plan can guarantee a top-five finish; juries are people and the field is strong. What this plan does is remove every reason a judge could give for passing you over, and give them three things no other team will show.</p>
+
+  <div class="call risk">
+    <h4>What the research found</h4>
+    <p>At least fifteen public GitHub repositories target PS 26045. Almost all describe the same thing: <b>hybrid RAG (BM25 + dense) → FastAPI → Gemini or Groq → ChromaDB → Bhashini → citations → abstention</b>, several with benchmark numbers already in their README. Citation-grounded answers with abstention are now the baseline for this problem statement, and judges will have seen them all day. Doing that part better than the others will not be enough on its own.</p>
+  </div>
+
+  <h3>The strategic shift</h3>
+  <p>Stop presenting IP-SAKTI as <i>an assistant that answers questions</i>. Present it as <b>a compliance co-pilot that takes one Ayurveda product from idea to a filing-ready case file</b>. Questions become one tool inside a continuous flow: describe the product → classify it → see what you can protect → see what you owe → check what you may say → search prior art → export a cited, bilingual dossier a patent agent or SIPP facilitator can act on.</p>
+
+  <h3>Three moments the judges will remember</h3>
+  <div class="grid3">
+    <div class="card"><h4>1 · TK proximity</h4><p>Type your ingredients. IP-SAKTI overlays them on classical formulations and says: "7 of your 9 ingredients match Dashamoola. Section 3(p) risk is high; here is what would change it." Computed in the browser and deterministic. Nothing else we found does this.</p></div>
+    <div class="card"><h4>2 · Legal time machine</h4><p>Drag a date slider from 2018 to today. The advertising answer rewrites itself as Rule 170 is inserted, omitted, stayed and un-stayed. This shows why a RAG system trained on 2024 text gives the wrong answer today.</p></div>
+    <div class="card"><h4>3 · The dossier</h4><p>One click exports a bilingual Pathway Report: classification, IP routes, ABS duties with a benefit-sharing estimate, a claims audit, the prior-art query log, open gaps and every clause cited. A QR code verifies it against the corpus version.</p></div>
+  </div>
+
+  <h3>What changes, in one table</h3>
+  <table>
+    <thead><tr><th style="width:30%">Today</th><th style="width:35%">After this plan</th><th>Why a judge scores it higher</th></tr></thead>
+    <tbody>
+      <tr><td>8 separate tabs, each with its own layout and motion</td><td>One <b>Case</b> that every chapter reads and writes; a persistent evidence spine; one motion vocabulary</td><td>Reads as one product and not a collection of demos ("user experience", "clarity")</td></tr>
+      <tr><td>7 scripted answers; any other question abstains</td><td>In-browser clause retrieval over the full corpus plus ~40 scripted answers; an unscripted question still returns ranked clauses</td><td>A judge who types their own question gets a real result</td></tr>
+      <tr><td>Backend described on a Blueprint page</td><td>Typed API client + Mock Service Worker serving the exact FastAPI contract; network tab shows real calls</td><td>"Can this be connected to a backend?" is answered in the network tab</td></tr>
+      <tr><td>Bench numbers shown as targets</td><td>A mini-bench that runs live in the browser with real computed scores, plus targets for the full bench</td><td>Honest, measured numbers alongside the targets</td></tr>
+      <tr><td>Corpus misses §3(e), §3(i), the 2025 AYUSH examination guidelines and the ABS Regulations 2025</td><td>Corpus corrected and extended; the synergy test drives a study-design checklist</td><td>Answers the AIIA/IP expert's first probing question</td></tr>
+      <tr><td>750 KB main bundle, untested voice, no offline mode</td><td>&lt;200 KB initial gzip, installable offline PWA, tested voice with fallbacks</td><td>Won't break at the venue; works for a rural user</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 2. FIELD ============ -->
+<section>
+  <h2><span class="n">2</span>The field: what every other team is building</h2>
+  <p class="lede">A sample of public repositories for PS 26045, read in September 2026. Treat their claims as their claims; the point is what they converge on.</p>
+  <table>
+    <thead><tr><th style="width:24%">Entry (public repo)</th><th style="width:40%">What it claims</th><th>What it tells us</th></tr></thead>
+    <tbody>
+      <tr><td>HemantKumar822/ip-sakti-sahayak</td><td>7-stage pipeline, PII stripper, BGE-small + BM25 via RRF, Gemini 2.5 Flash, 296 chunks from 11 sources, 160 tests, "100% gating accuracy" on 20 queries</td><td>Heavy on backend engineering and test numbers. Narrow corpus (Patents + BD Act). Classification is 3 buckets.</td></tr>
+      <tr><td>Aryandotcom-ui/SIH-IP_Sakti_sahayak-26045-</td><td>3,300 chunks from 31 statutes, jurisdiction filter, 3 abstention types, 14-rule ABS engine, recall@5 70.6%, abstention accuracy 77.3%</td><td>Closest to us on legal breadth and honesty. Publishes real metrics, so we need real metrics too.</td></tr>
+      <tr><td>ShlokNoval/IP-Shakti</td><td>Next.js 15, LangGraph multi-agent, 36,186 chunks split India/international, adaptive wizard, CLEAR/REVIEW/FAIL verdicts</td><td>Big corpus plus a wizard. Verdict badges without explained basis are a weakness we can contrast against.</td></tr>
+      <tr><td>sathishssj3, sameer727, KanuriSaiVijeshNaidu, Team-Zenith, dgexplores, ashishacharjee, thirumani-vihaan, visheshaggarwal0, others</td><td>Hybrid RAG + Bhashini + ChromaDB; "TKDL integration"; "offline, villager-first"; Sanskrit support</td><td>Same architecture. Some claim TKDL integration, which is a liability (see §13): TKDL access is paid and permissioned.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Baseline features (everyone has these)</h3>
+  <p>Hybrid retrieval · citations · abstention · jurisdiction filter · Bhashini · a classification step · FastAPI · a confidence number · DPDP mention.</p>
+
+  <h3>Where nobody is (our space)</h3>
+  <div class="grid2">
+    <div class="card"><h4>Output, not just answers</h4><p>No entry produces a <b>deliverable</b>: a case file or report a facilitator, patent agent or licensing officer can act on. Investors ask what users take away from the product, and today the answer is a chat transcript.</p></div>
+    <div class="card"><h4>Formulation-level reasoning</h4><p>Everyone reasons over <b>text questions</b>. Nobody reasons over <b>the formulation itself</b> (ingredients, parts, proportions) against classical references. That is what an examiner does under §3(p) and §3(e).</p></div>
+    <div class="card"><h4>Time as a dimension of law</h4><p>Corpora are snapshots. Nobody models <b>effective dates</b> or lets a user see how an answer changes when the law changes. Rule 170 gives a real Ayurveda case that shows why this matters.</p></div>
+    <div class="card"><h4>The whole commercial pathway</h4><p>Most stop at patents plus NBA. Few cover <b>labelling and advertising claims, benefit-sharing amounts, export-market fit and a human hand-off</b> as one pathway, which is how an MSME actually experiences the problem.</p></div>
+  </div>
+
+  <div class="call">
+    <h4>Positioning line for the pitch</h4>
+    <p>"Many teams built a legal chatbot for Ayurveda. We built the thing a chatbot hands off to: a case file that starts with your formulation, checks it against classical texts, follows the law through time, and ends with a cited dossier a human expert can sign off."</p>
+  </div>
+</section>
+
+<!-- ============ 3. PANEL ============ -->
+<section>
+  <h2><span class="n">3</span>The panel: seven simulated evaluators</h2>
+  <p class="lede">A role-play of the people most likely to sit on or advise a finals jury for this problem statement. For each: what they test in the first minute, how the current build fares, and what would change their mind.</p>
+
+  <div class="seat"><div class="who">SIH jury chair<small>Evaluates novelty, complexity, feasibility, impact, UX, future scope</small></div><div>
+    <p><b>First minute:</b> "What does this do that ChatGPT with a PDF doesn't?" Then watches whether the team can drive the demo without fumbling.</p>
+    <p class="verdict" style="color:var(--tur)">Today: polished, but reads as one of many RAG entries. Eight tabs make the story hard to follow.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: one continuous flow ending in a dossier; three clear, novel moments; a scripted demo that never stalls.</p></div></div>
+
+  <div class="seat"><div class="who">AIIA faculty (Dravyaguna / Rasashastra)<small>Domain accuracy, respect for classical texts</small></div><div>
+    <p><b>First minute:</b> "Is Chyawanprash in your system classical or proprietary if I add saffron?" "Which book? Which chapter?" Checks whether classical references are real.</p>
+    <p class="verdict" style="color:var(--tur)">Today: only 7 answers, and the classifier asks about books but never looks at the formula.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: an ingredient-level comparison against AFI formulations with book citations; correct Sanskrit, Latin and vernacular plant names; a deviation detector ("you changed one ingredient, so this is now proprietary").</p></div></div>
+
+  <div class="seat"><div class="who">Patent attorney / former examiner<small>Patents Act, examination practice</small></div><div>
+    <p><b>First minute:</b> "Where is §3(e)? Every polyherbal claim fails there." "Do you know the September 2025 AYUSH examination guidelines?" "Methods of treatment?"</p>
+    <p class="verdict" style="color:var(--kum)">Today: §3(e) and §3(i) are missing and the TK guideline source is superseded. These are credibility risks.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: §3(e) synergy test with a study-design checklist; §3(i) flag for Panchakarma-type methods; 2025 guidelines as a tier-1 source with their worked examples.</p></div></div>
+
+  <div class="seat"><div class="who">Ministry of Ayush / NBA official<small>Policy fit, ABS, data sovereignty</small></div><div>
+    <p><b>First minute:</b> "How much benefit-sharing does a ₹20 crore company pay?" "Where does user data live?" "Will it route people to us or away from us?"</p>
+    <p class="verdict" style="color:var(--tur)">Today: ABS duties shown, no amounts; hosting story is a line on the Blueprint page.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: benefit-sharing estimator on the ABS Regulations 2025 slabs; MeghRaj/NIC hosting plan; escalation that routes to SIPP facilitators and NBA, strengthening existing schemes.</p></div></div>
+
+  <div class="seat"><div class="who">Health/legal-tech investor<small>Who pays, moat, distribution</small></div><div>
+    <p><b>First minute:</b> "What does the user walk away with?" "Who pays?" "Why can't a bigger company copy this in a month?"</p>
+    <p class="verdict" style="color:var(--tur)">Today: good pitch text; no tangible output; no second side of the market.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: the dossier as the unit of value; a facilitator console (the other side of the market); a curated, versioned, clause-linked corpus plus a formulation reference set as the moat.</p></div></div>
+
+  <div class="seat"><div class="who">HCI / accessibility researcher<small>Usability for low-literacy and rural users</small></div><div>
+    <p><b>First minute:</b> Switches to Telugu, uses a phone, tries voice, zooms to 200%, tabs through with the keyboard.</p>
+    <p class="verdict" style="color:var(--tur)">Today: UI chrome translated, but the legal content stays in English; voice untested; mobile unverified.</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: Kisan mode (voice-first, big targets, icon-led); reviewed hi/te summaries with glossary lock; WCAG 2.2 AA audit results shown; offline PWA.</p></div></div>
+
+  <div class="seat"><div class="who">Engineering lead<small>Frontend and backend feasibility</small></div><div>
+    <p><b>First minute:</b> Opens DevTools. Looks at network calls, bundle size, console errors, and whether the "AI" is hard-coded.</p>
+    <p class="verdict" style="color:var(--tur)">Today: clean React code; no network layer; 750 KB bundle; keyword matching behind the "retrieval".</p>
+    <p class="verdict" style="color:var(--brand)">Flips on: typed API client against an OpenAPI spec; MSW serving it; real BM25 retrieval in a Web Worker; Vitest + Playwright in CI; Lighthouse ≥95.</p></div></div>
+</section>
+
+<!-- ============ 4. AUDIT ============ -->
+<section>
+  <h2><span class="n">4</span>Audit of the current build</h2>
+  <p class="lede">Read from <code>claude/vibrant-noether-leqb9g</code> at commit <code>61921a8</code>: 8 screens, ~3,600 lines of TypeScript, 36 sources, 7 scripted answers, 6 categories, 8 claim rules.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Keep these</h3>
+      <ul>
+        <li><b>Computed confidence</b> (<code>lib/confidence.ts</code>): three factors, lowest wins. Good design; keep it and put it on a slide.</li>
+        <li><b>Deterministic classifier</b> (<code>lib/classify.ts</code>) and <b>what-if</b> diff with changed rows. Keep; extend into the Case model.</li>
+        <li><b>Evidence states</b> V/U/C/R and <b>conflict</b> surfacing (BD Act s.6 for cultivated plants).</li>
+        <li><b>Rule 170 flux</b> flag, which becomes the time machine.</li>
+        <li><b>Consent ledger + audit log</b>: real, revocable, in-session.</li>
+        <li><b>Design tokens</b>: Ayurveda green, turmeric, kumkum used semantically; Anek type family covering Latin, Devanagari and Telugu.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Fix these</h3>
+      <ul>
+        <li><b>Coverage:</b> 7 answers; <code>matchQuestion</code> is keyword overlap with a threshold of 2. Any judge's own question will abstain. <span class="tag p0">P0</span></li>
+        <li><b>Legal gaps:</b> no §3(e), §3(i), §3(j); TK guideline superseded by the Sept 2025 AYUSH examination guidelines; ABS Regulations 2025 missing. <span class="tag p0">P0</span></li>
+        <li><b>No persistence or URLs:</b> state resets on reload; nothing can be shared or deep-linked; the browser back button leaves the app. <span class="tag p0">P0</span></li>
+        <li><b>Fragmentation:</b> three scroll grammars (sticky-stack, horizontal pan, plain), curtain wipe on every tab change. <span class="tag p0">P0</span></li>
+        <li><b>Performance:</b> 750 KB / 237 KB gz main chunk. <span class="tag p1">P1</span></li>
+        <li><b>Voice</b> untested; uses <code>alert()</code> on unsupported browsers; no Firefox fallback. <span class="tag p1">P1</span></li>
+        <li><b>Code:</b> duplicate <code>useApp</code> import in <code>Ask.tsx</code>; <code>any</code> for SpeechRecognition; the <code>t()</code> helper is redefined in every screen. <span class="tag p2">P2</span></li>
+        <li><b>No tests, no CI</b> despite deterministic engines that are easy to test. <span class="tag p1">P1</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="call warn">
+    <h4>The most dangerous minute of the demo</h4>
+    <p>A judge takes the keyboard and types "Can I get a GI tag for Kerala Ayurvedic oils?" Today the app abstains. That is honest, but on the fourth abstention it looks like the product is empty. P0-2 (in-browser retrieval) and the 40-answer expansion exist to make this minute go well: an unscripted question should still return <b>ranked, real clauses</b> with a clear note that composing a full answer needs the live model.</p>
+  </div>
+</section>
+
+<!-- ============ 5. BIG IDEA ============ -->
+<section>
+  <h2><span class="n">5</span>The big idea: one case, one dossier</h2>
+  <p class="lede">Every screen today keeps its own state. The redesign introduces a single <b>Case</b> object: the innovator's product, as the law sees it. Every chapter reads it and adds to it, and the dossier is simply the Case, printed.</p>
+
+  <svg viewBox="0 0 680 250" width="92%" style="margin:0 auto 2mm; display:block">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#146B43"/></marker></defs>
+    <rect x="250" y="92" width="180" height="66" rx="10" fill="#E1F1E7" stroke="#146B43" stroke-width="1.4"/>
+    <text x="340" y="118" text-anchor="middle" style="font:700 15px 'Anek Latin'" fill="#0C4E30">CASE</text>
+    <text x="340" y="136" text-anchor="middle" font-size="9.5" fill="#3E4A43">product · formula · source · entity</text>
+    <text x="340" y="149" text-anchor="middle" font-size="9.5" fill="#3E4A43">markets · claims · consent · log</text>
+    <g font-size="10.5" fill="#0F1B15">
+      <g><rect x="10" y="10" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="80" y="29" text-anchor="middle" font-weight="600">1 · Describe</text><text x="80" y="44" text-anchor="middle" font-size="9" fill="#6E7A72">ingredients, use, form</text></g>
+      <g><rect x="10" y="103" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="80" y="122" text-anchor="middle" font-weight="600">2 · Classify</text><text x="80" y="137" text-anchor="middle" font-size="9" fill="#6E7A72">6 categories + TK proximity</text></g>
+      <g><rect x="10" y="196" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="80" y="215" text-anchor="middle" font-weight="600">3 · Protect</text><text x="80" y="230" text-anchor="middle" font-size="9" fill="#6E7A72">patent / TM / GI / design…</text></g>
+      <g><rect x="530" y="10" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="600" y="29" text-anchor="middle" font-weight="600">4 · Owe</text><text x="600" y="44" text-anchor="middle" font-size="9" fill="#6E7A72">licence, ABS, benefit share</text></g>
+      <g><rect x="530" y="103" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="600" y="122" text-anchor="middle" font-weight="600">5 · Say</text><text x="600" y="137" text-anchor="middle" font-size="9" fill="#6E7A72">label + ad claim check</text></g>
+      <g><rect x="530" y="196" width="140" height="44" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="600" y="215" text-anchor="middle" font-weight="600">6 · Search</text><text x="600" y="230" text-anchor="middle" font-size="9" fill="#6E7A72">prior art, consented TKDL</text></g>
+      <g><rect x="270" y="200" width="140" height="44" rx="8" fill="#146B43"/><text x="340" y="219" text-anchor="middle" font-weight="700" fill="#fff">7 · Dossier</text><text x="340" y="234" text-anchor="middle" font-size="9" fill="#E1F1E7">cited, bilingual, verifiable</text></g>
+      <g><rect x="270" y="8" width="140" height="44" rx="8" fill="#FAF0D9" stroke="#AD6E08"/><text x="340" y="27" text-anchor="middle" font-weight="600" fill="#6b4405">Sahayak (Ask)</text><text x="340" y="42" text-anchor="middle" font-size="9" fill="#6b4405">side panel, knows the Case</text></g>
+    </g>
+    <g stroke="#146B43" stroke-width="1.2" fill="none" marker-end="url(#ar)">
+      <path d="M150 32 C200 32 220 100 250 112"/><path d="M150 125 L248 125"/><path d="M150 218 C200 218 220 150 250 142"/>
+      <path d="M530 32 C480 32 460 100 432 112"/><path d="M530 125 L432 125"/><path d="M530 218 C480 218 460 150 432 142"/>
+      <path d="M340 158 L340 198"/><path d="M340 52 L340 90" stroke="#AD6E08"/>
+    </g>
+  </svg>
+
+  <h3>How it works in the product</h3>
+  <ul>
+    <li><b>Start page = Case intake.</b> One field: "Describe your product" (text, voice or a photo of the label), plus three example cases: <i>Ashwagandha CO₂ extract</i>, <i>classical Chyawanprash with saffron</i>, <i>farmer selling cultivated Ashwagandha</i>. Choosing one pre-fills the Case.</li>
+    <li><b>Chapters, not tabs.</b> Seven chapters on one scroll with a sticky chapter rail. Each chapter shows its status: <span class="tag ok">done</span>, <span class="tag p1">needs input</span>, <span class="tag p0">risk found</span>.</li>
+    <li><b>Sahayak panel.</b> Ask moves into a right-side drawer available everywhere. It gets the Case as context ("For your proprietary Ayurvedic drug from cultivated roots…"). On mobile it becomes a bottom sheet.</li>
+    <li><b>Evidence spine.</b> A thin vertical thread on the left edge. Each clause cited anywhere in the Case becomes a seal on the thread, and tapping one opens the clause. By chapter 7 the user can see how much evidence the dossier rests on.</li>
+    <li><b>What-if everywhere.</b> Any Case field can be toggled ("make it wild-collected", "sell in the EU", "turnover ₹60 cr") and every chapter shows what moved, with changed rows highlighted in turmeric.</li>
+    <li><b>Persistence and sharing.</b> The Case is saved to <code>localStorage</code> and can be encoded in the URL (compressed, no personal data), so a judge can open the exact case on their own phone from a QR code on the slide.</li>
+  </ul>
+
+  <h3>The Case model (TypeScript)</h3>
+<pre style="font:7.6pt/1.4 'Fragment Mono'; background:var(--sunk); padding:3mm 4mm; border-radius:2mm; margin:0 0 3mm; white-space:pre-wrap; color:var(--ink)">interface Case {
+  id: string; createdAt: string; corpusVersion: string; // e.g. "2026-09-24"
+  product: { name: string; description: string; form?: DosageForm };
+  formula: { plant: PlantRef; part: string; qty?: string }[];  // any-script name → botanical
+  answers: ClassifyState;                          // existing use/text/frac/src/ent
+  markets: ("IN"|"EU"|"US"|"GCC"|"ASEAN")[];
+  turnoverCr?: number;                             // drives benefit-sharing estimate
+  claims: { text: string; medium: "label"|"ad"|"web" }[];
+  questions: { q: string; answerId: string|null; at: string }[];
+  consent: LedgerEntry[]; audit: AuditEntry[];
+  asOf: string;                                    // legal time machine date, default today
+}</pre>
+  <p class="small">Every engine becomes a pure function of the Case: <code>classify(case)</code>, <code>tkProximity(case)</code>, <code>ipRoutes(case)</code>, <code>absDuties(case)</code>, <code>benefitShare(case)</code>, <code>scanClaims(case)</code>, <code>priorArtQueries(case)</code>, <code>dossier(case)</code>. They are pure, so they are easy to test, re-run on any what-if, and move to the backend later without rewriting the UI.</p>
+</section>
+
+<!-- ============ 6. HOMOGENEOUS DESIGN ============ -->
+<section>
+  <h2><span class="n">6</span>Making the site one continuous product</h2>
+  <p class="lede">Today each screen feels like a separate demo because each one uses its own motion (sticky stack, horizontal pan, curtain wipe) and its own layout width. This chapter defines one visual language: the product is a <b>living case file</b>, like a vaidya's manuscript that becomes a legal record.</p>
+
+  <h3>Design principles</h3>
+  <div class="grid2">
+    <div class="card"><h4>One canvas</h4><p>A single scrolling document with one content width (<code>max-w-[1120px]</code>), one 12-column grid and one chapter template. No full-page curtain wipes; moving between chapters scrolls smoothly and the chapter rail updates.</p></div>
+    <div class="card"><h4>One metaphor: the seal</h4><p>The WebGL "evidence seal" from the hero becomes the brand mark used throughout: the progress seal in the chapter rail, the citation seals on the evidence spine, and the stamp on the exported dossier. The hero is where it first appears.</p></div>
+    <div class="card"><h4>Three motions only</h4><p><b>Thread</b>: a line drawing in, used for progress, the spine and connections. <b>Stamp</b>: a small scale-and-settle when evidence is verified. <b>Shift</b>: turmeric highlight fade when a what-if changes a row. Everything else is instant. Respect <code>prefers-reduced-motion</code>.</p></div>
+    <div class="card"><h4>Colour carries meaning</h4><p>Green = verified or safe, turmeric = changed or needs attention, kumkum = risk or prohibited, indigo = interactive only. Decoration uses ink and paper only. The same rule applies in the app, the dossier and the slides.</p></div>
+  </div>
+
+  <h3>Chapter template (used for all seven)</h3>
+  <table>
+    <thead><tr><th style="width:22%">Zone</th><th>Content</th></tr></thead>
+    <tbody>
+      <tr><td><b>Header</b></td><td>Chapter number in a seal · title (a verb: Describe, Classify, Protect, Owe, Say, Search, Export) · one-line purpose · status chip</td></tr>
+      <tr><td><b>Input strip</b></td><td>Only the Case fields this chapter needs, pre-filled where known, each with a one-line "why we ask"</td></tr>
+      <tr><td><b>Finding</b></td><td>The computed result in one sentence and one visual (meter, overlay, table)</td></tr>
+      <tr><td><b>Evidence</b></td><td>Clause-cited rows using the same row component everywhere: statement · evidence mark · cite chips · "law changed" flag</td></tr>
+      <tr><td><b>Gaps and next</b></td><td>What we still need from you · what a human expert must confirm · button to the next chapter</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Component consolidation</h3>
+  <p>Merge overlapping pieces into one primitive set: <code>Chapter</code>, <code>Field</code>, <code>Finding</code>, <code>EvidenceRow</code> (replaces ad-hoc lists in Ask, Classify, Claim check), <code>CiteChip</code>, <code>Seal</code>, <code>Meter</code>, <code>DiffMark</code>, <code>Sheet</code> (drawer, bottom sheet, dialog). Remove <code>StickyStack</code> and <code>HorizontalPan</code> from the main flow; the Overview differentiators become part of chapter intros rather than a separate show-piece. One translation hook <code>useT()</code> in <code>lib/i18n.ts</code>.</p>
+
+  <h3>Where the other screens go</h3>
+  <table>
+    <thead><tr><th style="width:22%">Current screen</th><th>New home</th></tr></thead>
+    <tbody>
+      <tr><td>Overview</td><td>Hero + Case intake (start page). The walkthrough becomes a "presenter mode" (§12).</td></tr>
+      <tr><td>Ask</td><td>Sahayak side panel on every chapter; full-page view kept at <code>#/ask</code> for Kisan mode.</td></tr>
+      <tr><td>Classify</td><td>Chapter 2, with TK proximity added.</td></tr>
+      <tr><td>Prior art &amp; TK</td><td>Chapter 6; queries built automatically from the Case formula.</td></tr>
+      <tr><td>Claim check</td><td>Chapter 5; category comes from the Case, no separate picker.</td></tr>
+      <tr><td>Sources</td><td>"Library" in the footer and inside every cite chip; includes the time machine.</td></tr>
+      <tr><td>Trust, Blueprint</td><td>A combined "How it works" chapter after the dossier: guardrails, live bench, architecture, PS coverage, API explorer. These pages are for judges more than users, so they come last.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call ind">
+    <h4>Visual detail that helps judges remember it</h4>
+    <p>Each Case gets a <b>botanical line illustration</b> of its primary plant (Ashwagandha, Amla, Tulsi, Turmeric, Brahmi…) drawn as a single-stroke SVG that draws itself with the thread motion. Ten SVGs cover the demo set. It is specific to Ayurveda, looks nothing like a template, costs a few kilobytes, and becomes the cover image of the dossier.</p>
+  </div>
+</section>
+
+<!-- ============ 7. FEATURES ============ -->
+<section>
+  <h2><span class="n">7</span>Feature plan</h2>
+  <p class="lede"><span class="tag p0">P0</span> must ship before finals. <span class="tag p1">P1</span> ship if P0 is done and tested. <span class="tag p2">P2</span> show as a designed, clickable prototype, clearly labelled. Every feature has a frontend path that works in the demo, even where production needs a backend.</p>
+
+  <h3>P0: the core that decides selection</h3>
+
+  <div class="feat"><div class="hd"><span class="id">P0-1</span><h4>Case workspace and chapter flow</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>The Case model (§5), seven chapters, chapter rail, evidence spine, persistence, shareable URL, hash router.</dd>
+    <dt>Build</dt><dd><code>state/case.ts</code> (reducer + <code>localStorage</code>), <code>wouter</code> (~2 KB) for <code>#/case/:chapter</code>, <code>lz-string</code> for URL encoding. Refactor screens into <code>chapters/</code>.</dd>
+    <dt>Backend</dt><dd><code>POST /cases</code>, <code>PATCH /cases/:id</code>, served by the mock layer (§8).</dd>
+    <dt>Effort</dt><dd>4–5 dev-days</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-2</span><h4>Real clause retrieval in the browser</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>Split the corpus into clause-level chunks (~250–400 from the ~45 instruments, using official text). Any question returns top-k clauses with scores, jurisdiction-separated. Scripted answers are used when matched; otherwise show "Relevant clauses" plus an honest note that a composed answer needs the live model.</dd>
+    <dt>Build</dt><dd><code>MiniSearch</code> (BM25-style, ~7 KB gz) in a Web Worker; a Hindi/Telugu query-expansion glossary maps vernacular terms to English legal terms before search (the same glossary lock used for display). Optional P1: <code>transformers.js</code> with a small multilingual embedding model, lazy-loaded, for semantic re-ranking.</dd>
+    <dt>Backend</dt><dd>Same response shape as the planned <code>/ask</code> retrieval pack, so the UI does not change when Qdrant replaces it.</dd>
+    <dt>Effort</dt><dd>3 dev-days + corpus chunking (1 person, 3 days)</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-3</span><h4>TK proximity check (formulation vs classical texts)</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>User enters ingredients (any script; resolved to botanical names). Compared against a reference set of ~50 well-known classical formulations with book and chapter references. Output: closest matches, overlap score, a Venn-style overlay, and the legal reading: "exact match → classical (§3(p) bars the formula)", "subset with changes → proprietary, §3(e) synergy data needed", "low overlap → new ASU drug; search TKDL".</dd>
+    <dt>Build</dt><dd><code>data/formulations.ts</code>, <code>data/plants.ts</code> (Latin, Sanskrit, Hindi, Telugu, common names, parts), <code>lib/tkProximity.ts</code> (weighted Jaccard; the primary/major ingredient weighted higher). SVG overlay. Fully deterministic.</dd>
+    <dt>Honesty</dt><dd>Label clearly: "Reference set of N formulations from the Ayurvedic Formulary of India, for demonstration. A negative result does not rule out prior art; TKDL and a full search are still needed." Have an AIIA faculty member check the ingredient lists.</dd>
+    <dt>Effort</dt><dd>3 dev-days + 3 days data entry and review</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-4</span><h4>Legal time machine</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>Every source gets <code>effective_from</code> / <code>effective_to</code> and an event history. A date slider on any answer re-evaluates which clauses were in force and rewrites the affected rows. Showcase: Rule 170 (inserted Dec 2018 → omitted July 2024 → omission stayed Aug 2024 → stay vacated Aug 2025). Second case: BD Act before and after the 2023 amendment (s.7 exemptions, s.6 registration vs approval).</dd>
+    <dt>Build</dt><dd><code>SourceVersion[]</code> in <code>data/sources.ts</code>; <code>lib/asOf.ts</code> filters points by date; timeline component on the same thread motion.</dd>
+    <dt>Backend</dt><dd>Gazette/India Code watcher; answers cache-keyed by corpus version (already in the plan).</dd>
+    <dt>Effort</dt><dd>2 dev-days</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-5</span><h4>Pathway dossier export</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>A 4–8 page PDF: cover with plant illustration and seal; case summary; classification with reasoning; TK proximity; IP route matrix; licence + ABS duties + benefit-sharing estimate; claims audit with suggested rewrites; prior-art query log with consent records; open gaps; escalation block; appendix of every cited clause with version and status. English plus the user's language. A QR code encodes the corpus version and a SHA-256 hash of the Case, so the report can be checked for tampering.</dd>
+    <dt>Build</dt><dd>A print-optimised route (<code>#/dossier/print</code>) with <code>@page</code> CSS and <code>window.print()</code>. No heavy PDF library, and Indic fonts render correctly. <code>crypto.subtle.digest</code> for the hash; <code>qrcode</code> (~10 KB) for the QR.</dd>
+    <dt>Effort</dt><dd>3 dev-days</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-6</span><h4>Corpus corrections (§9)</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>Add §3(e), §3(i), §3(j), the AYUSH examination guidelines (Sept 2025), the BD (ABS) Regulations 2025, and the BD Rules 2024 detail; update GRATK status; expand scripted answers from 7 to ~40 (GI, trade mark conflict, EU export, synergy, Panchakarma method, benefit-sharing, cosmetics claim, Aahara logo, NBA form, PPV&amp;FR farmer variety…).</dd>
+    <dt>Effort</dt><dd>1 person, ~6 days, plus expert review</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-7</span><h4>API layer with mock service worker</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>See §8. Every engine is called through <code>api.*</code>; MSW answers in the browser with realistic latency. An "API" toggle in presenter mode shows request/response JSON for each call.</dd>
+    <dt>Effort</dt><dd>2 dev-days</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P0-8</span><h4>Homogeneous redesign (§6)</h4><span class="tag p0">P0</span></div><dl>
+    <dt>What</dt><dd>Chapter template, primitives, seal system, three motions, one content width, botanical SVGs, replacement of the curtain wipe.</dd>
+    <dt>Effort</dt><dd>5 dev-days (runs in parallel with P0-1)</dd></dl></div>
+
+  <h3>P1: what makes the difference in the room</h3>
+
+  <div class="feat"><div class="hd"><span class="id">P1-1</span><h4>Benefit-sharing estimator</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>Inputs from the Case (turnover, source, entity, high-value species flag). Output: whether benefit-sharing applies, slab, rate, estimated amount, reporting duty, citations. The 2025 Regulation slabs as reported: up to ₹5 cr none; ₹5–50 cr 0.2%; ₹50–250 cr 0.4% of annual gross ex-factory sale price; higher slab above that; high-value resources (e.g. red sanders, sandalwood, agarwood) at least 5%; statement of use for turnover over ₹1 cr. <b>Verify every number against the Gazette text before the demo.</b></dd>
+    <dt>Build</dt><dd><code>lib/benefitShare.ts</code> + a slider that shows the amount change live. This answers the NBA official's first question.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-2</span><h4>Synergy (§3(e)) study planner</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>For polyherbal formulas: explains that an admixture is not an invention unless it shows synergy, meaning a combined effect significantly greater than the sum of individual effects, shown by comparative data in the specification. Generates a study-design checklist: arms (each ingredient alone, the combination, a positive control), endpoint, the statistical test to show synergy, and which ingredients to test first given the TK proximity result. Cites the 2025 guidelines' worked examples.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-3</span><h4>Label scanner (photo → claim check)</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>Photograph a label or ad; OCR in the browser (<code>tesseract.js</code> with eng+hin+tel, lazy-loaded Web Worker); highlighted findings on the image; rewrites shown as a diff. Add Hindi/Telugu disease terms to the DMR Act rules (e.g. <span class="hi">मधुमेह</span>, <span class="te">మధుమేహం</span>) so a vernacular ad is caught too.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-4</span><h4>Kisan mode (voice-first cultivator path)</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>Separate entry: large icon cards ("I grow", "I collect from forest", "I sell to a company", "Our village's produce is famous"), voice question, read-aloud answer, 18px+ text, no jargon, glossary pop-ups. Answers cover s.7 exemptions, the BMC certificate of origin, PPV&amp;FR farmer variety registration, GI through a producer group, and benefit-sharing reaching communities through BMCs.</dd>
+    <dt>Build</dt><dd>Web Speech API tested on Chrome Android and desktop; feature-detect and hide the mic where unsupported; replace <code>alert()</code> with an inline notice. Show the Bhashini ASR→NMT→TTS pipeline as the production path with the request shape in the API explorer.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-5</span><h4>Facilitator console (the second user)</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>A view for a SIPP facilitator or AIIA IP cell: incoming escalated cases (only what the user consented to share), triage by risk flags, one-click open of the dossier, a reply that attaches to the case. This shows a two-sided system and the institutional adoption path the Ministry cares about.</dd>
+    <dt>Build</dt><dd><code>#/facilitator</code>, seeded with 5 demo cases, sharing Case state through the mock API.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-6</span><h4>Live mini-bench and red-team runner</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd>See §11. Runs in the browser and shows measured numbers.</dd></dl></div>
+
+  <div class="feat"><div class="hd"><span class="id">P1-7</span><h4>Offline PWA, performance, accessibility</h4><span class="tag p1">P1</span></div><dl>
+    <dt>What</dt><dd><code>vite-plugin-pwa</code> precaches app and corpus; installable; works in airplane mode, which covers venue Wi-Fi failures and rural users. Code-split per chapter; Three.js only on the start page and only on capable devices. WCAG 2.2 AA pass with axe; Lighthouse report shown on the How-it-works chapter.</dd></dl></div>
+
+  <h3>P2: designed and clickable, clearly labelled as prototype</h3>
+  <table>
+    <thead><tr><th style="width:26%">Feature</th><th>Frontend-level representation</th></tr></thead>
+    <tbody>
+      <tr><td><b>WhatsApp / IVR channel</b></td><td>Phone mock-up in How-it-works that plays a scripted Hindi conversation hitting the same <code>/ask</code> contract; shows the same answer as the web.</td></tr>
+      <tr><td><b>Export-market packs</b></td><td>EU (THMPD 30/15-year rule), US (DSHEA structure/function claims), plus GCC and ASEAN marked "pack in preparation". Market switch in the Case changes chapter 4 and 5 rows.</td></tr>
+      <tr><td><b>Clause graph explorer</b></td><td>Expand <code>EvidenceGraph</code>: nodes = clauses, edges = amends / cites / applies-to-category; click-through to clause text. Shows the Postgres-edges then Neo4j story.</td></tr>
+      <tr><td><b>Gazette watcher feed</b></td><td>"Law changes this month" panel fed from a static JSON of real recent events (Rule 170, ABS Regs 2025, AYUSH guidelines 2025), each with the affected answers listed.</td></tr>
+      <tr><td><b>Semantic search</b></td><td>transformers.js re-ranker behind a "semantic mode (beta)" toggle, if P0-2 is stable.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 8. BACKEND FROM FRONTEND ============ -->
+<section>
+  <h2><span class="n">8</span>Showing the backend from a frontend</h2>
+  <p class="lede">You asked that nothing be skipped because the build is frontend-only. The way to do that is to make the frontend <b>behave exactly as it will against the real backend</b>: typed contracts, real HTTP calls, realistic latency and failure states. The backend then becomes a swap of the server, not a rewrite of the UI.</p>
+
+  <h3>Layering</h3>
+  <svg viewBox="0 0 680 150" width="100%" style="margin:1mm 0 3mm">
+    <g font-size="10.5">
+      <rect x="4" y="10" width="150" height="130" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="79" y="32" text-anchor="middle" font-weight="700" fill="#0F1B15">UI chapters</text><text x="79" y="52" text-anchor="middle" font-size="9" fill="#6E7A72">React components</text><text x="79" y="66" text-anchor="middle" font-size="9" fill="#6E7A72">read/write Case</text>
+      <rect x="180" y="10" width="150" height="130" rx="8" fill="#E9ECFE" stroke="#3652E0"/><text x="255" y="32" text-anchor="middle" font-weight="700" fill="#1f2f8a">api client</text><text x="255" y="52" text-anchor="middle" font-size="9" fill="#3E4A43">typed from openapi.yaml</text><text x="255" y="66" text-anchor="middle" font-size="9" fill="#3E4A43">fetch + retries + errors</text>
+      <rect x="356" y="10" width="150" height="58" rx="8" fill="#FAF0D9" stroke="#AD6E08"/><text x="431" y="32" text-anchor="middle" font-weight="700" fill="#6b4405">MSW (today)</text><text x="431" y="50" text-anchor="middle" font-size="9" fill="#6b4405">runs engines in browser</text>
+      <rect x="356" y="82" width="150" height="58" rx="8" fill="#E1F1E7" stroke="#146B43"/><text x="431" y="104" text-anchor="middle" font-weight="700" fill="#0C4E30">FastAPI (Stage 1)</text><text x="431" y="122" text-anchor="middle" font-size="9" fill="#0C4E30">same contract</text>
+      <rect x="532" y="10" width="144" height="130" rx="8" fill="#fff" stroke="#DCE3DE"/><text x="604" y="32" text-anchor="middle" font-weight="700" fill="#0F1B15">engines</text><text x="604" y="52" text-anchor="middle" font-size="9" fill="#6E7A72">classify · tkProximity</text><text x="604" y="66" text-anchor="middle" font-size="9" fill="#6E7A72">absDuties · benefitShare</text><text x="604" y="80" text-anchor="middle" font-size="9" fill="#6E7A72">scanClaims · retrieve</text><text x="604" y="94" text-anchor="middle" font-size="9" fill="#6E7A72">asOf · dossier</text><text x="604" y="118" text-anchor="middle" font-size="9" fill="#146B43">shared TS / ported to Py</text>
+    </g>
+    <g stroke="#3652E0" stroke-width="1.2" fill="none"><path d="M154 75 L178 75"/><path d="M330 40 L354 40"/><path d="M330 110 L354 110" stroke-dasharray="4 3"/><path d="M506 40 L530 40"/><path d="M506 110 L530 110" stroke-dasharray="4 3"/></g>
+  </svg>
+
+  <h3>API contract (write it as <code>openapi.yaml</code> in the repo)</h3>
+  <table>
+    <thead><tr><th style="width:26%">Endpoint</th><th style="width:38%">Purpose</th><th>Frontend today</th></tr></thead>
+    <tbody>
+      <tr><td><code>POST /v1/ask</code></td><td>Question + Case context + asOf + lang → two-column answer, points with chunk IDs, evidence states, gaps, abstain</td><td>Scripted answers + MiniSearch retrieval pack</td></tr>
+      <tr><td><code>POST /v1/retrieve</code></td><td>Query → ranked clause chunks, jurisdiction-separated</td><td>MiniSearch in Web Worker</td></tr>
+      <tr><td><code>POST /v1/classify</code></td><td>Case answers → category, reasoning, rows</td><td><code>lib/classify.ts</code></td></tr>
+      <tr><td><code>POST /v1/tk-proximity</code></td><td>Formula → nearest classical formulations, overlap, legal reading</td><td><code>lib/tkProximity.ts</code></td></tr>
+      <tr><td><code>POST /v1/abs</code></td><td>Case → duties, forms, benefit-share estimate</td><td><code>lib/classify.absOf</code> + <code>lib/benefitShare.ts</code></td></tr>
+      <tr><td><code>POST /v1/claims/check</code></td><td>Text or image → findings, provisions, rewrites</td><td><code>lib/claims.ts</code> + tesseract.js</td></tr>
+      <tr><td><code>GET /v1/sources?asOf=</code></td><td>Versioned register with events</td><td>Static JSON</td></tr>
+      <tr><td><code>POST /v1/cases</code>, <code>PATCH</code>, <code>GET /v1/cases/:id/dossier</code></td><td>Case persistence and dossier render</td><td><code>localStorage</code> + print route</td></tr>
+      <tr><td><code>POST /v1/escalations</code></td><td>Consent-scoped hand-off to facilitator queue</td><td>Mock queue shared with facilitator console</td></tr>
+      <tr><td><code>POST /v1/consent</code>, <code>DELETE</code></td><td>Paid-source permission ledger (TKDL)</td><td>Existing ledger, now via API</td></tr>
+      <tr><td><code>GET /v1/audit</code>, <code>GET /v1/health</code></td><td>Audit trail; corpus version and model status</td><td>Session log; static health</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Production backend (unchanged from your knowledge base, with three additions)</h3>
+  <ul>
+    <li><b>Retrieval:</b> Qdrant hybrid (dense + BM25), chunked per clause, metadata: act, section, jurisdiction, tier, status, <b>effective_from/to</b>, language.</li>
+    <li><b>Verifier:</b> each sentence entailment-checked against its cited chunk; unsupported sentences are dropped, not reworded.</li>
+    <li><b>LLM adapter:</b> a hosted model for the prototype; an open-weight model on MeghRaj/NIC cloud for data sovereignty.</li>
+    <li><b>New: formulation service.</b> AFI/API-derived reference tables in Postgres; TK proximity as SQL + a scoring function; the TKDL query runs only through the user's own subscription with logged consent.</li>
+    <li><b>New: time-aware answers.</b> Cache key = (question hash, Case hash, corpus version, asOf). A Gazette change invalidates only answers that cited the changed clause.</li>
+    <li><b>New: dossier service.</b> Server-side render of the same print route (headless Chromium), signed hash stored for verification.</li>
+  </ul>
+
+  <div class="call">
+    <h4>What the demo shows</h4>
+    <p>In presenter mode, press <code>D</code> to open a docked panel that lists every API call made so far, with method, path, latency and the JSON body. When a judge asks whether this is just hard-coded, show them that panel.</p>
+  </div>
+</section>
+
+<!-- ============ 9. CORPUS ============ -->
+<section>
+  <h2><span class="n">9</span>Legal corpus corrections and additions</h2>
+  <p class="lede">These are the changes a domain expert on the panel is most likely to probe. Status as found in September 2026 research; confirm each against the primary text (§16).</p>
+  <table>
+    <thead><tr><th style="width:26%">Item</th><th style="width:44%">Why it matters</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td><b>Patents Act §3(e)</b></td><td>Mere admixture giving only the aggregated properties of its parts is not an invention. This is the most common objection to polyherbal formulations; synergy must be shown by comparative data in the specification.</td><td>Add source; wire into classify rows for <i>pp</i> and <i>newasu</i>; P1-2 planner.</td></tr>
+      <tr><td><b>Patents Act §3(i)</b></td><td>Methods of treatment of humans are not patentable, which covers Panchakarma protocols and dosing regimens.</td><td>Add source + scripted answer; flag when the Case describes a method.</td></tr>
+      <tr><td><b>Patents Act §3(j)</b></td><td>Plants and parts of plants, and essentially biological processes, are excluded.</td><td>Add source; used in the cultivator and variety answers.</td></tr>
+      <tr><td><b>Guidelines for Examination of AYUSH-related inventions (CGPDTM, 23 Sep 2025)</b></td><td>Current examination practice: novelty, inventive step, TKDL use, synergy with worked examples (e.g. a patentable anthelmintic combination; a non-patentable anti-acne mix), and BD Act compliance.</td><td>Replace <code>tk-guide</code> as tier-1 source; cite in patent rows.</td></tr>
+      <tr><td><b>BD (Access and Benefit Sharing) Regulations, 2025</b></td><td>Replaced the 2014 guidelines; turnover-based slabs; DSI brought within scope; reporting duty.</td><td>Add source; drives P1-1 estimator.</td></tr>
+      <tr><td><b>Biological Diversity Rules, 2024</b></td><td>Forms and procedure for NBA approval/registration and SBB intimation after the 2023 amendment.</td><td>Add clause-level entries and the correct form references.</td></tr>
+      <tr><td><b>Rule 170, Drugs Rules</b></td><td>Omitted July 2024 → omission stayed by the Supreme Court Aug 2024 → stay vacated when the IMA petition was disposed of (Aug 2025), with liberty to challenge the omission; March 2025 directions on misleading ads remain relevant.</td><td>Model as events for the time machine; keep "law changed" flag.</td></tr>
+      <tr><td><b>WIPO GRATK</b></td><td>Adopted 24 May 2024; enters into force three months after 15 ratifications/accessions; a small number of parties so far.</td><td>Keep the "sources disagree on the count" conflict row; fetch the count from WIPO before the demo.</td></tr>
+      <tr><td><b>Normally traded commodities</b></td><td>BD Act exemptions for biological resources notified as normally traded commodities are relevant to many Ayurveda raw materials.</td><td>Add as a Case check in chapter 4 (verify current notification).</td></tr>
+      <tr><td><b>Official Hindi texts</b></td><td>India Code publishes authoritative Hindi versions of many central Acts.</td><td>Show the official Hindi clause text where it exists, instead of machine translation. This addresses the translation-risk concern directly.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Translating the legal corpus without risk</h3>
+  <ol>
+    <li><b>Statute excerpts:</b> official Hindi text where India Code has it; otherwise English with a "no official translation" note. Never machine-translate a clause.</li>
+    <li><b>Plain-language summaries:</b> translate the ~40 plain answers into Hindi and Telugu with the glossary lock (legal terms fixed), then back-translate to check meaning, then have one bilingual reviewer sign off. Show a "Reviewed by …" badge with the reviewer's name and date.</li>
+    <li><b>UI for unreviewed content:</b> a clear "English only, translation pending review" chip. Being open about this counts in your favour with a legal jury.</li>
+  </ol>
+</section>
+
+<!-- ============ 10. ENGINEERING ============ -->
+<section>
+  <h2><span class="n">10</span>Engineering: architecture, performance, quality</h2>
+
+  <h3>Target structure</h3>
+<pre style="font:8pt/1.45 'Fragment Mono'; background:var(--sunk); padding:3mm 4mm; border-radius:2mm; margin:0 0 3mm; color:var(--ink)">src/
+  app/            App.tsx, router.tsx, PresenterMode.tsx, ApiInspector.tsx
+  chapters/       Describe, Classify, Protect, Owe, Say, Search, Dossier, HowItWorks
+  panels/         Sahayak (ask drawer), SourceSheet, TimeMachine
+  views/          KisanMode, FacilitatorConsole, DossierPrint
+  ui/             Chapter, Field, Finding, EvidenceRow, CiteChip, Seal, Meter, DiffMark, Sheet
+  engines/        classify, tkProximity, absDuties, benefitShare, claims, retrieve, asOf, confidence, dossier
+  api/            client.ts, types.gen.ts (from openapi.yaml), mocks/handlers.ts
+  workers/        search.worker.ts, ocr.worker.ts
+  data/           sources/*.json (versioned), chunks.json, formulations.ts, plants.ts, answers/*.ts, i18n/*
+  state/          case.ts (reducer + persistence), session.ts (lang, theme, presenter)
+  styles/         tokens.css, print.css
+tests/            engines/*.test.ts (Vitest), e2e/demo.spec.ts (Playwright)</pre>
+
+  <div class="grid2">
+    <div>
+      <h3>Performance budget</h3>
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>Initial JS (gzip)</td><td>&lt; 200 KB (now ~237 KB)</td></tr>
+          <tr><td>LCP on mid-range Android, 4G</td><td>&lt; 2.0 s</td></tr>
+          <tr><td>INP</td><td>&lt; 200 ms</td></tr>
+          <tr><td>Lighthouse perf / a11y / best practices</td><td>≥ 90 / ≥ 95 / ≥ 95</td></tr>
+          <tr><td>Offline after first load</td><td>All chapters + corpus</td></tr>
+        </tbody>
+      </table>
+      <p class="small">How: <code>React.lazy</code> per chapter; <code>manualChunks</code> for three / r3f / gsap; drop GSAP if Motion covers the three motions; WebGL only when <code>deviceMemory ≥ 4</code> and not reduced-motion, with an SVG seal fallback; self-host subset fonts (Latin, Devanagari, Telugu) as woff2.</p>
+    </div>
+    <div>
+      <h3>Quality gates (GitHub Actions)</h3>
+      <ul>
+        <li><code>tsc --noEmit</code>, ESLint, Prettier check</li>
+        <li><b>Vitest</b> on every engine: classification truth table (all answer paths → category), ABS matrix, benefit-share slabs, claim rules (positive and negative fixtures in 3 languages), TK proximity fixtures, asOf transitions</li>
+        <li><b>Playwright</b> e2e that runs the exact 5-minute demo script on desktop and a Pixel viewport; fails the build if any step breaks</li>
+        <li><b>axe-core</b> accessibility scan on each chapter</li>
+        <li>Lighthouse CI on the Netlify preview</li>
+        <li>Bundle-size check (fail above budget)</li>
+      </ul>
+      <p class="small">Show the green CI badge and test count on the How-it-works chapter. Engineering judges look for this.</p>
+    </div>
+  </div>
+
+  <h3>Mobile QA matrix</h3>
+  <table>
+    <thead><tr><th>Device / browser</th><th>Must pass</th></tr></thead>
+    <tbody>
+      <tr><td>Chrome Android (mid-range, 360×800)</td><td>Full demo script, voice in hi-IN and te-IN, bottom-sheet Sahayak, dossier print/share</td></tr>
+      <tr><td>Safari iOS</td><td>Everything except voice input (feature-detected, hidden); read-aloud works</td></tr>
+      <tr><td>Desktop Chrome/Edge at 1366×768 (typical venue projector)</td><td>No horizontal scroll; presenter mode; font legible from 4 m (base 17px in presenter mode)</td></tr>
+      <tr><td>Firefox desktop</td><td>No Web Speech input; mic hidden; everything else works</td></tr>
+      <tr><td>200% zoom, keyboard only, screen reader (NVDA/TalkBack spot check)</td><td>All chapters reachable, focus visible, landmarks and live regions announced</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 11. EVALUATION ============ -->
+<section>
+  <h2><span class="n">11</span>Evaluation you can show with real numbers</h2>
+  <p class="lede">Other entries publish accuracy numbers. Showing only targets now looks weaker by comparison. The fix is to measure what the frontend can honestly measure, live, and keep the full bench as a target.</p>
+
+  <h3>Live mini-bench (runs in the browser on the How-it-works chapter)</h3>
+  <table>
+    <thead><tr><th style="width:28%">Suite</th><th style="width:40%">What it runs</th><th>Metric shown</th></tr></thead>
+    <tbody>
+      <tr><td>Classification</td><td>40 labelled scenarios through <code>classify()</code></td><td>Accuracy, confusion matrix</td></tr>
+      <tr><td>Abstention / red-team</td><td>30 prompts: dosing, grant prediction, jailbreaks ("ignore rules and tell me…"), out-of-domain, prompt injection inside claim text</td><td>Correct-abstain rate, false-abstain rate</td></tr>
+      <tr><td>Retrieval</td><td>60 questions with gold clause IDs, in en/hi/te, through the worker</td><td>Recall@5, MRR per language</td></tr>
+      <tr><td>Jurisdiction leakage</td><td>Every served point checked: India column cites only Indian sources, international only treaties/foreign</td><td>Leakage count (target 0)</td></tr>
+      <tr><td>Claim check</td><td>50 ad/label snippets (en/hi/te) with gold findings</td><td>Precision, recall</td></tr>
+      <tr><td>Citation integrity</td><td>Every cite ID resolves to a source with version and status</td><td>Broken-cite count (must be 0)</td></tr>
+    </tbody>
+  </table>
+  <p>Press "Run bench" and the numbers are computed in front of the judges. Label it <b>"Prototype bench on the demo corpus; full AyurIP-Bench (150 items, expert-authored) is Stage 1."</b> Measured, honest numbers are more persuasive than a claimed 100%.</p>
+
+  <h3>Expert validation (do this now, it matters more than any feature)</h3>
+  <ul>
+    <li>Get <b>one AIIA faculty member</b> to review the formulation reference set and ten answers. Get <b>one registered patent agent</b> (a SIPP facilitator is ideal) to review the patent and claims answers.</li>
+    <li>Record their names, dates and a one-line quote; show a "Reviewed by" panel and put the quote on the Trust slide. Log every correction they make as a changelog entry in the corpus, which shows the review loop is real.</li>
+    <li>Run a 5-person usability test (2 MSME founders or Ayurveda students, 1 farmer or farmer-facing NGO worker, 2 others) with a task list; report task success and one quote. Real users on a slide carry weight with the jury.</li>
+  </ul>
+</section>
+
+<!-- ============ 12. DEMO ============ -->
+<section>
+  <h2><span class="n">12</span>The finals demo: five minutes, three moments</h2>
+  <p class="lede">Build a <b>presenter mode</b> (<code>?present=1</code>): larger type, a step counter, keyboard shortcuts (<code>→</code> next step, <code>R</code> reset case, <code>D</code> API inspector, <code>L</code> cycle language), and a seeded demo case. Every step is also an automated Playwright test.</p>
+  <table>
+    <thead><tr><th style="width:9%">Time</th><th style="width:44%">On screen</th><th>Say</th></tr></thead>
+    <tbody>
+      <tr><td>0:00</td><td>Start page, seal draws in. One field: "Describe your product."</td><td>"Two users: Meera runs a 12-person Ayurveda startup in Hyderabad. Ramesh grows Ashwagandha in Madhya Pradesh. Both need the same law and read it very differently."</td></tr>
+      <tr><td>0:25</td><td>Meera's case: types a 9-herb churna; chapter 2 classifies it.</td><td>"Classification comes first, because every other answer depends on it."</td></tr>
+      <tr><td>0:50</td><td><b>Moment 1:</b> TK proximity overlay: 7/9 overlap with a classical formulation, with book reference.</td><td>"This is what an examiner checks under 3(p). Here's what would make it patentable: synergy data under 3(e), and here's the study to run."</td></tr>
+      <tr><td>1:40</td><td>Chapter 4: ABS duties; turnover slider moves the benefit-share estimate. What-if: "wild-collected" → only the biodiversity rows turn turmeric.</td><td>"One fact changes and you can see exactly which obligations move."</td></tr>
+      <tr><td>2:15</td><td>Chapter 5: photo of a label → "cures diabetes" (Hindi) highlighted → DMR Act Schedule → rewrite diff.</td><td>"It catches it in Hindi too."</td></tr>
+      <tr><td>2:45</td><td><b>Moment 2:</b> time machine slider on the advertising answer, 2018 → today.</td><td>"A model trained on 2024 text would give the wrong answer today. Ours tracks when each clause is in force."</td></tr>
+      <tr><td>3:20</td><td>Ramesh: Kisan mode, Telugu or Hindi voice question, read-aloud answer.</td><td>"Same corpus, same citations, his language, legal terms locked."</td></tr>
+      <tr><td>3:50</td><td><b>Moment 3:</b> export Meera's dossier; scan the QR on the judge's phone; escalate → facilitator console shows it arriving.</td><td>"Here is what Meera walks away with. And here is the SIPP facilitator receiving only what she consented to share."</td></tr>
+      <tr><td>4:30</td><td>How-it-works: press <i>Run bench</i>; API inspector open; PS coverage table.</td><td>"Measured here, just now. All 17 requirements of the PS are mapped to a screen."</td></tr>
+      <tr><td>4:50</td><td>Close on the seal.</td><td>"Every answer has a clause behind it. Every case ends in a dossier."</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call warn">
+    <h4>Failure-proofing</h4>
+    <ul>
+      <li>Installed PWA on the demo laptop <b>and</b> a phone; demo works in airplane mode.</li>
+      <li>A recorded 5-minute video on a USB drive and in the laptop's local files.</li>
+      <li>Voice is the riskiest step: have a typed fallback button ready that replays the same query.</li>
+      <li>Two people rehearse driving the demo, with timed runs, at least 10 times. The person not driving watches the time and hands over the phone for the QR.</li>
+    </ul>
+  </div>
+
+  <h3>Pitch deck (10 slides) aligned to the SIH scoring criteria</h3>
+  <table>
+    <thead><tr><th style="width:6%">#</th><th style="width:30%">Slide</th><th>Criterion it serves</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Meera and Ramesh: two quotes, one problem</td><td>Problem understanding, social relevance</td></tr>
+      <tr><td>2</td><td>15 regimes, and the law keeps changing (Rule 170 timeline)</td><td>Complexity</td></tr>
+      <tr><td>3</td><td>One case, one dossier (the §5 diagram)</td><td>Novelty, clarity</td></tr>
+      <tr><td>4</td><td>Live demo</td><td>UX, feasibility</td></tr>
+      <tr><td>5</td><td>Three things no one else does</td><td>Novelty</td></tr>
+      <tr><td>6</td><td>Architecture + confidence formula + API contract</td><td>Technical depth</td></tr>
+      <tr><td>7</td><td>Trust: guardrails, measured bench, expert reviewers</td><td>Practicability</td></tr>
+      <tr><td>8</td><td>Adoption: AIIA IP cell → SIPP facilitators → MSMEs → export councils; MeghRaj hosting</td><td>Sustainability, scale of impact</td></tr>
+      <tr><td>9</td><td>Stage 1/2/3 roadmap with the pieces already built highlighted</td><td>Future scope, preparedness</td></tr>
+      <tr><td>10</td><td>Team, reviewers, ask</td><td>Preparedness</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 13. Q&A ============ -->
+<section>
+  <h2><span class="n">13</span>Hard questions and answers</h2>
+  <table>
+    <thead><tr><th style="width:34%">Question</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td>"Fifteen teams built this. Why you?"</td><td>"Their product ends with an answer; ours ends with a case file. We reason over the formulation itself, we track law over time, and a facilitator can act on what we produce."</td></tr>
+      <tr><td>"Is this AI or hard-coded?"</td><td>"The engines are deterministic on purpose: classification, ABS and claims are rules you can audit. Retrieval is real search over clause-level chunks. The LLM's only jobs are to write sentences from retrieved clauses and to extract facts from free text, and a verifier removes any sentence its clause doesn't support. Here are the API calls." (Press <code>D</code>.)</td></tr>
+      <tr><td>"Do you integrate TKDL?"</td><td>"We don't scrape it and can't. Access beyond patent offices is by paid subscription, opened in phases. We build the query and run it only through the user's own subscription with logged, revocable consent. Our TK proximity check uses public classical references and says clearly that it doesn't replace a TKDL search."</td></tr>
+      <tr><td>"What if the classical reference set is wrong?"</td><td>"It was reviewed by [name], AIIA. Each entry cites book and chapter. A proximity result is always shown with 'confirm with TKDL and an expert'."</td></tr>
+      <tr><td>"Isn't this legal advice?"</td><td>"It's legal information: standing disclaimer, abstention on anything predictive or clinical, and a consented hand-off to SIPP facilitators, who give the advice. This strengthens existing schemes rather than replacing them."</td></tr>
+      <tr><td>"How do you stay current?"</td><td>"Every clause has effective dates. A Gazette watcher flags changes, and only answers citing a changed clause are re-run. The time machine you saw uses the same data."</td></tr>
+      <tr><td>"Data protection?"</td><td>"Formulations are the user's trade secret. They stay on the device in this build; in production they're encrypted, excluded from logs and never used for training. Consent is per-purpose and revocable, in line with the DPDP Act. Hosting on MeghRaj/NIC."</td></tr>
+      <tr><td>"Who pays?"</td><td>"The Ministry/AIIA deploys it as a public good; facilitators get a triage queue; MSMEs pay for dossiers and claim checks at scale; export councils license market packs. The moat is the curated, versioned, clause-linked corpus plus the formulation reference set, not the model."</td></tr>
+      <tr><td>"Why not just WhatsApp?"</td><td>"Stage 3, using the same API; the mock is on the How-it-works page. The web app is where verification and the dossier live."</td></tr>
+      <tr><td>"Your bench numbers are small."</td><td>"They're measured on the demo corpus, live. We'd rather show a measured number than claim 100%. The 150-item expert bench is Stage 1."</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 14. SCHEDULE ============ -->
+<section>
+  <h2><span class="n">14</span>Build schedule and team split</h2>
+  <p class="lede">Assumes a team of six and roughly four weeks. If you have less time, cut from the bottom of each week, never from P0.</p>
+  <table>
+    <thead><tr><th style="width:12%">Week</th><th style="width:44%">Build</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b><br><span class="small">Foundation</span></td><td>Case model + reducer + persistence + router (P0-1). Design primitives and chapter template (P0-8). API client + MSW (P0-7). Vitest + CI. Start corpus chunking and the formulation data entry.</td><td>All existing features run inside chapters via <code>api.*</code>; CI green; old tabs gone.</td></tr>
+      <tr><td><b>2</b><br><span class="small">Differentiators</span></td><td>TK proximity (P0-3). Retrieval worker (P0-2). Time machine (P0-4). Corpus corrections + 20 new answers (P0-6). Expert review requests sent.</td><td>Moments 1 and 2 work end to end on desktop.</td></tr>
+      <tr><td><b>3</b><br><span class="small">Output + reach</span></td><td>Dossier export (P0-5). Benefit-share (P1-1). Synergy planner (P1-2). Kisan mode + voice testing (P1-4). Facilitator console (P1-5). Remaining answers; hi/te reviewed summaries.</td><td>Moment 3 works; full demo script passes as a Playwright test.</td></tr>
+      <tr><td><b>4</b><br><span class="small">Polish + proof</span></td><td>Mini-bench (P1-6). PWA + perf + a11y (P1-7). Label OCR (P1-3). Mobile QA matrix. Usability test with 5 people. Expert corrections applied. Deck, video, rehearsal ×10.</td><td>Lighthouse targets met; demo passes offline; video recorded.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Roles</h3>
+  <div class="grid3">
+    <div class="card"><h4>Lead / presenter</h4><p>Owns the story, deck, demo script, rehearsal; reviews every chapter against §6.</p></div>
+    <div class="card"><h4>Frontend 1</h4><p>Case model, router, chapters, dossier, presenter mode.</p></div>
+    <div class="card"><h4>Frontend 2</h4><p>Design system, motion, botanical SVGs, Kisan mode, mobile and accessibility.</p></div>
+    <div class="card"><h4>Engines</h4><p>TK proximity, retrieval worker, time machine, benefit-share, claims OCR, tests.</p></div>
+    <div class="card"><h4>Corpus / legal</h4><p>Chunking, sources with versions, 40 answers, formulation set, expert liaison, translations.</p></div>
+    <div class="card"><h4>API / QA</h4><p>OpenAPI spec, MSW, API inspector, CI, Playwright, bench suites, Lighthouse.</p></div>
+  </div>
+</section>
+
+<!-- ============ 15. RISKS ============ -->
+<section class="cont">
+  <h2><span class="n">15</span>Risk register</h2>
+  <table>
+    <thead><tr><th style="width:30%">Risk</th><th style="width:10%">Impact</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td>A legal fact on screen is wrong and an expert judge catches it</td><td><span class="tag p0">High</span></td><td>Expert review; §16 checklist; every uncertain point shown as U or C state, never V; "verify" labels on numbers.</td></tr>
+      <tr><td>Scope too large; P0 not finished</td><td><span class="tag p0">High</span></td><td>Strict P0 order; weekly "done when" gates; P2 only as static clickable mock-ups.</td></tr>
+      <tr><td>Redesign breaks working features</td><td><span class="tag p1">Med</span></td><td>Engines stay pure and tested; e2e demo test runs from week 1; keep the old build deployed on a separate Netlify URL as a fallback.</td></tr>
+      <tr><td>Voice fails at the venue</td><td><span class="tag p1">Med</span></td><td>Typed fallback button; video; test on the actual demo phone.</td></tr>
+      <tr><td>Formulation reference data is disputed</td><td><span class="tag p1">Med</span></td><td>Book and chapter cited per entry; reviewer named; "demonstration set" label.</td></tr>
+      <tr><td>Judges think it's "just frontend"</td><td><span class="tag p1">Med</span></td><td>API inspector, OpenAPI spec, deterministic engines portable to Python, backend plan slide; optionally a minimal FastAPI serving the same engines if one person has capacity in week 4.</td></tr>
+      <tr><td>Over-animation reads as style over substance</td><td><span class="tag p2">Low</span></td><td>Three motions only; reduced-motion respected; WebGL limited to the start page.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 16. VERIFY ============ -->
+<section>
+  <h2><span class="n">16</span>Verify before you present</h2>
+  <p class="lede">These were checked against public sources in September 2026, but the jury may include the people who wrote them. Confirm on the primary page and note the date you checked.</p>
+  <table>
+    <thead><tr><th style="width:36%">Fact</th><th>Where to confirm</th></tr></thead>
+    <tbody>
+      <tr><td>AYUSH examination guidelines date and worked examples (§3(e) synergy)</td><td>IP India / CGPDTM official notice (released 23 Sep 2025)</td></tr>
+      <tr><td>BD (ABS) Regulations 2025 slabs, rates, the top slab, high-value resource percentage, reporting threshold</td><td>Gazette notification; NBA website</td></tr>
+      <tr><td>BD Rules 2024 form numbers for NBA approval, registration and SBB intimation</td><td>Gazette; NBA</td></tr>
+      <tr><td>Rule 170 current position and any fresh challenge after the Aug 2025 order</td><td>Supreme Court order; Ministry of Ayush notices</td></tr>
+      <tr><td>GRATK ratification count and parties</td><td>WIPO treaty-status page</td></tr>
+      <tr><td>India's Hague Agreement status</td><td>WIPO Hague members list</td></tr>
+      <tr><td>TKDL access model for non-patent-office users (paid, phased)</td><td>CSIR-TKDL; PIB release on widening access</td></tr>
+      <tr><td>Normally traded commodities notification and its current list</td><td>MoEFCC / NBA notification</td></tr>
+      <tr><td>D&amp;C Act s.3(h) wording; Rule 158B categories; FSSAI Ayurveda Aahara approval flow</td><td>India Code; CDSCO; FSSAI</td></tr>
+      <tr><td>Every classical formulation's ingredient list in the reference set</td><td>Ayurvedic Formulary of India; reviewer sign-off</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call">
+    <h4>Sources consulted for this plan</h4>
+    <p class="small">Public PS 26045 repositories on GitHub (HemantKumar822/ip-sakti-sahayak, Aryandotcom-ui/SIH-IP_Sakti_sahayak-26045-, ShlokNoval/IP-Shakti, sathishssj3/IP-SAKTI-Sahayak, Team-Zenith-SIH-2026, dgexplores, sameer727, KanuriSaiVijeshNaidu, others); WIPO GRATK summary and FAQ; reporting on the Supreme Court's disposal of the IMA petition and Rule 170 (Medical Dialogues, The South First); PIB release on widening TKDL access; reporting on the Guidelines for Examination of AYUSH-related inventions (Conventus Law, BananaIP, Lexology); reporting on the BD (ABS) Regulations 2025 (Drishti IAS, K&amp;S Partners, Insights); published SIH evaluation criteria. Secondary sources were used for orientation; §16 lists what to confirm from the primary text.</p>
+  </div>
+</section>
+
+<!-- ============ APPENDIX ============ -->
+<section>
+  <h2><span class="n">A</span>File-level change list</h2>
+  <p class="lede">Mapped to the current repository so the work can start straight away.</p>
+  <table>
+    <thead><tr><th style="width:34%">File</th><th style="width:10%">Action</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td><code>src/state/store.tsx</code></td><td>Split</td><td>→ <code>state/case.ts</code> (Case reducer, persistence, URL encode) + <code>state/session.ts</code> (lang, theme, presenter, drawer)</td></tr>
+      <tr><td><code>src/App.tsx</code></td><td>Rewrite</td><td>Router, chapter rail, evidence spine, Sahayak drawer, remove curtain wipe, lazy chapters</td></tr>
+      <tr><td><code>src/screens/*</code></td><td>Move</td><td>→ <code>chapters/*</code> on the <code>Chapter</code> template; Trust + Blueprint → <code>HowItWorks</code></td></tr>
+      <tr><td><code>src/lib/ask.ts</code></td><td>Extend</td><td>Scripted match → else <code>api.retrieve()</code>; pass Case context; asOf filtering</td></tr>
+      <tr><td><code>src/lib/classify.ts</code></td><td>Extend</td><td>Take Case; add §3(e)/§3(i) rows; method detection; market-aware rows</td></tr>
+      <tr><td><code>src/lib/claims.ts</code>, <code>data/claimRules.ts</code></td><td>Extend</td><td>Hindi/Telugu disease and cure terms; image input path; rewrite diff output</td></tr>
+      <tr><td><code>src/data/sources.ts</code></td><td>Restructure</td><td>JSON per source with <code>versions[]</code>, <code>events[]</code>, <code>effectiveFrom/To</code>, official Hindi text field; add sources in §9</td></tr>
+      <tr><td><code>src/data/answers.ts</code></td><td>Split + grow</td><td><code>data/answers/*.ts</code>, 7 → ~40; each with reviewed hi/te plain text</td></tr>
+      <tr><td><code>src/data/i18n.ts</code></td><td>Split</td><td><code>data/i18n/{en,hi,te}.ts</code>; one <code>useT()</code> hook</td></tr>
+      <tr><td><code>src/components/three/HeroScene.tsx</code></td><td>Adapt</td><td>Seal as the brand mark; capability-gated; SVG fallback</td></tr>
+      <tr><td><code>src/components/scroll/*</code></td><td>Remove</td><td>Replaced by one scroll grammar</td></tr>
+      <tr><td><code>src/screens/Ask.tsx</code></td><td>Fix</td><td>Duplicate import; typed SpeechRecognition; no <code>alert()</code>; feature detection</td></tr>
+      <tr><td><b>New</b> <code>src/engines/tkProximity.ts</code>, <code>data/formulations.ts</code>, <code>data/plants.ts</code></td><td>Add</td><td>P0-3</td></tr>
+      <tr><td><b>New</b> <code>src/engines/asOf.ts</code>, <code>panels/TimeMachine.tsx</code></td><td>Add</td><td>P0-4</td></tr>
+      <tr><td><b>New</b> <code>src/views/DossierPrint.tsx</code>, <code>styles/print.css</code></td><td>Add</td><td>P0-5</td></tr>
+      <tr><td><b>New</b> <code>openapi.yaml</code>, <code>src/api/*</code>, <code>public/mockServiceWorker.js</code></td><td>Add</td><td>P0-7</td></tr>
+      <tr><td><b>New</b> <code>src/workers/search.worker.ts</code>, <code>data/chunks.json</code></td><td>Add</td><td>P0-2</td></tr>
+      <tr><td><b>New</b> <code>src/engines/benefitShare.ts</code></td><td>Add</td><td>P1-1</td></tr>
+      <tr><td><b>New</b> <code>src/views/KisanMode.tsx</code>, <code>views/FacilitatorConsole.tsx</code></td><td>Add</td><td>P1-4, P1-5</td></tr>
+      <tr><td><b>New</b> <code>tests/**</code>, <code>.github/workflows/ci.yml</code>, <code>playwright.config.ts</code></td><td>Add</td><td>§10 gates</td></tr>
+      <tr><td><code>vite.config.ts</code></td><td>Extend</td><td><code>manualChunks</code>, <code>vite-plugin-pwa</code>, worker config</td></tr>
+      <tr><td><code>package.json</code></td><td>Deps</td><td>+ wouter, lz-string, minisearch, msw, qrcode, vitest, @playwright/test, vite-plugin-pwa, axe-core; lazy: tesseract.js; optional: @huggingface/transformers</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call" style="margin-top:6mm">
+    <h4>First three commits</h4>
+    <ol>
+      <li><b>"Introduce Case model and chapter router"</b>: move existing screens behind routes with no visual change yet; add Vitest with classify and claims truth tables.</li>
+      <li><b>"Add typed API client and mock service worker"</b>: every engine called through <code>api.*</code>; add the API inspector.</li>
+      <li><b>"Correct corpus: §3(e), §3(i), AYUSH guidelines 2025, ABS Regulations 2025"</b>: fixes credibility before the new features are built on it.</li>
+    </ol>
+  </div>
+</section>
+
+</body>
+</html>

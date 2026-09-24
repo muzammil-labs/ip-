@@ -1,11 +1,12 @@
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useSession } from "../state/session";
+import { useT } from "../i18n/useT";
 import { CQ } from "../data/classifyQuestions";
 import { CAT } from "../data/classifyCategories";
 import { SNAPSHOT } from "../data/pathwaySnapshot";
-import { SNAPLABEL, SNAPWORD, PRESETS } from "../data/constants";
+import { SNAPLABEL, SNAPWORD_KEY, PRESETS } from "../data/constants";
 import { buildResult, meterColor, shortCite, nextSteps } from "../lib/classify";
 import Reveal from "../components/Reveal";
 import type { ClassifyState } from "../lib/types";
@@ -21,19 +22,19 @@ function visibleQuestions(c: ClassifyState) {
   return { shown: out, total: applicable.length };
 }
 
-function PathwaySnapshot({ cat }: { cat: string }) {
+function PathwaySnapshot({ cat, t }: { cat: string; t: (k: string) => string }) {
   const snap = SNAPSHOT[cat];
   if (!snap) return null;
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {Object.entries(snap).map(([k, lvl]) => {
-        const [label, pol] = SNAPLABEL[k];
+        const [labelKey, pol] = SNAPLABEL[k];
         const color = meterColor(lvl, pol);
         return (
           <div key={k}>
             <div className="flex items-center justify-between text-[13px]">
-              <span className="text-ink-2">{label}</span>
-              <b style={{ color }}>{SNAPWORD[lvl]}</b>
+              <span className="text-ink-2">{t(labelKey)}</span>
+              <b style={{ color }}>{t(SNAPWORD_KEY[lvl])}</b>
             </div>
             <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-sunk">
               <motion.div
@@ -53,8 +54,9 @@ function PathwaySnapshot({ cat }: { cat: string }) {
 
 export default function Classify() {
   const app = useApp();
-  const { lang, cls, setCls, answerCls, prevRows, setPrevRows } = app;
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { cls, setCls, answerCls, prevRows, setPrevRows } = app;
+  const { openClauseSheet } = useSession();
+  const t = useT();
 
   const { shown, total } = visibleQuestions(cls);
   const answeredCount = Object.values(cls).filter(Boolean).length;
@@ -89,7 +91,7 @@ export default function Classify() {
       </Reveal>
 
       <Reveal delay={0.05} className="mt-5 flex flex-wrap gap-2">
-        <span className="text-[12.5px] text-ink-3">Try a preset:</span>
+        <span className="text-[12.5px] text-ink-3">{t("presetTry")}</span>
         {(Object.keys(PRESETS) as (keyof typeof PRESETS)[]).map((k) => (
           <button
             key={k}
@@ -97,14 +99,14 @@ export default function Classify() {
             onClick={() => applyPreset(k)}
             className="rounded-full border border-line px-3 py-1 text-[12.5px] font-medium text-ink-2 hover:bg-sunk"
           >
-            {k === "ashwa" ? "Ashwagandha extract" : k === "chyawan" ? "Chyawanprash" : "Herbal tea"}
+            {t(k === "ashwa" ? "presetAshwa" : k === "chyawan" ? "presetChyawan" : "presetTea")}
           </button>
         ))}
       </Reveal>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <div>
-          <p className="mb-3 text-[12.5px] font-medium text-ink-3">{answeredCount} of {total} questions answered for this path</p>
+          <p className="mb-3 text-[12.5px] font-medium text-ink-3">{t("questionsAnswered").replace("{count}", String(answeredCount)).replace("{total}", String(total))}</p>
           <div className="space-y-3">
             <AnimatePresence initial={false}>
               {shown.map((q) => (
@@ -140,16 +142,16 @@ export default function Classify() {
         <div>
           {!result ? (
             <div className="flex h-full min-h-[200px] items-center justify-center rounded-lg border border-dashed border-line p-8 text-center text-[13.5px] text-ink-3">
-              Your product's category and what it means will appear here after the first two answers.
+              {t("classifyEmpty")}
             </div>
           ) : (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-lg border border-line bg-surface p-5">
-              <p className="text-[12.5px] text-ink-3">Your product is most likely a</p>
+              <p className="text-[12.5px] text-ink-3">{t("mostLikely")}</p>
               <h2 className="text-[19px] font-bold text-ink">{result.def.name}</h2>
               <p className="mt-1 text-[13.5px] text-ink-2">{result.def.sum}</p>
 
               <div className="mt-4 border-t border-line pt-4">
-                <PathwaySnapshot cat={result.cat} />
+                <PathwaySnapshot cat={result.cat} t={t} />
               </div>
 
               <table className="mt-5 w-full border-t border-line text-[13px]">
@@ -163,13 +165,13 @@ export default function Classify() {
                           <button
                             key={c}
                             type="button"
-                            onClick={() => app.openSource(c)}
+                            onClick={() => openClauseSheet(c)}
                             className="ml-1.5 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus hover:scale-105"
                           >
                             {shortCite(c)}
                           </button>
                         ))}
-                        {r.changedFrom && <span className="mt-1 block text-[11.5px] text-ink-3">Before: {r.changedFrom}</span>}
+                        {r.changedFrom && <span className="mt-1 block text-[11.5px] text-ink-3">{t("beforeLabel")}{r.changedFrom}</span>}
                       </td>
                     </tr>
                   ))}
@@ -177,31 +179,31 @@ export default function Classify() {
               </table>
               {(result.changedLabels.length > 0 || result.categoryChanged) && (
                 <div role="status" className="mt-3 rounded-md bg-turmeric-soft px-3 py-2 text-[12.5px] text-ink-2">
-                  <b>What changed:</b>{" "}
-                  {result.categoryChanged && `category moved to ${result.def.name}; `}
-                  {result.changedLabels.length ? `${result.changedLabels.length} area${result.changedLabels.length === 1 ? "" : "s"} need re-checking, ${result.changedLabels.join(", ")}.` : "nothing else in the assessment moved."}
+                  <b>{t("whatChanged")}</b>{" "}
+                  {result.categoryChanged && t("categoryMoved").replace("{name}", result.def.name)}
+                  {result.changedLabels.length ? t("areasNeedRecheck").replace("{n}", String(result.changedLabels.length)).replace("{list}", result.changedLabels.join(", ")) : t("nothingElseChanged")}
                 </div>
               )}
 
               <div className="mt-5 border-t border-line pt-4">
-                <h3 className="text-[14px] font-bold text-ink">What if one thing changed?</h3>
+                <h3 className="text-[14px] font-bold text-ink">{t("whatIfTitle")}</h3>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button type="button" onClick={() => applyWhatIf({ src: "wild" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">the material were wild-collected</button>
-                  <button type="button" onClick={() => applyWhatIf({ ent: "fr" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">a foreign-controlled company sold it</button>
-                  <button type="button" onClick={() => applyWhatIf("phyto")} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">it became a purified fraction</button>
-                  <button type="button" onClick={() => applyWhatIf({ use: "food" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">it were sold as a food</button>
+                  <button type="button" onClick={() => applyWhatIf({ src: "wild" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">{t("whatIf1")}</button>
+                  <button type="button" onClick={() => applyWhatIf({ ent: "fr" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">{t("whatIf2")}</button>
+                  <button type="button" onClick={() => applyWhatIf("phyto")} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">{t("whatIf3")}</button>
+                  <button type="button" onClick={() => applyWhatIf({ use: "food" })} className="rounded-full border border-line px-3 py-1.5 text-[12.5px] text-ink-2 hover:bg-sunk">{t("whatIf4")}</button>
                 </div>
               </div>
 
               <div className="mt-5 border-t border-line pt-4">
-                <h3 className="text-[14px] font-bold text-ink">Next steps, in order</h3>
+                <h3 className="text-[14px] font-bold text-ink">{t("nextStepsTitle")}</h3>
                 <ol className="mt-2 list-decimal space-y-1 pl-5 text-[13px] text-ink-2">
                   {nextSteps(result.cat, cls).map((s, i) => (
                     <li key={i}>{s}</li>
                   ))}
                 </ol>
                 <button type="button" onClick={() => app.go("tk")} className="mt-4 rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
-                  Search prior art
+                  {t("searchPriorArt")}
                 </button>
               </div>
             </motion.div>

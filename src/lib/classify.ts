@@ -59,6 +59,10 @@ const SHORT_CITE: Record<string, string> = {
   "cr-1957": "Copyright", "tkdl": "TKDL", "dmr-3": "DMR 3", "dmr-4": "DMR 4",
   "dr-170": "R.170", "ccpa": "CCPA", "fssai-aa": "FSSAI AA", "cos-2020": "Cos. Rules",
   "nagoya": "Nagoya", "budapest": "Budapest",
+  "pa-10": "PA 10(4)", "tk-guide": "TK Guide", "cm-a": "Commentary A", "cm-b": "Commentary B",
+  "gi-1999": "GI Act", "ppvfr": "PPV&FR Act", "sipp": "SIPP", "dpdp": "DPDP Act",
+  "pct": "PCT", "trips": "TRIPS Art.27", "gratk": "GRATK", "gratk-count": "GRATK Count",
+  "madrid": "Madrid", "hague": "Hague", "eu-thmpd": "EU THMPD", "us-dshea": "US DSHEA",
 };
 export function shortCite(id: string): string {
   return SHORT_CITE[id] || "src";

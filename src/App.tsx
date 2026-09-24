@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import {
-  House, ChatCircleText, FlowArrow, MagnifyingGlass, Megaphone,
-  BookBookmark, ShieldCheck, MapTrifold, Sun, Moon, Globe,
-} from "@phosphor-icons/react";
-import { useApp, type Screen } from "./state/store";
-import { I18N, type Lang } from "./data/i18n";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { useApp } from "./state/store";
+import Shell from "./app/Shell";
 import Overview from "./screens/Overview";
 import Ask from "./screens/Ask";
 import Classify from "./screens/Classify";
@@ -14,144 +9,51 @@ import ClaimCheck from "./screens/ClaimCheck";
 import Sources from "./screens/Sources";
 import Trust from "./screens/Trust";
 import Blueprint from "./screens/Blueprint";
-import ScrollProgress from "./components/ScrollProgress";
-import SourceDrawer from "./components/SourceDrawer";
+import type { Screen } from "./state/store";
 
-const NAV: { key: Screen; icon: typeof House }[] = [
-  { key: "overview", icon: House },
-  { key: "ask", icon: ChatCircleText },
-  { key: "classify", icon: FlowArrow },
-  { key: "tk", icon: MagnifyingGlass },
-  { key: "claims", icon: Megaphone },
-  { key: "sources", icon: BookBookmark },
-  { key: "trust", icon: ShieldCheck },
-  { key: "blueprint", icon: MapTrifold },
-];
+// Lazy: pulls in Radix and every src/ui primitive, and is never reached in the shipped
+// demo path, so it must not add to the main bundle's initial gzip (Part E budget).
+const DevUI = lazy(() => import("./pages/DevUI"));
 
 const SCREENS: Record<Screen, React.ComponentType> = {
   overview: Overview, ask: Ask, classify: Classify, tk: PriorArt,
   claims: ClaimCheck, sources: Sources, trust: Trust, blueprint: Blueprint,
 };
 
-function t(lang: Lang, k: string) {
-  return I18N[lang]?.[k] || I18N.en[k] || k;
+/** Minimal bridge to reach the hidden #/dev/ui story page before UI-3.1 adds the real hash router. */
+function useIsDevUI() {
+  const [isDevUI, setIsDevUI] = useState(() => window.location.hash.startsWith("#/dev/ui"));
+  useEffect(() => {
+    const onHashChange = () => setIsDevUI(window.location.hash.startsWith("#/dev/ui"));
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+  return isDevUI;
 }
 
 export default function App() {
-  const { screen, go, lang, setLang } = useApp();
-  const [theme, setTheme] = useState<"light" | "dark">(() =>
-    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  );
-  const reduce = useReducedMotion();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
+  const { screen } = useApp();
+  const isDevUI = useIsDevUI();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, [screen]);
+  }, [screen, isDevUI]);
+
+  if (isDevUI) {
+    return (
+      <Shell screenKey="dev-ui">
+        <Suspense fallback={null}>
+          <DevUI />
+        </Suspense>
+      </Shell>
+    );
+  }
 
   const Active = SCREENS[screen];
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-paper text-ink">
-      <ScrollProgress />
-      <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4 sm:px-6">
-          <button
-            type="button"
-            onClick={() => go("overview")}
-            className="flex items-center gap-2 rounded-md pr-2 text-[17px] font-bold tracking-tight text-ink transition-transform active:scale-[0.98]"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-brand text-white text-[13px] font-extrabold">
-              IPS
-            </span>
-            <span className="hidden sm:inline">IP-SAKTI</span>
-          </button>
-
-          <nav className="ml-1 hidden flex-1 items-center gap-1 overflow-x-auto lg:flex" aria-label="Primary">
-            {NAV.map(({ key, icon: Icon }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => go(key)}
-                aria-current={screen === key ? "page" : undefined}
-                className={`group flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-[13.5px] font-medium transition-colors ${
-                  screen === key ? "bg-brand-soft text-brand-strong" : "text-ink-2 hover:bg-sunk hover:text-ink"
-                }`}
-              >
-                <Icon size={16} weight={screen === key ? "fill" : "regular"} />
-                {t(lang, key)}
-              </button>
-            ))}
-          </nav>
-
-          <div className="ml-auto flex items-center gap-1.5">
-            <label className="relative hidden sm:flex items-center">
-              <Globe size={15} className="pointer-events-none absolute left-2.5 text-ink-3" />
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value as Lang)}
-                aria-label={t(lang, "lang")}
-                className="appearance-none rounded-full border border-line bg-surface py-1.5 pl-7 pr-3 text-[13px] text-ink-2"
-              >
-                <option value="en">EN</option>
-                <option value="hi">हिन्दी</option>
-                <option value="te">తెలుగు</option>
-              </select>
-            </label>
-            <button
-              type="button"
-              onClick={() => setTheme((th) => (th === "light" ? "dark" : "light"))}
-              aria-label="Toggle dark mode"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface text-ink-2 transition-colors hover:text-ink"
-            >
-              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
-            </button>
-          </div>
-        </div>
-
-        <nav className="flex items-center gap-1 overflow-x-auto border-t border-line px-3 py-1.5 lg:hidden" aria-label="Primary mobile">
-          {NAV.map(({ key, icon: Icon }) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => go(key)}
-              aria-current={screen === key ? "page" : undefined}
-              className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[12.5px] font-medium ${
-                screen === key ? "bg-brand-soft text-brand-strong" : "text-ink-2"
-              }`}
-            >
-              <Icon size={14} weight={screen === key ? "fill" : "regular"} />
-              {t(lang, key)}
-            </button>
-          ))}
-        </nav>
-      </header>
-
-      <main id="main" tabIndex={-1} className="flex-1 outline-none">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={screen}
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Active />
-          </motion.div>
-        </AnimatePresence>
-      </main>
-
-      <footer className="border-t border-line px-4 py-5 text-center text-[12.5px] text-ink-3 sm:px-6">
-        {t(lang, "disc")}
-      </footer>
-      <SourceDrawer />
-    </div>
+    <Shell screenKey={screen}>
+      <Active />
+    </Shell>
   );
 }
