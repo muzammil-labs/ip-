@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
+    "@radix-ui/react-dialog": "^1.1.23",
+    "@radix-ui/react-tooltip": "^1.2.16",
     "motion": "^13.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
