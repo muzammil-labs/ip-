@@ -1,86 +1,91 @@
 :root {
-  --paper: #F4F7F5;
+  /* Surfaces */
+  --canvas: #F7F9F6;
   --surface: #FFFFFF;
-  --sunk: #ECF1EE;
-  --line: #DCE6E0;
-  --ink: #0F1B15;
-  --ink-2: #45524A;
-  --ink-3: #77837B;
+  --wash: #EDF3EE;
+  --line: #D5DED7;
+  --line-strong: #7E8F84;
 
-  /* Ayurveda green — the single locked brand accent (also doubles as the "Verified" evidence color) */
-  --brand: #146B43;
-  --brand-strong: #0C4E30;
-  --brand-soft: #E1F1E7;
+  /* Text */
+  --ink: #0B1A13;
+  --ink-2: #34443B;
+  --ink-3: #56665C;
 
-  /* Turmeric — disciplined secondary warmth, decorative use only (hero, highlights) */
-  --turmeric: #AD6E08;
-  --turmeric-soft: #FAF0D9;
+  /* Accent (the only one) */
+  --neem: #0B6B45;
+  --neem-strong: #08543A;
+  --neem-wash: #E3F2E8;
+  --on-neem: #FFFFFF;      /* text and icons on neem fills */
 
-  /* Kumkum red — semantic "conflict/weak" only, never decorative */
-  --kumkum: #C23A31;
-  --kumkum-soft: #FBE4E1;
+  /* Semantic only */
+  --haldi: #8A5A00;        /* changed, needs input, law changed */
+  --haldi-wash: #FDF3DC;
+  --kumkum: #B3261E;       /* risk, prohibited, conflict */
+  --kumkum-wash: #FCE8E6;
+  --indigo: #2F4BC8;       /* focus ring and text links only */
+  --indigo-wash: #E8ECFB;
 
-  /* Indigo — functional utility only: focus rings, links, interactive chrome */
-  --focus: #3652E0;
-  --focus-soft: #E9ECFE;
+  /* Elevation (tinted with ink) */
+  --shadow-1: 0 1px 2px rgba(11, 26, 19, .06), 0 2px 8px rgba(11, 26, 19, .06);
+  --shadow-2: 0 12px 32px -8px rgba(11, 26, 19, .18), 0 2px 8px rgba(11, 26, 19, .06);
 
-  --shadow-color: 12, 26, 18;
-  --shadow-xs: 0 1px 2px rgba(var(--shadow-color), .06);
-  --shadow-sm: 0 2px 6px rgba(var(--shadow-color), .07), 0 1px 2px rgba(var(--shadow-color), .05);
-  --shadow-md: 0 12px 28px -8px rgba(var(--shadow-color), .16), 0 2px 8px rgba(var(--shadow-color), .06);
-  --shadow-lg: 0 28px 60px -12px rgba(var(--shadow-color), .24), 0 4px 12px rgba(var(--shadow-color), .07);
-
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 20px;
+  /* Shape */
+  --r-control: 10px;
+  --r-container: 16px;
   --r-pill: 999px;
 
+  /* Layout */
+  --w-prose: 68ch;
+  --w-main: 760px;
+  --w-shell: 1240px;
+
+  /* Type */
+  --font: "Anek Latin", "Anek Devanagari", "Anek Telugu", system-ui, sans-serif;
+  --font-mono: "Fragment Mono", ui-monospace, Menlo, monospace;
+
+  /* Motion */
   --ease: cubic-bezier(.16, 1, .3, 1);
-  --font: "Anek Latin", "Anek Devanagari", "Anek Telugu", "Noto Sans", "Noto Sans Devanagari", "Noto Sans Telugu", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Fragment Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #081310;
-    --surface: #0F1F17;
-    --sunk: #061009;
-    --line: #1E3226;
-    --ink: #E9F3ED;
-    --ink-2: #AFC4B6;
-    --ink-3: #7C9186;
-    --brand: #4FD897;
-    --brand-strong: #2FAE72;
-    --brand-soft: #123423;
-    --turmeric: #E8AE45;
-    --turmeric-soft: #2D2210;
-    --kumkum: #F08880;
-    --kumkum-soft: #331B1A;
-    --focus: #8FA8FF;
-    --focus-soft: #1E244A;
-    --shadow-color: 0, 0, 0;
-    color-scheme: dark;
-  }
+:root[data-theme="dark"] {
+  --canvas: #0A1410;
+  --surface: #111E18;
+  --wash: #16261E;
+  --line: #223429;
+  --line-strong: #5E7468;
+  --ink: #E8F1EB;
+  --ink-2: #B4C5BA;
+  --ink-3: #8FA398;
+  --neem: #4CC98A;
+  --neem-strong: #7FDDAE;
+  --neem-wash: #12301F;
+  --on-neem: #0A1410;
+  --haldi: #E5B04A;
+  --haldi-wash: #2D2410;
+  --kumkum: #F2877E;
+  --kumkum-wash: #3A1B19;
+  --indigo: #94A8FF;
+  --indigo-wash: #1D2548;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-2: 0 16px 40px -8px rgba(0, 0, 0, .6);
+  color-scheme: dark;
 }
 
-:root[data-theme="dark"] {
-  --paper: #081310;
-  --surface: #0F1F17;
-  --sunk: #061009;
-  --line: #1E3226;
-  --ink: #E9F3ED;
-  --ink-2: #AFC4B6;
-  --ink-3: #7C9186;
-  --brand: #4FD897;
-  --brand-strong: #2FAE72;
-  --brand-soft: #123423;
-  --turmeric: #E8AE45;
-  --turmeric-soft: #2D2210;
-  --kumkum: #F08880;
-  --kumkum-soft: #331B1A;
-  --focus: #8FA8FF;
-  --focus-soft: #1E244A;
-  --shadow-color: 0, 0, 0;
-  color-scheme: dark;
+/* TEMPORARY aliases for Phase 1 only. Delete in UI-4.9. */
+:root, :root[data-theme="dark"] {
+  --paper: var(--canvas);
+  --sunk: var(--wash);
+  --brand: var(--neem);
+  --brand-strong: var(--neem-strong);
+  --brand-soft: var(--neem-wash);
+  --turmeric: var(--haldi);
+  --turmeric-soft: var(--haldi-wash);
+  --kumkum-soft: var(--kumkum-wash);
+  --focus: var(--indigo);
+  --focus-soft: var(--indigo-wash);
+  --r-sm: var(--r-control);
+  --r-md: var(--r-control);
+  --r-lg: var(--r-container);
 }

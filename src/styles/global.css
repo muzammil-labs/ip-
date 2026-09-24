@@ -1,34 +1,86 @@
 @import "tailwindcss";
+@import "./fonts.css";
 @import "./tokens.css";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
-  --color-paper: var(--paper);
+  --color-canvas: var(--canvas);
   --color-surface: var(--surface);
-  --color-sunk: var(--sunk);
+  --color-wash: var(--wash);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
+  --color-neem: var(--neem);
+  --color-neem-strong: var(--neem-strong);
+  --color-neem-wash: var(--neem-wash);
+  --color-haldi: var(--haldi);
+  --color-haldi-wash: var(--haldi-wash);
+  --color-kumkum: var(--kumkum);
+  --color-kumkum-wash: var(--kumkum-wash);
+  --color-indigo: var(--indigo);
+  --color-indigo-wash: var(--indigo-wash);
+
+  --font-sans: var(--font);
+  --font-mono: var(--font-mono);
+
+  --radius-control: var(--r-control);
+  --radius-container: var(--r-container);
+  --radius-pill: var(--r-pill);
+
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+
+  --color-on-neem: var(--on-neem);
+
+  /* TEMPORARY, Phase 1 only: keeps existing utility classes rendering until they
+     migrate to the tokens above and to rounded-control / rounded-container. Delete in UI-4.9. */
+  --color-paper: var(--paper);
+  --color-sunk: var(--sunk);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
   --color-turmeric: var(--turmeric);
   --color-turmeric-soft: var(--turmeric-soft);
-  --color-kumkum: var(--kumkum);
   --color-kumkum-soft: var(--kumkum-soft);
   --color-focus: var(--focus);
   --color-focus-soft: var(--focus-soft);
-  --font-sans: var(--font);
-  --font-mono: var(--font-mono);
   --radius-sm: var(--r-sm);
   --radius-md: var(--r-md);
   --radius-lg: var(--r-lg);
-  --radius-pill: var(--r-pill);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
+  --shadow-xs: var(--shadow-1);
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-2);
+  --shadow-lg: var(--shadow-2);
 }
+
+/* Type scale in a plain @theme block (not inline) so utilities read var(--text-h1) and the mobile override below works.
+   Utilities: text-display, text-h1, text-h2, text-h3, text-body-lg, text-body, text-small, text-mono */
+@theme {
+  --text-display: 3.5rem;   --text-display--line-height: 3.75rem;  --text-display--letter-spacing: -0.02em;
+  --text-h1: 2.5rem;        --text-h1--line-height: 2.875rem;      --text-h1--letter-spacing: -0.015em;
+  --text-h2: 1.75rem;       --text-h2--line-height: 2.125rem;      --text-h2--letter-spacing: -0.01em;
+  --text-h3: 1.25rem;       --text-h3--line-height: 1.6875rem;
+  --text-body-lg: 1.125rem; --text-body-lg--line-height: 1.8125rem;
+  --text-body: 1rem;        --text-body--line-height: 1.625rem;
+  --text-small: 0.875rem;   --text-small--line-height: 1.3125rem;
+  --text-mono: 0.84375rem;  --text-mono--line-height: 1.25rem;
+}
+
+/* Mobile type steps */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 2.375rem; --text-display--line-height: 2.625rem;
+    --text-h1: 1.875rem;      --text-h1--line-height: 2.25rem;
+    --text-h2: 1.4375rem;     --text-h2--line-height: 1.8125rem;
+    --text-h3: 1.125rem;      --text-h3--line-height: 1.5625rem;
+  }
+}
+
+:lang(hi), :lang(te) { line-height: 1.75; }
+:lang(hi) h1, :lang(hi) h2, :lang(te) h1, :lang(te) h2 { letter-spacing: 0; }
 
 * {
   box-sizing: border-box;
@@ -38,35 +90,15 @@ html {
   scroll-behavior: auto;
 }
 
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-::selection {
-  background: var(--brand-soft);
-  color: var(--brand-strong);
-}
-
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+body { margin: 0; background: var(--canvas); color: var(--ink-2); font-family: var(--font); font-size: 1rem; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px; }
+::selection { background: var(--neem-wash); color: var(--neem-strong); }
 
 button {
   font-family: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
