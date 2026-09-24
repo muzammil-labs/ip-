@@ -141,14 +141,14 @@ export default function PriorArt() {
       <AnimatePresence>
         {permOpen && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPermOpen(false)} className="fixed inset-0 z-[60] bg-ink/30 backdrop-blur-[2px]" />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPermOpen(false)} className="fixed inset-0 z-[50] bg-ink/30 backdrop-blur-[2px]" />
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               role="dialog"
               aria-modal="true"
-              className="fixed left-1/2 top-1/2 z-[61] w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-surface p-6 shadow-lg"
+              className="fixed left-1/2 top-1/2 z-[51] w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-surface p-6 shadow-lg"
             >
               <button type="button" onClick={() => setPermOpen(false)} className="absolute right-4 top-4 text-ink-3"><X size={16} /></button>
               <h2 className="pr-6 text-[16.5px] font-bold">{t("modalAllowTitle")}</h2>

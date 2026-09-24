@@ -223,6 +223,8 @@ export const hi: Record<string, string> = {
   "disagreementExplain": "प्राथमिक कानून टिप्पणी से ऊपर है। जहाँ प्राथमिक पाठ मुद्दा तय नहीं करता, वहाँ IP-SAKTI हर व्याख्या दिखाता है, सहमति स्कोर घटाता है और एक चुनने के बजाय मानव समीक्षा की सिफारिश करता है।",
   "supportsSentenceLabel": "इस वाक्य का समर्थन करता है:",
   "closeAria": "बंद करें",
+  "startCase": "केस शुरू करें",
+  "menuAria": "मेनू",
   "sourceDetailAria": "स्रोत विवरण",
   "lawChanged": "कानून बदला",
   "tierName0": "प्राथमिक कानून या आधिकारिक अभिलेख",

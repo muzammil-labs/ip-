@@ -61,7 +61,7 @@ export default function SourceDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeClauseSheet}
-            className="fixed inset-0 z-[60] bg-ink/30 backdrop-blur-[2px]"
+            className="fixed inset-0 z-[40] bg-ink/30 backdrop-blur-[2px]"
             aria-hidden="true"
           />
           <motion.aside
@@ -72,7 +72,7 @@ export default function SourceDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed right-0 top-0 z-[61] h-[100dvh] w-full max-w-[440px] overflow-y-auto bg-surface p-6 shadow-lg"
+            className="fixed right-0 top-0 z-[41] h-[100dvh] w-full max-w-[440px] overflow-y-auto bg-surface p-6 shadow-lg"
           >
             <button
               type="button"

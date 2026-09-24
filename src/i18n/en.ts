@@ -223,6 +223,8 @@ export const en: Record<string, string> = {
   "disagreementExplain": "Primary law outranks commentary. Where the primary text does not settle the point, IP-SAKTI shows every reading, lowers the agreement score and recommends human review rather than choosing one.",
   "supportsSentenceLabel": "Supports this sentence:",
   "closeAria": "Close",
+  "startCase": "Start a case",
+  "menuAria": "Menu",
   "sourceDetailAria": "Source detail",
   "lawChanged": "Law changed",
   "tierName0": "Primary law or official record",
