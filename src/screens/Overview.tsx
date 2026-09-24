@@ -13,32 +13,11 @@ import { TOUR } from "../lib/tour";
 const HeroScene = lazy(() => import("../components/three/HeroScene"));
 
 const DIFFERENTIATORS = [
-  {
-    icon: Compass,
-    title: "Classify before advising",
-    body: "A short adaptive flow places your product in one of six legal categories first. Every answer that follows depends on it, and it is rules-based, so it is auditable.",
-    featured: true,
-  },
-  {
-    icon: Columns,
-    title: "Two answers, never one blend",
-    body: "India and international sit in separate columns with separate citations.",
-  },
-  {
-    icon: Gauge,
-    title: "Confidence, computed",
-    body: "Authority, coverage and agreement, derived from the evidence itself. The model never grades itself.",
-  },
-  {
-    icon: ClockCounterClockwise,
-    title: "Law-change awareness",
-    body: "Every source carries a version and status, so a rule that changed last year cannot quietly mislead you today.",
-  },
-  {
-    icon: Scales,
-    title: "Honest conflict and abstention",
-    body: "Where the law is genuinely disputed, both readings are shown. Where the evidence runs out, IP-SAKTI says so.",
-  },
+  { icon: Compass, tKey: "diff0t", bKey: "diff0b" },
+  { icon: Columns, tKey: "diff1t", bKey: "diff1b" },
+  { icon: Gauge, tKey: "diff2t", bKey: "diff2b" },
+  { icon: ClockCounterClockwise, tKey: "diff3t", bKey: "diff3b" },
+  { icon: Scales, tKey: "diff4t", bKey: "diff4b" },
 ];
 
 function useT() {
@@ -75,21 +54,21 @@ export default function Overview() {
               dangerouslySetInnerHTML={{ __html: t("ovH1") }}
             />
             <p className="mt-5 max-w-[46ch] text-[16.5px] leading-relaxed text-ink-2">
-              IP-SAKTI tells an Ayurveda innovator what their product legally is, what they can protect, and what they owe, with the exact clause behind every sentence.
+              {t("heroSubhead")}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <MagneticButton
                 onClick={() => go("ask")}
                 className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm"
               >
-                Ask a question <ArrowRight size={16} />
+                {t("askQuestionBtn")} <ArrowRight size={16} />
               </MagneticButton>
               <button
                 type="button"
                 onClick={() => go("blueprint")}
                 className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-[14.5px] font-semibold text-ink transition-colors hover:bg-sunk"
               >
-                See how it's built
+                {t("seeHowBuiltBtn")}
               </button>
             </div>
           </motion.div>
@@ -122,19 +101,19 @@ export default function Overview() {
       {/* Differentiators: GSAP sticky-stack, one panel pinned in full attention at a time */}
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6">
         <Reveal>
-          <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">Five things you can watch it do</h2>
+          <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">{t("diffHeading")}</h2>
         </Reveal>
         <div className="mt-6">
           <StickyStack
             items={DIFFERENTIATORS.map((d, i) => (
               <div
-                key={d.title}
+                key={d.tKey}
                 className="mx-auto flex w-full max-w-[720px] flex-col gap-4 rounded-lg border border-line bg-surface p-8 shadow-md sm:p-10"
               >
                 <span className="text-[12px] font-bold text-ink-3">{String(i + 1).padStart(2, "0")} / {DIFFERENTIATORS.length}</span>
                 <d.icon size={30} weight="duotone" className="text-brand" />
-                <h3 className="text-xl font-bold text-ink sm:text-2xl">{d.title}</h3>
-                <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">{d.body}</p>
+                <h3 className="text-xl font-bold text-ink sm:text-2xl">{t(d.tKey)}</h3>
+                <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">{t(d.bKey)}</p>
               </div>
             ))}
           />
@@ -144,25 +123,25 @@ export default function Overview() {
       {/* Guided walkthrough */}
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6">
         <Reveal>
-          <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">An eight-step walkthrough</h2>
-          <p className="mt-2 max-w-[56ch] text-[14.5px] text-ink-2">Each step jumps to the real screen and runs the real logic. Nothing here is faked for the demo.</p>
+          <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">{t("walkthroughHeading")}</h2>
+          <p className="mt-2 max-w-[56ch] text-[14.5px] text-ink-2">{t("walkthroughLede")}</p>
         </Reveal>
         <ol className="mt-8 divide-y divide-line rounded-lg border border-line bg-surface">
           {TOUR.map((step, i) => (
-            <li key={step.title} className="flex items-center gap-4 px-5 py-4">
+            <li key={step.titleKey} className="flex items-center gap-4 px-5 py-4">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-[13px] font-bold text-brand-strong">
                 {i + 1}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[14.5px] font-semibold text-ink">{step.title}</p>
-                <p className="truncate text-[13px] text-ink-3 sm:whitespace-normal">{step.desc}</p>
+                <p className="text-[14.5px] font-semibold text-ink">{t(step.titleKey)}</p>
+                <p className="truncate text-[13px] text-ink-3 sm:whitespace-normal">{t(step.descKey)}</p>
               </div>
               <button
                 type="button"
                 onClick={() => startTour(i)}
                 className="flex shrink-0 items-center gap-1 rounded-full border border-line px-3 py-1.5 text-[12.5px] font-semibold text-ink-2 transition-colors hover:bg-sunk"
               >
-                <Play size={12} weight="fill" /> Show me
+                <Play size={12} weight="fill" /> {t("showMe")}
               </button>
             </li>
           ))}
@@ -173,25 +152,25 @@ export default function Overview() {
         <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 px-4 py-3 shadow-lg backdrop-blur-md sm:px-6">
           <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-3">
             <span className="text-[12px] font-semibold uppercase tracking-wide text-ink-3">
-              Step {tourIx + 1} of {TOUR.length}
+              {t("stepOf").replace("{i}", String(tourIx + 1)).replace("{n}", String(TOUR.length))}
             </span>
-            <p className="flex-1 truncate text-[14px] font-medium text-ink">{TOUR[tourIx].title}</p>
+            <p className="flex-1 truncate text-[14px] font-medium text-ink">{t(TOUR[tourIx].titleKey)}</p>
             {tourIx > 0 && (
               <button type="button" onClick={() => startTour(tourIx - 1)} className="rounded-full border border-line px-3 py-1.5 text-[13px] font-medium text-ink-2">
-                Back
+                {t("back")}
               </button>
             )}
             {tourIx < TOUR.length - 1 ? (
               <button type="button" onClick={() => startTour(tourIx + 1)} className="inline-flex items-center gap-1 rounded-full bg-brand px-3.5 py-1.5 text-[13px] font-semibold text-white">
-                Next <CaretRight size={13} />
+                {t("next")} <CaretRight size={13} />
               </button>
             ) : (
               <button type="button" onClick={() => setTourOn(false)} className="rounded-full bg-brand px-3.5 py-1.5 text-[13px] font-semibold text-white">
-                Finish
+                {t("finish")}
               </button>
             )}
             <button type="button" onClick={() => setTourOn(false)} className="text-[13px] text-ink-3 hover:text-ink">
-              End walkthrough
+              {t("endWalkthrough")}
             </button>
           </div>
         </div>

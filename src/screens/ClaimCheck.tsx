@@ -8,9 +8,9 @@ import { shortCite } from "../lib/classify";
 import Reveal from "../components/Reveal";
 
 const CATEGORIES = [
-  { key: "drug", label: "ASU drug / medicine" },
-  { key: "aahara", label: "Ayurveda Aahara (food)" },
-  { key: "cosmetic", label: "Cosmetic" },
+  { key: "drug", labelKey: "catDrug" },
+  { key: "aahara", labelKey: "catAahara" },
+  { key: "cosmetic", labelKey: "catCosmetic" },
 ];
 
 const SAMPLE = "Our churna permanently cures diabetes and high blood pressure with no side effects, clinically proven and 100% natural.";
@@ -43,7 +43,7 @@ export default function ClaimCheck() {
             onClick={() => setClaimCat(c.key)}
             className={`rounded-full px-3 py-1.5 text-[12.5px] font-medium ${claimCat === c.key ? "bg-brand-soft text-brand-strong" : "border border-line text-ink-2 hover:bg-sunk"}`}
           >
-            {c.label}
+            {t(c.labelKey)}
           </button>
         ))}
       </Reveal>
@@ -53,12 +53,12 @@ export default function ClaimCheck() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={5}
-          placeholder="Paste your label or advertisement text here."
+          placeholder={t("claimPlaceholder")}
           className="w-full resize-y rounded-lg border border-line bg-surface p-4 text-[14.5px] leading-relaxed text-ink outline-none focus:border-brand"
         />
         <div className="mt-2 flex items-center gap-3">
           <button type="button" onClick={() => check()} className="rounded-full bg-brand px-5 py-2.5 text-[13.5px] font-semibold text-white">
-            Check text
+            {t("checkTextBtn")}
           </button>
           <button
             type="button"
@@ -68,7 +68,7 @@ export default function ClaimCheck() {
             }}
             className="text-[12.5px] text-focus hover:underline"
           >
-            Try a sample advertisement
+            {t("trySample")}
           </button>
         </div>
       </Reveal>
@@ -76,7 +76,7 @@ export default function ClaimCheck() {
       {report && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
           <h3 className="text-[14px] font-bold text-ink">
-            {report.findings.length ? `Findings: ${report.bad} prohibited, ${report.warn} need proof` : "Findings"}
+            {report.findings.length ? t("findingsSummary").replace("{bad}", String(report.bad)).replace("{warn}", String(report.warn)) : t("findingsHeading")}
           </h3>
 
           <div className="mt-3 rounded-lg border border-line bg-surface p-4 text-[14.5px] leading-relaxed">
@@ -92,14 +92,14 @@ export default function ClaimCheck() {
                 <span key={i}>{seg.text}</span>
               )
             )}
-            {!report.segments.length && <span className="text-ink-3">Nothing to check.</span>}
+            {!report.segments.length && <span className="text-ink-3">{t("nothingToCheck")}</span>}
           </div>
 
           <ul className="mt-4 space-y-2.5">
             {!report.findings.length && (
               <li className="rounded-md border-l-[3px] border-brand bg-brand-soft/40 px-4 py-3 text-[13.5px]">
-                <b>No prohibited wording found.</b>{" "}
-                <span className="text-ink-3">This check covers listed patterns; a human review is still wise before publishing.</span>
+                <b>{t("noProhibited")}</b>{" "}
+                <span className="text-ink-3">{t("noProhibitedNote")}</span>
               </li>
             )}
             {report.findings.map((f, i) => (
@@ -109,14 +109,14 @@ export default function ClaimCheck() {
                   {shortCite(f.rule.cite)}
                 </button>
                 <br />
-                <span className="text-ink-3">Safer: {f.rule.fix}</span>
+                <span className="text-ink-3">{t("saferLabel")}{f.rule.fix}</span>
               </li>
             ))}
             {report.ruleFlagged && (
               <li className="rounded-md border-l-[3px] border-turmeric bg-turmeric-soft/40 px-4 py-3 text-[13.5px]">
-                <div className="flex items-center gap-1.5 font-semibold text-ink"><Warning size={14} /> Prior approval of ads</div>
+                <div className="flex items-center gap-1.5 font-semibold text-ink"><Warning size={14} /> {t("priorApprovalTitle")}</div>
                 <span className="text-ink-2">
-                  Rule 170 currently stands omitted, so no State pre-approval step applies; the Drugs and Magic Remedies Act and consumer-protection rules still do.
+                  {t("priorApprovalText")}
                 </span>{" "}
                 <button type="button" onClick={() => openSource("dr-170")} className="ml-1 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
                   R.170

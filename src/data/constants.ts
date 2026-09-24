@@ -1,10 +1,10 @@
-export const TIER_NAME: Record<number, string> = {0:"Primary law or official record",1:"Official guidance",2:"Peer-reviewed",3:"Commentary or news"};
-export const STATE_NAME: Record<string, string> = {V:"Verified",U:"Uncertain",C:"Sources conflict",R:"Unresolved"};
+export const TIER_NAME_KEY: Record<number, string> = {0:"tierName0",1:"tierName1",2:"tierName2",3:"tierName3"};
+export const STATE_NAME_KEY: Record<string, string> = {V:"stateVerified",U:"stateUncertain",C:"stateConflict",R:"stateUnresolved"};
 export const STATE_MARK: Record<string, string> = {V:"✓",U:"~",C:"≠",R:"?"};
 export const NAV: [string, string][] = [["overview","i-home"],["ask","i-ask"],["classify","i-cls"],["tk","i-tk"],["claims","i-claim"],["sources","i-src"],["trust","i-trust"],["blueprint","i-bp"]];
-export const LVL: Record<number, string> = {3:"Strong",2:"Partial",1:"Weak"};
+export const LVL_KEY: Record<number, string> = {3:"lvlStrong",2:"lvlPartial",1:"lvlWeak"};
 export const ROWNAME: Record<string, string> = {route:"Licensing route",evidence:"Evidence before sale",patent:"Patent potential",other:"Other IP to use",tk:"Traditional-knowledge exposure",claims:"What you may claim",abs:"Biodiversity (ABS) duties"};
-export const SNAPLABEL: Record<string, [string, "good" | "risk"]> = {patent:["Patent potential","good"],brand:["Brand & design IP","good"],tk:["Traditional-knowledge exposure","risk"],speed:["Route to market","good"]};
-export const SNAPWORD: Record<number, string> = {1:"Low",2:"Medium",3:"High"};
+export const SNAPLABEL: Record<string, [string, "good" | "risk"]> = {patent:["snapPatent","good"],brand:["snapBrand","good"],tk:["snapTk","risk"],speed:["snapSpeed","good"]};
+export const SNAPWORD_KEY: Record<number, string> = {1:"snapLow",2:"snapMedium",3:"snapHigh"};
 export const PRESETS: Record<string, Record<string, string>> = {ashwa:{use:"med",text:"new",frac:"no",src:"cult",ent:"in"},chyawan:{use:"med",text:"exact",src:"cult",ent:"in"},tea:{use:"food",src:"cult",ent:"in"}};
 export const DISEASES = ["diabetes","obesity","cancer","heart disease","heart diseases","high blood pressure","low blood pressure","hypertension","epilepsy","paralysis","cataract","glaucoma","leucoderma","impotence","sterility","tuberculosis","rheumatism","kidney stones"];

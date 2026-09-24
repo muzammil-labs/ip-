@@ -18,9 +18,9 @@ const STACK: [string, string, string][] = [
 ];
 
 const STAGES = [
-  { name: "Stage 1", detail: "Citation-grounded retrieval core: ~40 instruments, classify engine, claim checker, the screens in this build." },
-  { name: "Stage 2", detail: "Knowledge graph over amendments and citations, agentic orchestration for multi-step questions." },
-  { name: "Stage 3", detail: "Paid-source connectors (TKDL), voice pipeline end to end, WhatsApp bot on the same API." },
+  { nameKey: "stage1name", detailKey: "stage1detail" },
+  { nameKey: "stage2name", detailKey: "stage2detail" },
+  { nameKey: "stage3name", detailKey: "stage3detail" },
 ];
 
 function useT() {
@@ -51,7 +51,7 @@ export default function Blueprint() {
         </Reveal>
 
         <Reveal delay={0.06} className="mt-8">
-          <h2 className="text-[15px] font-bold text-ink">Architecture</h2>
+          <h2 className="text-[15px] font-bold text-ink">{t("architectureHeading")}</h2>
           <div className="mt-3 divide-y divide-line rounded-lg border border-line bg-surface">
             {STACK.map(([layer, choice, note]) => (
               <div key={layer} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[110px,220px,1fr] sm:items-baseline sm:gap-4">
@@ -66,15 +66,15 @@ export default function Blueprint() {
 
       <div className="mt-10">
         <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
-          <h2 className="text-[15px] font-bold text-ink">Staged delivery</h2>
-          <p className="mt-1 text-[13px] text-ink-3">Scroll to pan through now, next and later.</p>
+          <h2 className="text-[15px] font-bold text-ink">{t("stagedDeliveryHeading")}</h2>
+          <p className="mt-1 text-[13px] text-ink-3">{t("stagedDeliveryLede")}</p>
         </div>
         <div className="mt-4">
           <HorizontalPan
             items={STAGES.map((s) => (
-              <div key={s.name} className="flex h-full flex-col justify-center rounded-lg border border-line bg-surface p-7 shadow-md">
-                <p className="text-lg font-bold text-brand-strong">{s.name}</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">{s.detail}</p>
+              <div key={s.nameKey} className="flex h-full flex-col justify-center rounded-lg border border-line bg-surface p-7 shadow-md">
+                <p className="text-lg font-bold text-brand-strong">{t(s.nameKey)}</p>
+                <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">{t(s.detailKey)}</p>
               </div>
             ))}
           />
@@ -83,8 +83,8 @@ export default function Blueprint() {
 
       <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
       <Reveal delay={0.14} className="mt-10">
-        <h2 className="text-[15px] font-bold text-ink">Problem-statement coverage</h2>
-        <p className="mt-1 text-[13px] text-ink-3">Seventeen requirements, grouped by the screen that proves each one.</p>
+        <h2 className="text-[15px] font-bold text-ink">{t("coverageHeading")}</h2>
+        <p className="mt-1 text-[13px] text-ink-3">{t("coverageLede")}</p>
         <div className="mt-4 space-y-6">
           {grouped.map(({ screen, items }) => (
             <div key={screen}>

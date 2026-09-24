@@ -35,15 +35,15 @@ export default function Sources() {
 
       <Reveal delay={0.06} className="mt-6 flex flex-wrap gap-2">
         <select value={jur} onChange={(e) => setJur(e.target.value)} className="rounded-full border border-line bg-surface px-3 py-1.5 text-[13px]">
-          <option value="">All jurisdictions</option>
+          <option value="">{t("allJurisdictions")}</option>
           {jurs.map((j) => <option key={j} value={j}>{j}</option>)}
         </select>
         <select value={tier} onChange={(e) => setTier(e.target.value)} className="rounded-full border border-line bg-surface px-3 py-1.5 text-[13px]">
-          <option value="">All tiers</option>
-          {[0, 1, 2, 3].map((n) => <option key={n} value={n}>Tier {n}</option>)}
+          <option value="">{t("allTiers")}</option>
+          {[0, 1, 2, 3].map((n) => <option key={n} value={n}>{t("tierLabel").replace("{n}", String(n))}</option>)}
         </select>
         <select value={reg} onChange={(e) => setReg(e.target.value)} className="rounded-full border border-line bg-surface px-3 py-1.5 text-[13px]">
-          <option value="">All registries</option>
+          <option value="">{t("allRegistries")}</option>
           {regs.map((r) => <option key={r} value={r}>{r}</option>)}
         </select>
       </Reveal>
@@ -52,11 +52,11 @@ export default function Sources() {
         <table className="w-full min-w-[640px] text-[13px]">
           <thead>
             <tr className="border-b border-line bg-sunk text-left text-ink-3">
-              <th className="px-3 py-2 font-medium">Tier</th>
-              <th className="px-3 py-2 font-medium">Title</th>
-              <th className="px-3 py-2 font-medium">Jurisdiction</th>
-              <th className="px-3 py-2 font-medium">Registry</th>
-              <th className="px-3 py-2 font-medium">Status</th>
+              <th className="px-3 py-2 font-medium">{t("colTier")}</th>
+              <th className="px-3 py-2 font-medium">{t("colTitle")}</th>
+              <th className="px-3 py-2 font-medium">{t("colJurisdiction")}</th>
+              <th className="px-3 py-2 font-medium">{t("colRegistry")}</th>
+              <th className="px-3 py-2 font-medium">{t("colStatus")}</th>
             </tr>
           </thead>
           <tbody>
@@ -76,8 +76,8 @@ export default function Sources() {
       </Reveal>
 
       <Reveal delay={0.14} id="rule170" className="mt-12">
-        <h2 className="text-[16px] font-bold text-ink">Rule 170: a law that changed three times</h2>
-        <p className="mt-1 text-[13.5px] text-ink-2">The clearest proof that a static, once-trained model gives stale answers on Ayurveda law.</p>
+        <h2 className="text-[16px] font-bold text-ink">{t("rule170Heading")}</h2>
+        <p className="mt-1 text-[13.5px] text-ink-2">{t("rule170Lede")}</p>
         <ol className="relative mt-5 space-y-5 border-l-2 border-line pl-6">
           {TIMELINE.map(([date, desc], i) => (
             <li key={date} className="relative">
@@ -89,7 +89,7 @@ export default function Sources() {
                 {desc}
                 {i === TIMELINE.length - 1 && (
                   <button type="button" onClick={() => openSource("dr-170")} className="ml-1.5 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
-                    Source
+                    {t("sourceBtn")}
                   </button>
                 )}
               </p>

@@ -6,23 +6,23 @@ import type { useApp } from "../state/store";
 type App = ReturnType<typeof useApp>;
 
 export interface TourStep {
-  title: string;
-  desc: string;
+  titleKey: string;
+  descKey: string;
   run: (app: App) => void;
 }
 
 export const TOUR: TourStep[] = [
   {
-    title: "Ask the golden question",
-    desc: "A startup asks about patenting an Ashwagandha extract. Note the two columns and clause chips.",
+    titleKey: "tour0title",
+    descKey: "tour0desc",
     run: (app) => {
       app.go("ask");
       performAsk(app, ANSWERS[0].q);
     },
   },
   {
-    title: "Open the disputed line",
-    desc: "Commentators read the 2023 amendment differently. IP-SAKTI shows both and lowers the agreement score.",
+    titleKey: "tour1title",
+    descKey: "tour1desc",
     run: (app) => {
       app.go("ask");
       const a = performAsk(app, ANSWERS[0].q);
@@ -31,8 +31,8 @@ export const TOUR: TourStep[] = [
     },
   },
   {
-    title: "Switch to Hindi as a cultivator",
-    desc: "The same system answers a grower in Hindi, with legal terms locked to a glossary.",
+    titleKey: "tour2title",
+    descKey: "tour2desc",
     run: (app) => {
       app.setLang("hi");
       app.setPersona("farmer");
@@ -41,8 +41,8 @@ export const TOUR: TourStep[] = [
     },
   },
   {
-    title: "Classify, then change one answer",
-    desc: "Classify the extract, then make the roots wild-collected. Only the affected rows change.",
+    titleKey: "tour3title",
+    descKey: "tour3desc",
     run: (app) => {
       app.setLang("en");
       app.go("classify");
@@ -52,29 +52,29 @@ export const TOUR: TourStep[] = [
     },
   },
   {
-    title: "Scan a risky advertisement",
-    desc: "Prohibited claims are marked with the provision that bans them.",
+    titleKey: "tour4title",
+    descKey: "tour4desc",
     run: (app) => app.go("claims"),
   },
   {
-    title: "See the law change",
-    desc: "Rule 170 changed state three times. Answers relying on older text get flagged.",
+    titleKey: "tour5title",
+    descKey: "tour5desc",
     run: (app) => {
       app.go("sources");
       setTimeout(() => document.getElementById("rule170")?.scrollIntoView({ behavior: "smooth", block: "center" }), 150);
     },
   },
   {
-    title: "Ask what it shouldn't answer",
-    desc: "A dosing question is declined, with a route to the right help.",
+    titleKey: "tour6title",
+    descKey: "tour6desc",
     run: (app) => {
       app.go("ask");
       performAsk(app, ANSWERS[5].q);
     },
   },
   {
-    title: "Check the audit trail",
-    desc: "Everything you just did is logged, without storing formulation details.",
+    titleKey: "tour7title",
+    descKey: "tour7desc",
     run: (app) => app.go("trust"),
   },
 ];
