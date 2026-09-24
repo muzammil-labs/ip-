@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Compass, Columns, Gauge, ClockCounterClockwise, Scales, Play, CaretRight } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
@@ -6,7 +6,11 @@ import { I18N } from "../data/i18n";
 import EvidenceGraph from "../components/EvidenceGraph";
 import HeroDemo from "../components/HeroDemo";
 import Reveal from "../components/Reveal";
+import MagneticButton from "../components/MagneticButton";
+import StickyStack from "../components/scroll/StickyStack";
 import { TOUR } from "../lib/tour";
+
+const HeroScene = lazy(() => import("../components/three/HeroScene"));
 
 const DIFFERENTIATORS = [
   {
@@ -74,13 +78,12 @@ export default function Overview() {
               IP-SAKTI tells an Ayurveda innovator what their product legally is, what they can protect, and what they owe, with the exact clause behind every sentence.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <button
-                type="button"
+              <MagneticButton
                 onClick={() => go("ask")}
-                className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm transition-transform active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm"
               >
                 Ask a question <ArrowRight size={16} />
-              </button>
+              </MagneticButton>
               <button
                 type="button"
                 onClick={() => go("blueprint")}
@@ -95,9 +98,11 @@ export default function Overview() {
             initial={reduce ? false : { opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="aspect-[4/3] rounded-lg border border-line bg-surface p-4 shadow-sm"
+            className="aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface p-4 shadow-sm"
           >
-            <EvidenceGraph />
+            <Suspense fallback={<EvidenceGraph />}>
+              <HeroScene reduce={!!reduce} />
+            </Suspense>
           </motion.div>
         </div>
       </section>
@@ -114,27 +119,25 @@ export default function Overview() {
         </div>
       </section>
 
-      {/* Differentiators: asymmetric bento, one featured + four standard, no empty cells */}
+      {/* Differentiators: GSAP sticky-stack, one panel pinned in full attention at a time */}
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6">
         <Reveal>
           <h2 className="max-w-[24ch] text-2xl font-bold tracking-tight sm:text-3xl">Five things you can watch it do</h2>
         </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-6">
-          {DIFFERENTIATORS.map((d, i) => (
-            <Reveal
-              key={d.title}
-              delay={i * 0.05}
-              className={`rounded-lg border border-line bg-surface p-6 shadow-xs ${
-                d.featured ? "md:col-span-3 md:row-span-2 flex flex-col justify-between bg-brand-soft/40" : "md:col-span-3"
-              }`}
-            >
-              <div>
-                <d.icon size={22} weight="duotone" className="text-brand" />
-                <h3 className="mt-3 text-[16px] font-bold text-ink">{d.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{d.body}</p>
+        <div className="mt-6">
+          <StickyStack
+            items={DIFFERENTIATORS.map((d, i) => (
+              <div
+                key={d.title}
+                className="mx-auto flex w-full max-w-[720px] flex-col gap-4 rounded-lg border border-line bg-surface p-8 shadow-md sm:p-10"
+              >
+                <span className="text-[12px] font-bold text-ink-3">{String(i + 1).padStart(2, "0")} / {DIFFERENTIATORS.length}</span>
+                <d.icon size={30} weight="duotone" className="text-brand" />
+                <h3 className="text-xl font-bold text-ink sm:text-2xl">{d.title}</h3>
+                <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">{d.body}</p>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          />
         </div>
       </section>
 

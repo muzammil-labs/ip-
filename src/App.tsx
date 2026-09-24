@@ -134,18 +134,29 @@ export default function App() {
         </nav>
       </header>
 
-      <main id="main" tabIndex={-1} className="flex-1 outline-none">
+      <main id="main" tabIndex={-1} className="relative flex-1 outline-none">
         <AnimatePresence mode="wait">
           <motion.div
             key={screen}
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+            animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+            exit={reduce ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
             <Active />
           </motion.div>
         </AnimatePresence>
+        {!reduce && (
+          <motion.div
+            key={`wipe-${screen}`}
+            aria-hidden
+            className="pointer-events-none fixed inset-0 z-50 bg-brand"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: [0, 1, 1, 0] }}
+            transition={{ duration: 0.6, times: [0, 0.42, 0.58, 1], ease: [0.76, 0, 0.24, 1] }}
+            style={{ transformOrigin: "bottom" }}
+          />
+        )}
       </main>
 
       <footer className="border-t border-line px-4 py-5 text-center text-[12.5px] text-ink-3 sm:px-6">
