@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { X, ArrowSquareOut } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { SOURCES } from "../data/sources";
 import { TIER_NAME_KEY } from "../data/constants";
 import EvidenceMark from "./EvidenceMark";
@@ -47,8 +47,8 @@ function SourceBlock({ id, t }: { id: string; t: (k: string) => string }) {
 }
 
 export default function SourceDrawer() {
-  const { drawer, closeDrawer, lang } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { drawer, closeDrawer } = useApp();
+  const t = useT();
   const isConflict = drawer?.point?.s === "C";
   const s = drawer ? SOURCES[drawer.sourceId] : null;
 

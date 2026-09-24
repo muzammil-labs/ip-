@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { CQ } from "../data/classifyQuestions";
 import { CAT } from "../data/classifyCategories";
 import { SNAPSHOT } from "../data/pathwaySnapshot";
@@ -53,8 +53,8 @@ function PathwaySnapshot({ cat, t }: { cat: string; t: (k: string) => string }) 
 
 export default function Classify() {
   const app = useApp();
-  const { lang, cls, setCls, answerCls, prevRows, setPrevRows } = app;
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { cls, setCls, answerCls, prevRows, setPrevRows } = app;
+  const t = useT();
 
   const { shown, total } = visibleQuestions(cls);
   const answeredCount = Object.values(cls).filter(Boolean).length;

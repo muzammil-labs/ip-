@@ -1,6 +1,5 @@
 import { STATE_NAME_KEY, STATE_MARK } from "../data/constants";
-import { I18N } from "../data/i18n";
-import { useApp } from "../state/store";
+import { useT } from "../i18n/useT";
 import type { EvidenceState } from "../lib/types";
 
 const COLOR: Record<EvidenceState, string> = {
@@ -11,8 +10,8 @@ const COLOR: Record<EvidenceState, string> = {
 };
 
 export default function EvidenceMark({ state }: { state: EvidenceState }) {
-  const { lang } = useApp();
-  const name = I18N[lang]?.[STATE_NAME_KEY[state]] || I18N.en[STATE_NAME_KEY[state]];
+  const t = useT();
+  const name = t(STATE_NAME_KEY[state]);
   return (
     <span
       title={name}

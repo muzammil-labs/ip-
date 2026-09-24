@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { Answer, ClassifyState, SourcePoint } from "../lib/types";
-import type { Lang } from "../data/i18n";
+import type { Lang } from "../i18n/useT";
 
 export type Screen = "overview" | "ask" | "classify" | "tk" | "claims" | "sources" | "trust" | "blueprint";
 export type Persona = "startup" | "vaidya" | "research" | "farmer";

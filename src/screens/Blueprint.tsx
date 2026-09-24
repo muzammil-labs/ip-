@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import Reveal from "../components/Reveal";
@@ -21,11 +21,6 @@ const STAGES = [
   { nameKey: "stage2name", detailKey: "stage2detail" },
   { nameKey: "stage3name", detailKey: "stage3detail" },
 ];
-
-function useT() {
-  const { lang } = useApp();
-  return (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
-}
 
 export default function Blueprint() {
   const t = useT();

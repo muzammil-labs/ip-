@@ -1,10 +1,10 @@
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import type { SourcePoint } from "../lib/types";
 
 export default function CiteChip({ num, sourceId, point }: { num: number; sourceId: string; point?: SourcePoint | null }) {
-  const { openSource, lang } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { openSource } = useApp();
+  const t = useT();
   return (
     <button
       type="button"

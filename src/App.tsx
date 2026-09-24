@@ -5,7 +5,7 @@ import {
   BookBookmark, ShieldCheck, MapTrifold, Sun, Moon,
 } from "@phosphor-icons/react";
 import { useApp, type Screen } from "./state/store";
-import { I18N, type Lang } from "./data/i18n";
+import { useT, type Lang } from "./i18n/useT";
 import Overview from "./screens/Overview";
 import Ask from "./screens/Ask";
 import Classify from "./screens/Classify";
@@ -38,10 +38,6 @@ const SCREENS: Record<Screen, React.ComponentType> = {
   claims: ClaimCheck, sources: Sources, trust: Trust, blueprint: Blueprint,
 };
 
-function t(lang: Lang, k: string) {
-  return I18N[lang]?.[k] || I18N.en[k] || k;
-}
-
 const THEME_KEY = "ips.theme";
 type Theme = "light" | "dark";
 
@@ -64,6 +60,7 @@ function writeStoredTheme(theme: Theme) {
 
 export default function App() {
   const { screen, go, lang, setLang } = useApp();
+  const t = useT();
   // Light is the default and the designed theme; it does not follow system preference.
   const [theme, setTheme] = useState<Theme>(readStoredTheme);
   const reduce = useReducedMotion();
@@ -111,7 +108,7 @@ export default function App() {
                 }`}
               >
                 <Icon size={16} weight={screen === key ? "fill" : "regular"} />
-                {t(lang, key)}
+                {t(key)}
               </button>
             ))}
           </nav>
@@ -119,7 +116,7 @@ export default function App() {
           <div className="ml-auto flex items-center gap-1.5">
             <div
               role="group"
-              aria-label={t(lang, "lang")}
+              aria-label={t("lang")}
               className="flex items-center gap-0.5 rounded-full border border-line bg-surface p-0.5"
             >
               {LANG_OPTIONS.map(({ value, label }) => (
@@ -159,7 +156,7 @@ export default function App() {
               }`}
             >
               <Icon size={14} weight={screen === key ? "fill" : "regular"} />
-              {t(lang, key)}
+              {t(key)}
             </button>
           ))}
         </nav>
@@ -180,7 +177,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-line px-4 py-5 text-center text-[12.5px] text-ink-3 sm:px-6">
-        {t(lang, "disc")}
+        {t("disc")}
       </footer>
       <SourceDrawer />
     </div>

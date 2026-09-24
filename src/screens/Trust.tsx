@@ -1,6 +1,6 @@
 import { CheckCircle, ShieldCheck } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import Reveal from "../components/Reveal";
 
 const PIPELINE = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ stepKey: `pipe${i}step`, descKey: `pipe${i}desc` }));
@@ -8,8 +8,8 @@ const BENCH = [0, 1, 2, 3, 4, 5].map((i) => ({ mKey: `bench${i}m`, nKey: `bench$
 const DPDP_ITEMS = ["dpdp0", "dpdp1", "dpdp2", "dpdp3"];
 
 export default function Trust() {
-  const { lang, audit } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { audit } = useApp();
+  const t = useT();
 
   return (
     <div className="mx-auto max-w-[1000px] px-4 py-10 sm:px-6 sm:py-14">

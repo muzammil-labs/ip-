@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { SOURCES } from "../data/sources";
 import Reveal from "../components/Reveal";
 
@@ -13,8 +13,8 @@ const TIMELINE: [string, string][] = [
 ];
 
 export default function Sources() {
-  const { lang, openSource } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { openSource } = useApp();
+  const t = useT();
   const [jur, setJur] = useState("");
   const [tier, setTier] = useState("");
   const [reg, setReg] = useState("");

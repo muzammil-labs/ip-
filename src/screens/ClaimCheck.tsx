@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Warning } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { runClaims } from "../lib/claims";
 import { shortCite } from "../lib/classify";
 import Reveal from "../components/Reveal";
@@ -16,8 +16,8 @@ const CATEGORIES = [
 const SAMPLE = "Our churna permanently cures diabetes and high blood pressure with no side effects, clinically proven and 100% natural.";
 
 export default function ClaimCheck() {
-  const { lang, claimCat, setClaimCat, logEvent, openSource } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { claimCat, setClaimCat, logEvent, openSource } = useApp();
+  const t = useT();
   const [text, setText] = useState("");
   const [report, setReport] = useState<ReturnType<typeof runClaims> | null>(null);
 

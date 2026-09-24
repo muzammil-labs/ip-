@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { PaperPlaneRight, Microphone, SpeakerHigh, UserCircle, Question } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
 import { useApp as useAppType } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import { SUGGEST } from "../data/suggest";
 import { ANSWERS } from "../data/answers";
 import { SOURCES } from "../data/sources";
@@ -66,7 +66,7 @@ export default function Ask() {
   const [escalateOpen, setEscalateOpen] = useState(false);
   const [listening, setListening] = useState(false);
 
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const t = useT();
 
   function submit(q?: string) {
     const query = q ?? input;

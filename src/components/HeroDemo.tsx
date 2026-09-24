@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { HERO_EXAMPLES } from "../data/heroExamples";
-import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import CiteChip from "./CiteChip";
 
 const ROTATE_MS = 7000;
 
 export default function HeroDemo() {
-  const { lang } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const t = useT();
   const [ix, setIx] = useState(0);
   const [typed, setTyped] = useState("");
   const [paused, setPaused] = useState(false);

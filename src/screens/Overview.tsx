@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Compass, Columns, Gauge, ClockCounterClockwise, Scales, Play, CaretRight } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import EvidenceGraph from "../components/EvidenceGraph";
 import HeroDemo from "../components/HeroDemo";
 import Reveal from "../components/Reveal";
@@ -15,11 +15,6 @@ const DIFFERENTIATORS = [
   { icon: ClockCounterClockwise, tKey: "diff3t", bKey: "diff3b" },
   { icon: Scales, tKey: "diff4t", bKey: "diff4b" },
 ];
-
-function useT() {
-  const { lang } = useApp();
-  return (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
-}
 
 export default function Overview() {
   const { go } = useApp();

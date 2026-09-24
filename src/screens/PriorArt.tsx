@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowSquareOut, Lock, X } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
-import { I18N } from "../data/i18n";
+import { useT } from "../i18n/useT";
 import Reveal from "../components/Reveal";
 
 const REGISTRIES = [
@@ -14,8 +14,8 @@ const REGISTRIES = [
 ];
 
 export default function PriorArt() {
-  const { lang, ledger, logEvent, addLedger, revokeLedger } = useApp();
-  const t = (k: string) => I18N[lang]?.[k] || I18N.en[k] || k;
+  const { ledger, logEvent, addLedger, revokeLedger } = useApp();
+  const t = useT();
   const [input, setInput] = useState("");
   const [query, setQuery] = useState<string | null>(null);
   const [permOpen, setPermOpen] = useState(false);
