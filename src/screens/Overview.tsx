@@ -77,7 +77,8 @@ export default function Overview() {
             initial={reduce ? false : { opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface p-4 shadow-sm"
+            className="aspect-[4/3] overflow-hidden rounded-lg border border-line p-4 shadow-sm"
+            style={{ background: "radial-gradient(circle at 50% 42%, var(--brand-soft) 0%, var(--surface) 72%)" }}
           >
             <Suspense fallback={<EvidenceGraph />}>
               <HeroScene reduce={!!reduce} />
