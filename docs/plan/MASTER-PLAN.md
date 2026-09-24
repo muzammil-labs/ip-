@@ -308,7 +308,7 @@ openapi.yaml
 **UI-0.4 Add Vitest and freeze current engine behaviour.** Create `tests/engines/classify.test.ts` (every combination of `use/text/frac` → category, and `absOf` for each `src × ent`), `claims.test.ts` (each rule with one positive and one negative fixture), `confidence.test.ts` (each scripted answer's computed levels). Add `"test": "vitest run"`.
 *Accept:* tests pass on the untouched engines. These tests must keep passing through every later phase.
 
-**UI-0.5 Add CLAUDE.md** at the repo root with the content in Appendix C.
+**UI-0.5 CLAUDE.md.** It already exists at the repo root (Appendix C is its reference copy). Update its Commands section once `npm test` and `npm run shots` exist.
 
 Commit, push. This phase alone fixes the most visible problems on the live site.
 
@@ -826,8 +826,4 @@ process.exit(failures ? 1 : 0);
 
 ## Appendix G. Handing this to Sonnet
 
-Paste this as the first message of a new session on the repo:
-
-> Read `CLAUDE.md` (create it from Appendix C of `docs/plan/MASTER-PLAN.md` if it does not exist) and `docs/plan/MASTER-PLAN.md` in full. Execute Part D starting at Phase 0, task by task, in order. Follow D0 operating rules exactly. After each task run typecheck, build and (for UI tasks) `npm run shots`, check the screenshots against Part E, commit with the task ID, and push at the end of each phase. Do not reword legal content. Write open questions to `docs/plan/QUESTIONS.md` and continue with the next independent task. Stop at the end of each phase and summarise what changed, with the screenshot paths for the routes you touched.
-
-Run one phase per session. It keeps each session's context small, and you can check the screenshots between phases.
+Use the prompt in `docs/plan/NEXT-CHAT-PROMPT.md`. Run one phase per session; `docs/plan/README.md` lists what to read for each phase so each session stays small.

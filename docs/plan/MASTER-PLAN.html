@@ -709,7 +709,7 @@ openapi.yaml
 <em>Accept:</em> <code>npm run shots</code> produces images for all routes without errors.</p>
 <p><strong>UI-0.4 Add Vitest and freeze current engine behaviour.</strong> Create <code>tests/engines/classify.test.ts</code> (every combination of <code>use/text/frac</code> → category, and <code>absOf</code> for each <code>src × ent</code>), <code>claims.test.ts</code> (each rule with one positive and one negative fixture), <code>confidence.test.ts</code> (each scripted answer's computed levels). Add <code>"test": "vitest run"</code>.
 <em>Accept:</em> tests pass on the untouched engines. These tests must keep passing through every later phase.</p>
-<p><strong>UI-0.5 Add CLAUDE.md</strong> at the repo root with the content in Appendix C.</p>
+<p><strong>UI-0.5 CLAUDE.md.</strong> It already exists at the repo root (Appendix C is its reference copy). Update its Commands section once <code>npm test</code> and <code>npm run shots</code> exist.</p>
 <p>Commit, push. This phase alone fixes the most visible problems on the live site.</p>
 <h3>Phase 1. Foundations: tokens, fonts, shell (2 days)</h3>
 <p><strong>UI-1.1 Remove the extra motion and 3D stack.</strong> Uninstall <code>three @react-three/fiber @types/three gsap</code>. Delete <code>components/three/</code>, <code>components/scroll/</code>, <code>MagneticButton.tsx</code>, <code>ScrollProgress.tsx</code>. Replace their usages with plain markup for now (the new Home comes in Phase 4).
@@ -1270,8 +1270,4 @@ process.exit(failures ? 1 : 0);
 <p><code>scripts/chrome-devtools-mcp.sh</code> finds the pre-installed Chromium at <code>/opt/pw-browsers/chromium-*/chrome-linux/chrome</code> and launches <code>chrome-devtools-mcp</code> with <code>--headless --isolated --executablePath=… --chromeArg=--no-sandbox --chromeArg=--disable-setuid-sandbox --chromeArg=--ignore-certificate-errors</code>. On a machine without that folder it runs <code>chrome-devtools-mcp</code> normally, so the same config works locally.</p>
 <p><code>context7</code> and <code>magic</code> are HTTP servers. They connect only once <code>mcp.context7.com</code> and <code>mcp.21st.dev</code> are allowed in the cloud environment's network settings. No file change can fix that.</p>
 <h2 class="part">Appendix G. Handing this to Sonnet</h2>
-<p>Paste this as the first message of a new session on the repo:</p>
-<blockquote>
-<p>Read <code>CLAUDE.md</code> (create it from Appendix C of <code>docs/plan/MASTER-PLAN.md</code> if it does not exist) and <code>docs/plan/MASTER-PLAN.md</code> in full. Execute Part D starting at Phase 0, task by task, in order. Follow D0 operating rules exactly. After each task run typecheck, build and (for UI tasks) <code>npm run shots</code>, check the screenshots against Part E, commit with the task ID, and push at the end of each phase. Do not reword legal content. Write open questions to <code>docs/plan/QUESTIONS.md</code> and continue with the next independent task. Stop at the end of each phase and summarise what changed, with the screenshot paths for the routes you touched.</p>
-</blockquote>
-<p>Run one phase per session. It keeps each session's context small, and you can check the screenshots between phases.</p></main></body></html>
+<p>Use the prompt in <code>docs/plan/NEXT-CHAT-PROMPT.md</code>. Run one phase per session; <code>docs/plan/README.md</code> lists what to read for each phase so each session stays small.</p></main></body></html>
