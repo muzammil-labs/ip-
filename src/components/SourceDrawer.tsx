@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { X, ArrowSquareOut } from "@phosphor-icons/react";
-import { useApp } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import { SOURCES } from "../data/sources";
 import { TIER_NAME_KEY } from "../data/constants";
@@ -47,20 +47,20 @@ function SourceBlock({ id, t }: { id: string; t: (k: string) => string }) {
 }
 
 export default function SourceDrawer() {
-  const { drawer, closeDrawer } = useApp();
+  const { clauseSheet, closeClauseSheet } = useSession();
   const t = useT();
-  const isConflict = drawer?.point?.s === "C";
-  const s = drawer ? SOURCES[drawer.sourceId] : null;
+  const isConflict = clauseSheet?.point?.s === "C";
+  const s = clauseSheet ? SOURCES[clauseSheet.sourceId] : null;
 
   return (
     <AnimatePresence>
-      {drawer && (
+      {clauseSheet && (
         <>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={closeDrawer}
+            onClick={closeClauseSheet}
             className="fixed inset-0 z-[60] bg-ink/30 backdrop-blur-[2px]"
             aria-hidden="true"
           />
@@ -76,27 +76,27 @@ export default function SourceDrawer() {
           >
             <button
               type="button"
-              onClick={closeDrawer}
+              onClick={closeClauseSheet}
               aria-label={t("closeAria")}
               className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-ink-2 hover:bg-sunk"
             >
               <X size={18} />
             </button>
 
-            {isConflict && drawer?.point ? (
+            {isConflict && clauseSheet?.point ? (
               <>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-kumkum-soft px-2.5 py-1 text-[12px] font-semibold text-kumkum">
                   <EvidenceMark state="C" /> {t("sourcesConflict")}
                 </span>
                 <h2 className="mt-3 pr-8 text-[19px] font-bold leading-snug">{t("howDisagreementHandled")}</h2>
                 <div className="mt-4 rounded-md border-l-[3px] border-kumkum bg-kumkum-soft/50 px-4 py-3 text-[14px]">
-                  <b>{t("theSentenceLabel")}</b> {drawer.point.t}
+                  <b>{t("theSentenceLabel")}</b> {clauseSheet.point.t}
                 </div>
                 <p className="mt-4 text-[14.5px] leading-relaxed text-ink-2">
                   {t("disagreementExplain")}
                 </p>
                 <div className="mt-5 space-y-6">
-                  {drawer.point.c.map((c) => (
+                  {clauseSheet.point.c.map((c) => (
                     <div key={c}>
                       <h3 className="mb-2 text-[15px] font-semibold">{SOURCES[c]?.t}</h3>
                       <SourceBlock id={c} t={t} />
@@ -108,13 +108,13 @@ export default function SourceDrawer() {
               <>
                 <p className="pr-8 text-[12.5px] text-ink-3">{t("tierLabel").replace("{n}", String(s.tier))} · {s.jur}</p>
                 <h2 className="mt-1 pr-8 text-[19px] font-bold leading-snug">{s.t}</h2>
-                {drawer?.point && (
+                {clauseSheet?.point && (
                   <div className="mt-4 rounded-md border-l-[3px] border-brand bg-brand-soft/50 px-4 py-3 text-[14px]">
-                    <b>{t("supportsSentenceLabel")}</b> {drawer.point.t}
+                    <b>{t("supportsSentenceLabel")}</b> {clauseSheet.point.t}
                   </div>
                 )}
                 <div className="mt-4">
-                  <SourceBlock id={drawer!.sourceId} t={t} />
+                  <SourceBlock id={clauseSheet!.sourceId} t={t} />
                 </div>
               </>
             ) : null}

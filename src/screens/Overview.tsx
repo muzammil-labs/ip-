@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Compass, Columns, Gauge, ClockCounterClockwise, Scales, Play, CaretRight } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import EvidenceGraph from "../components/EvidenceGraph";
 import HeroDemo from "../components/HeroDemo";
@@ -23,11 +24,12 @@ export default function Overview() {
   const [tourOn, setTourOn] = useState(false);
   const [tourIx, setTourIx] = useState(0);
   const app = useApp();
+  const session = useSession();
 
   function startTour(i: number) {
     setTourIx(i);
     setTourOn(true);
-    TOUR[i].run(app);
+    TOUR[i].run({ ...app, ...session });
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useApp } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import { SOURCES } from "../data/sources";
 import Reveal from "../components/Reveal";
@@ -13,7 +13,7 @@ const TIMELINE: [string, string][] = [
 ];
 
 export default function Sources() {
-  const { openSource } = useApp();
+  const { openClauseSheet } = useSession();
   const t = useT();
   const [jur, setJur] = useState("");
   const [tier, setTier] = useState("");
@@ -61,7 +61,7 @@ export default function Sources() {
           </thead>
           <tbody>
             {rows.map(([id, s]) => (
-              <tr key={id} onClick={() => openSource(id)} className="cursor-pointer border-b border-line last:border-0 hover:bg-sunk">
+              <tr key={id} onClick={() => openClauseSheet(id)} className="cursor-pointer border-b border-line last:border-0 hover:bg-sunk">
                 <td className="px-3 py-2"><span className="rounded bg-brand-soft px-1.5 py-0.5 text-[11px] font-bold text-brand-strong">{s.tier}</span></td>
                 <td className="px-3 py-2 text-ink">{s.t}</td>
                 <td className="px-3 py-2 text-ink-2">{s.jur}</td>
@@ -88,7 +88,7 @@ export default function Sources() {
               <p className="text-[13.5px] text-ink-2">
                 {desc}
                 {i === TIMELINE.length - 1 && (
-                  <button type="button" onClick={() => openSource("dr-170")} className="ml-1.5 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
+                  <button type="button" onClick={() => openClauseSheet("dr-170")} className="ml-1.5 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
                     {t("sourceBtn")}
                   </button>
                 )}

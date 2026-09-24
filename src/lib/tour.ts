@@ -2,8 +2,9 @@ import { ANSWERS } from "../data/answers";
 import { PRESETS } from "../data/constants";
 import { performAsk } from "./ask";
 import type { useApp } from "../state/store";
+import type { useSession } from "../state/session";
 
-type App = ReturnType<typeof useApp>;
+type App = ReturnType<typeof useApp> & ReturnType<typeof useSession>;
 
 export interface TourStep {
   titleKey: string;
@@ -27,7 +28,7 @@ export const TOUR: TourStep[] = [
       app.go("ask");
       const a = performAsk(app, ANSWERS[0].q);
       const p = a.in?.pts.find((pt) => pt.s === "C");
-      if (p) app.openSource(p.c[0], p);
+      if (p) app.openClauseSheet(p.c[0], p);
     },
   },
   {

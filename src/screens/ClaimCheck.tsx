@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Warning } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import { runClaims } from "../lib/claims";
 import { shortCite } from "../lib/classify";
@@ -16,7 +17,8 @@ const CATEGORIES = [
 const SAMPLE = "Our churna permanently cures diabetes and high blood pressure with no side effects, clinically proven and 100% natural.";
 
 export default function ClaimCheck() {
-  const { claimCat, setClaimCat, logEvent, openSource } = useApp();
+  const { claimCat, setClaimCat, logEvent } = useApp();
+  const { openClauseSheet } = useSession();
   const t = useT();
   const [text, setText] = useState("");
   const [report, setReport] = useState<ReturnType<typeof runClaims> | null>(null);
@@ -105,7 +107,7 @@ export default function ClaimCheck() {
             {report.findings.map((f, i) => (
               <li key={i} className={`rounded-md border-l-[3px] px-4 py-3 text-[13.5px] ${f.rule.lvl === "warn" ? "border-turmeric bg-turmeric-soft/40" : "border-kumkum bg-kumkum-soft/40"}`}>
                 <b>{f.match}</b> — {f.rule.why(f.match)}{" "}
-                <button type="button" onClick={() => openSource(f.rule.cite)} className="ml-1 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
+                <button type="button" onClick={() => openClauseSheet(f.rule.cite)} className="ml-1 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
                   {shortCite(f.rule.cite)}
                 </button>
                 <br />
@@ -118,7 +120,7 @@ export default function ClaimCheck() {
                 <span className="text-ink-2">
                   {t("priorApprovalText")}
                 </span>{" "}
-                <button type="button" onClick={() => openSource("dr-170")} className="ml-1 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
+                <button type="button" onClick={() => openClauseSheet("dr-170")} className="ml-1 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus">
                   R.170
                 </button>
               </li>

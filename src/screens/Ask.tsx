@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { PaperPlaneRight, Microphone, SpeakerHigh, UserCircle, Question } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
 import { useApp as useAppType } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import { SUGGEST } from "../data/suggest";
 import { ANSWERS } from "../data/answers";
@@ -61,7 +62,8 @@ function AnswerColumn({ answer, side, nums, detail }: { answer: Answer; side: "i
 
 export default function Ask() {
   const app = useApp();
-  const { lang, persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
+  const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
+  const { lang } = useSession();
   const [input, setInput] = useState("");
   const [escalateOpen, setEscalateOpen] = useState(false);
   const [listening, setListening] = useState(false);

@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import type { Answer, ClassifyState, SourcePoint } from "../lib/types";
-import type { Lang } from "../i18n/useT";
+import type { Answer, ClassifyState } from "../lib/types";
 
 export type Screen = "overview" | "ask" | "classify" | "tk" | "claims" | "sources" | "trust" | "blueprint";
 export type Persona = "startup" | "vaidya" | "research" | "farmer";
@@ -22,7 +21,6 @@ export interface LedgerEntry {
 
 interface AppState {
   screen: Screen;
-  lang: Lang;
   persona: Persona;
   juris: Jurisdiction;
   detail: Detail;
@@ -33,12 +31,10 @@ interface AppState {
   cls: ClassifyState;
   prevRows: { cat: string; rowsByKey: Record<string, string> } | null;
   claimCat: string;
-  drawer: { sourceId: string; point: SourcePoint | null } | null;
 }
 
 interface AppApi extends AppState {
   go: (s: Screen) => void;
-  setLang: (l: Lang) => void;
   setPersona: (p: Persona) => void;
   setJuris: (j: Jurisdiction) => void;
   setDetail: (d: Detail) => void;
@@ -51,8 +47,6 @@ interface AppApi extends AppState {
   answerCls: (k: string, v: string) => void;
   setPrevRows: (v: AppState["prevRows"]) => void;
   setClaimCat: (c: string) => void;
-  openSource: (sourceId: string, point?: SourcePoint | null) => void;
-  closeDrawer: () => void;
 }
 
 const AppContext = createContext<AppApi | null>(null);
@@ -63,7 +57,6 @@ function timeNow() {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [screen, setScreen] = useState<Screen>("overview");
-  const [lang, setLang] = useState<Lang>("en");
   const [persona, setPersona] = useState<Persona>("startup");
   const [juris, setJuris] = useState<Jurisdiction>("both");
   const [detail, setDetail] = useState<Detail>("expert");
@@ -74,13 +67,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [cls, setClsState] = useState<ClassifyState>({});
   const [prevRows, setPrevRows] = useState<AppState["prevRows"]>(null);
   const [claimCat, setClaimCat] = useState("drug");
-  const [drawer, setDrawer] = useState<AppState["drawer"]>(null);
 
   const go = useCallback((s: Screen) => setScreen(s), []);
-  const openSource = useCallback((sourceId: string, point: SourcePoint | null = null) => {
-    setDrawer({ sourceId, point });
-  }, []);
-  const closeDrawer = useCallback(() => setDrawer(null), []);
 
   const pushHistory = useCallback((q: string) => {
     setHistory((h) => [q, ...h.filter((x) => x !== q)].slice(0, 6));
@@ -105,10 +93,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<AppApi>(
     () => ({
-      screen, lang, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat, drawer,
-      go, setLang, setPersona, setJuris, setDetail, setCurrent, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls, setPrevRows, setClaimCat, openSource, closeDrawer,
+      screen, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat,
+      go, setPersona, setJuris, setDetail, setCurrent, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls, setPrevRows, setClaimCat,
     }),
-    [screen, lang, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat, drawer, go, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls, openSource, closeDrawer]
+    [screen, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat, go, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useApp } from "../state/store";
+import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import { CQ } from "../data/classifyQuestions";
 import { CAT } from "../data/classifyCategories";
@@ -54,6 +55,7 @@ function PathwaySnapshot({ cat, t }: { cat: string; t: (k: string) => string }) 
 export default function Classify() {
   const app = useApp();
   const { cls, setCls, answerCls, prevRows, setPrevRows } = app;
+  const { openClauseSheet } = useSession();
   const t = useT();
 
   const { shown, total } = visibleQuestions(cls);
@@ -163,7 +165,7 @@ export default function Classify() {
                           <button
                             key={c}
                             type="button"
-                            onClick={() => app.openSource(c)}
+                            onClick={() => openClauseSheet(c)}
                             className="ml-1.5 rounded-full border border-focus/40 bg-focus-soft px-2 py-0.5 text-[11px] font-semibold text-focus hover:scale-105"
                           >
                             {shortCite(c)}

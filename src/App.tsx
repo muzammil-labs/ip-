@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   House, ChatCircleText, FlowArrow, MagnifyingGlass, Megaphone,
   BookBookmark, ShieldCheck, MapTrifold, Sun, Moon,
 } from "@phosphor-icons/react";
 import { useApp, type Screen } from "./state/store";
+import { useSession } from "./state/session";
 import { useT, type Lang } from "./i18n/useT";
 import Overview from "./screens/Overview";
 import Ask from "./screens/Ask";
@@ -38,42 +39,11 @@ const SCREENS: Record<Screen, React.ComponentType> = {
   claims: ClaimCheck, sources: Sources, trust: Trust, blueprint: Blueprint,
 };
 
-const THEME_KEY = "ips.theme";
-type Theme = "light" | "dark";
-
-function readStoredTheme(): Theme {
-  try {
-    const v = localStorage.getItem(THEME_KEY);
-    return v === "dark" ? "dark" : "light";
-  } catch {
-    return "light";
-  }
-}
-
-function writeStoredTheme(theme: Theme) {
-  try {
-    localStorage.setItem(THEME_KEY, theme);
-  } catch {
-    // localStorage unavailable (private mode, blocked storage); theme just won't persist.
-  }
-}
-
 export default function App() {
-  const { screen, go, lang, setLang } = useApp();
+  const { screen, go } = useApp();
+  const { lang, setLang, theme, toggleTheme } = useSession();
   const t = useT();
-  // Light is the default and the designed theme; it does not follow system preference.
-  const [theme, setTheme] = useState<Theme>(readStoredTheme);
   const reduce = useReducedMotion();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0A1410" : "#F7F9F6");
-    writeStoredTheme(theme);
-  }, [theme]);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -135,7 +105,7 @@ export default function App() {
             </div>
             <button
               type="button"
-              onClick={() => setTheme((th) => (th === "light" ? "dark" : "light"))}
+              onClick={toggleTheme}
               aria-label="Toggle dark mode"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface text-ink-2 transition-colors hover:text-ink"
             >
