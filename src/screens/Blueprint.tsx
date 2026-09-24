@@ -54,7 +54,7 @@ export default function Blueprint() {
           <h2 className="text-[15px] font-bold text-ink">{t("architectureHeading")}</h2>
           <div className="mt-3 divide-y divide-line rounded-lg border border-line bg-surface">
             {STACK.map(([layer, choice, note]) => (
-              <div key={layer} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[110px,220px,1fr] sm:items-baseline sm:gap-4">
+              <div key={layer} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[110px_220px_1fr] sm:items-baseline sm:gap-4">
                 <span className="text-[12px] font-bold uppercase tracking-wide text-brand-strong">{layer}</span>
                 <span className="text-[13.5px] font-semibold text-ink">{choice}</span>
                 <span className="text-[13px] text-ink-2">{note}</span>

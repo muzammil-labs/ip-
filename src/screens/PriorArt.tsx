@@ -153,7 +153,7 @@ export default function PriorArt() {
               <button type="button" onClick={() => setPermOpen(false)} className="absolute right-4 top-4 text-ink-3"><X size={16} /></button>
               <h2 className="pr-6 text-[16.5px] font-bold">{t("modalAllowTitle")}</h2>
               <p className="mt-2 text-[13.5px] text-ink-2">{t("modalAllowDesc")}</p>
-              <dl className="mt-3 grid grid-cols-[auto,1fr] gap-x-3 gap-y-1 text-[13px]">
+              <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[13px]">
                 <dt className="text-ink-3">{t("dlScope")}</dt><dd>{t("scopeValue").replace("{q}", input || "your product")}</dd>
                 <dt className="text-ink-3">{t("dlDuration")}</dt><dd>{t("durationValue")}</dd>
                 <dt className="text-ink-3">{t("dlShared")}</dt><dd>{t("sharedValue")}</dd>

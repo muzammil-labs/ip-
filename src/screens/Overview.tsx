@@ -43,7 +43,7 @@ export default function Overview() {
     <div>
       {/* Hero: asymmetric split, max 4 text elements, no eyebrow */}
       <section className="mx-auto max-w-[1400px] px-4 pb-10 pt-16 sm:px-6 sm:pt-20 lg:pt-24">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function Overview() {
 
       {/* Supporting lede + live demo */}
       <section className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr,1.15fr] lg:gap-14">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <Reveal>
             <p className="max-w-[52ch] text-[15.5px] leading-relaxed text-ink-2">{t("ovLede")}</p>
           </Reveal>

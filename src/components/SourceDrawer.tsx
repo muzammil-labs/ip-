@@ -24,7 +24,7 @@ function SourceBlock({ id, t }: { id: string; t: (k: string) => string }) {
           {s.summary}
         </div>
       )}
-      <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-1.5 text-[13.5px]">
+      <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[13.5px]">
         <dt className="text-ink-3">{t("authorityLabel")}</dt>
         <dd>{t("tierLabel").replace("{n}", String(s.tier))}, {t(TIER_NAME_KEY[s.tier])}</dd>
         <dt className="text-ink-3">{t("issuedByLabel")}</dt>
