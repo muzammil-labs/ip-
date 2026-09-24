@@ -4,6 +4,7 @@ import { I18N } from "../data/i18n";
 import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import Reveal from "../components/Reveal";
+import HorizontalPan from "../components/scroll/HorizontalPan";
 
 const STACK: [string, string, string][] = [
   ["API", "FastAPI + Pydantic", "/ask, /classify, /claims/check, /sources, /escalate"],
@@ -42,37 +43,45 @@ export default function Blueprint() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-[1100px] px-4 py-10 sm:px-6 sm:py-14">
-      <Reveal>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("bpH1")}</h1>
-        <p className="mt-2 max-w-[66ch] text-[14.5px] text-ink-2">{t("bpLede")}</p>
-      </Reveal>
+    <div className="py-10 sm:py-14">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
+        <Reveal>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("bpH1")}</h1>
+          <p className="mt-2 max-w-[66ch] text-[14.5px] text-ink-2">{t("bpLede")}</p>
+        </Reveal>
 
-      <Reveal delay={0.06} className="mt-8">
-        <h2 className="text-[15px] font-bold text-ink">Architecture</h2>
-        <div className="mt-3 divide-y divide-line rounded-lg border border-line bg-surface">
-          {STACK.map(([layer, choice, note]) => (
-            <div key={layer} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[110px,220px,1fr] sm:items-baseline sm:gap-4">
-              <span className="text-[12px] font-bold uppercase tracking-wide text-brand-strong">{layer}</span>
-              <span className="text-[13.5px] font-semibold text-ink">{choice}</span>
-              <span className="text-[13px] text-ink-2">{note}</span>
-            </div>
-          ))}
+        <Reveal delay={0.06} className="mt-8">
+          <h2 className="text-[15px] font-bold text-ink">Architecture</h2>
+          <div className="mt-3 divide-y divide-line rounded-lg border border-line bg-surface">
+            {STACK.map(([layer, choice, note]) => (
+              <div key={layer} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[110px,220px,1fr] sm:items-baseline sm:gap-4">
+                <span className="text-[12px] font-bold uppercase tracking-wide text-brand-strong">{layer}</span>
+                <span className="text-[13.5px] font-semibold text-ink">{choice}</span>
+                <span className="text-[13px] text-ink-2">{note}</span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="mt-10">
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
+          <h2 className="text-[15px] font-bold text-ink">Staged delivery</h2>
+          <p className="mt-1 text-[13px] text-ink-3">Scroll to pan through now, next and later.</p>
         </div>
-      </Reveal>
-
-      <Reveal delay={0.1} className="mt-10">
-        <h2 className="text-[15px] font-bold text-ink">Staged delivery</h2>
-        <div className="mt-3 grid gap-4 sm:grid-cols-3">
-          {STAGES.map((s) => (
-            <div key={s.name} className="rounded-lg border border-line bg-surface p-4">
-              <p className="text-[13.5px] font-bold text-brand-strong">{s.name}</p>
-              <p className="mt-1.5 text-[13px] text-ink-2">{s.detail}</p>
-            </div>
-          ))}
+        <div className="mt-4">
+          <HorizontalPan
+            items={STAGES.map((s) => (
+              <div key={s.name} className="flex h-full flex-col justify-center rounded-lg border border-line bg-surface p-7 shadow-md">
+                <p className="text-lg font-bold text-brand-strong">{s.name}</p>
+                <p className="mt-2.5 text-[14px] leading-relaxed text-ink-2">{s.detail}</p>
+              </div>
+            ))}
+          />
         </div>
-      </Reveal>
+      </div>
 
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
       <Reveal delay={0.14} className="mt-10">
         <h2 className="text-[15px] font-bold text-ink">Problem-statement coverage</h2>
         <p className="mt-1 text-[13px] text-ink-3">Seventeen requirements, grouped by the screen that proves each one.</p>
@@ -98,6 +107,7 @@ export default function Blueprint() {
           ))}
         </div>
       </Reveal>
+      </div>
     </div>
   );
 }
