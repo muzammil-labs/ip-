@@ -3,6 +3,7 @@ import App from "./App";
 import { AppProvider } from "./state/store";
 import { SessionProvider } from "./state/session";
 import { CaseProvider } from "./state/case";
+import { CoverageProvider } from "./state/coverage";
 import "./styles/global.css";
 
 async function startMocking() {
@@ -27,9 +28,11 @@ startMocking().finally(() => {
   createRoot(document.getElementById("root")!).render(
     <SessionProvider>
       <CaseProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <CoverageProvider>
+          <AppProvider>
+            <App />
+          </AppProvider>
+        </CoverageProvider>
       </CaseProvider>
     </SessionProvider>
   );

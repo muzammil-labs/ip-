@@ -3,6 +3,7 @@ import { useLocation, useSearch } from "wouter";
 import { PaperPlaneRight, Microphone, SpeakerHigh, Question, Leaf, Tree, Storefront, Trophy } from "@phosphor-icons/react";
 import { useApp, type Persona } from "../state/store";
 import { useSession } from "../state/session";
+import { useCoverage } from "../state/coverage";
 import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 import { useT } from "../i18n/useT";
 import { SUGGEST } from "../data/suggest";
@@ -84,6 +85,7 @@ export default function AskPage() {
   const app = useApp();
   const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
   const { lang } = useSession();
+  const { mark } = useCoverage();
   const [, navigate] = useLocation();
   const search = useSearch();
   const kisanMode = new URLSearchParams(search).get("mode") === "kisan";
@@ -131,6 +133,20 @@ export default function AskPage() {
   }, [kisanMode, current]);
 
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
+
+  // UI-7.5 coverage tracker: mark the PS requirements this answer just demonstrated.
+  useEffect(() => {
+    if (!current) return;
+    if (current.abstain) {
+      mark(9); // safe abstention on out-of-scope or uncertain queries
+      return;
+    }
+    mark(0); // explicit jurisdiction switch, India/International kept separate
+    mark(7); // every sentence carries clause-level citations
+    mark(8); // confidence indicator
+    if (current.lang !== "en") mark(12); // multilingual delivery
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
   const suggestIds = SUGGEST[persona] || SUGGEST.startup;
 
   const versionedSourceIds = useMemo(() => {
@@ -404,6 +420,8 @@ export default function AskPage() {
             onClick={() => {
               logEvent("Escalated to facilitator", "Shared: question, answer");
               addLedger("Facilitator", "Escalation, this session");
+              mark(10); // escalation to a human IP facilitator
+              mark(14); // consent capture / audit trail
               setEscalateOpen(false);
             }}
           >

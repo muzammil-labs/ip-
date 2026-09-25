@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Chapter from "../ui/Chapter";
 import Section from "../ui/Section";
 import RadioCards from "../ui/RadioCards";
@@ -11,6 +11,7 @@ import Callout from "../ui/Callout";
 import TkMatchCard from "../ui/TkMatchCard";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useCoverage } from "../state/coverage";
 import { CQ } from "../data/classifyQuestions";
 import { buildResult, type ClassifyResult } from "../engines/classify";
 import { changedSourceIdSet } from "../engines/lawChanged";
@@ -32,6 +33,7 @@ function visibleQuestions(c: ClassifyState) {
 export default function Classify() {
   const t = useT();
   const { case: kase, dispatch } = useCase();
+  const { mark } = useCoverage();
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const prevResult = useRef<ClassifyResult | null>(null);
 
@@ -51,6 +53,13 @@ export default function Classify() {
 
   const tkMatches = useMemo(() => computeTkMatches(kase.formula), [kase.formula]);
   const lawChangedIds = useMemo(() => changedSourceIdSet(kase), [kase]);
+
+  useEffect(() => {
+    if (!result) return;
+    mark(1); // classify the formulation with minimum clarifying questions
+    mark(2); // routing across patents, GI, trade marks, copyright, designs, trade secrets, PVP
+    mark(3); // ABS compliance helper (the abs row is part of every classify result)
+  }, [result, mark]);
 
   return (
     <Chapter n={2} titleKey="chClassifyTitle" purposeKey="chClassifyPurpose">

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useSession } from "../state/session";
+import { useCoverage } from "../state/coverage";
 import { useT } from "../i18n/useT";
 import { eventsFor, fractionBetween } from "../engines/asOf";
 
@@ -23,6 +24,7 @@ export interface TimeMachineProps {
  * as of that date from engines/asOf.ts and Shift the rows that changed. */
 export default function TimeMachine({ sourceIds }: TimeMachineProps) {
   const { asOfDate, setAsOfDate, lang } = useSession();
+  const { mark } = useCoverage();
   const t = useT();
 
   const today = useMemo(() => new Date(), []);
@@ -38,6 +40,7 @@ export default function TimeMachine({ sourceIds }: TimeMachineProps) {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const n = Number(e.target.value);
+    mark(11); // keep the corpus current as law changes: versioned register, Rule 170 timeline
     if (n >= totalMonths) {
       setAsOfDate(null);
       return;
