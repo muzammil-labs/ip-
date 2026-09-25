@@ -1,5 +1,5 @@
 import { Router } from "wouter";
-import { useHashLocation } from "wouter/use-hash-location";
+import { useHashLocation } from "./lib/hashLocation";
 import Shell from "./app/Shell";
 import AppRoutes from "./app/routes";
 

@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import { useLocation } from "wouter";
-import { PaperPlaneRight, Microphone, SpeakerHigh, Question } from "@phosphor-icons/react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useLocation, useSearch } from "wouter";
+import { PaperPlaneRight, Microphone, SpeakerHigh, Question, Leaf, Tree, Storefront, Trophy } from "@phosphor-icons/react";
 import { useApp, type Persona } from "../state/store";
 import { useSession } from "../state/session";
 import { SCREEN_ROUTE } from "../lib/legacyRoutes";
@@ -15,6 +15,7 @@ import { LANG_TAG } from "../lib/langTag";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
+import RadioCards from "../ui/RadioCards";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import Callout from "../ui/Callout";
 import Pips from "../ui/Pips";
@@ -27,6 +28,15 @@ const PERSONAS: { key: Persona; labelKey: string }[] = [
   { key: "vaidya", labelKey: "personaVaidya" },
   { key: "research", labelKey: "personaResearch" },
   { key: "farmer", labelKey: "personaFarmer" },
+];
+
+type KisanEntry = "grow" | "forest" | "sell" | "famous";
+
+const KISAN_ENTRIES: { key: KisanEntry; icon: ReactNode; titleKey: string; descKey: string; queryHi: string }[] = [
+  { key: "grow", icon: <Leaf size={26} weight="fill" />, titleKey: "kisanGrowTitle", descKey: "kisanGrowDesc", queryHi: "मैं अश्वगंधा की खेती करने वाला किसान हूँ। मुझे क्या पंजीकरण चाहिए?" },
+  { key: "forest", icon: <Tree size={26} weight="fill" />, titleKey: "kisanForestTitle", descKey: "kisanForestDesc", queryHi: "मैं जंगल से जड़ी-बूटी इकट्ठा करता हूँ। मुझे क्या अनुमति चाहिए?" },
+  { key: "sell", icon: <Storefront size={26} weight="fill" />, titleKey: "kisanSellTitle", descKey: "kisanSellDesc", queryHi: "मैं अपनी उपज एक कंपनी को बेचता हूँ, क्या मुझे अनुमति चाहिए?" },
+  { key: "famous", icon: <Trophy size={26} weight="fill" />, titleKey: "kisanFamousTitle", descKey: "kisanFamousDesc", queryHi: "हमारे क्षेत्र की उपज अपनी गुणवत्ता के लिए जानी जाती है।" },
 ];
 
 const COL_TITLES = {
@@ -66,6 +76,8 @@ export default function AskPage() {
   const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
   const { lang } = useSession();
   const [, navigate] = useLocation();
+  const search = useSearch();
+  const kisanMode = new URLSearchParams(search).get("mode") === "kisan";
   const [input, setInput] = useState("");
   const [escalateOpen, setEscalateOpen] = useState(false);
   const [voiceNote, setVoiceNote] = useState<string | null>(null);
@@ -94,19 +106,36 @@ export default function AskPage() {
     setVoiceNote(result === "no-voice" ? t("voiceNoVoiceForLang") : null);
   }
 
+  useEffect(() => {
+    if (!kisanMode) return;
+    setPersona("farmer");
+    setDetail("plain");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kisanMode]);
+
+  const spokenFor = useRef<string | null>(null);
+  useEffect(() => {
+    if (!kisanMode || !current || current.q === spokenFor.current) return;
+    spokenFor.current = current.q;
+    speak();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kisanMode, current]);
+
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
   const suggestIds = SUGGEST[persona] || SUGGEST.startup;
 
   return (
-    <div className="mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14">
+    <div className={`mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14 ${kisanMode ? "text-body-lg" : ""}`}>
       <h1 className="text-h1 text-ink">{t("askTitle")}</h1>
       <p className="mt-2 max-w-[64ch] text-body-lg text-ink-2">{t("askLede")}</p>
 
-      <div className="mt-6">
-        <Segmented label={t("persona")} value={persona} onChange={setPersona} options={PERSONAS.map((p) => ({ value: p.key, label: t(p.labelKey) }))} />
-      </div>
+      {!kisanMode && (
+        <div className="mt-6">
+          <Segmented label={t("persona")} value={persona} onChange={setPersona} options={PERSONAS.map((p) => ({ value: p.key, label: t(p.labelKey) }))} />
+        </div>
+      )}
 
-      <div className="mt-4 flex items-end gap-2">
+      <div className="mt-6 flex items-end gap-2">
         <div className="flex-1">
           <Field
             label={t("askTitle")}
@@ -114,14 +143,15 @@ export default function AskPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
             placeholder={t("askInputPlaceholder")}
-            className="h-12 text-body-lg"
+            className={kisanMode ? "h-14 text-body-lg" : "h-12 text-body-lg"}
           />
         </div>
         {voiceSupported && (
           <IconButton
             label={listening ? t("voiceStop") : t("speakAria")}
-            icon={<Microphone size={18} />}
+            icon={<Microphone size={kisanMode ? 28 : 18} />}
             onClick={startVoice}
+            style={kisanMode ? { height: 64, width: 64 } : undefined}
             className={listening ? "animate-pulse bg-kumkum text-on-neem" : ""}
           />
         )}
@@ -140,22 +170,37 @@ export default function AskPage() {
               : ""}
       </p>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        {suggestIds.map((id) => {
-          const a = ANSWERS.find((x) => x.id === id);
-          if (!a) return null;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => submit(a.q)}
-              className="rounded-pill border border-line bg-surface px-3 py-1.5 text-small text-ink-2 transition-colors hover:border-neem hover:text-neem-strong"
-            >
-              {a.q}
-            </button>
-          );
-        })}
-      </div>
+      {kisanMode ? (
+        <div className="mt-4">
+          <RadioCards
+            size="lg"
+            label={t("kisanEntriesLabel")}
+            value={undefined}
+            onChange={(key: KisanEntry) => {
+              const entry = KISAN_ENTRIES.find((e) => e.key === key);
+              if (entry) submit(entry.queryHi);
+            }}
+            options={KISAN_ENTRIES.map((e) => ({ value: e.key, title: t(e.titleKey), description: t(e.descKey), icon: e.icon }))}
+          />
+        </div>
+      ) : (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {suggestIds.map((id) => {
+            const a = ANSWERS.find((x) => x.id === id);
+            if (!a) return null;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => submit(a.q)}
+                className="rounded-pill border border-line bg-surface px-3 py-1.5 text-small text-ink-2 transition-colors hover:border-neem hover:text-neem-strong"
+              >
+                {a.q}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div className="mt-5 flex flex-wrap items-center gap-4 border-y border-line py-3 text-small">
         <div className="flex items-center gap-1.5">
@@ -171,19 +216,21 @@ export default function AskPage() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="text-ink-3">{t("detailLabel")}</span>
-          {(["expert", "plain"] as const).map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => setDetail(d)}
-              className={`rounded-pill px-2.5 py-1 font-medium ${detail === d ? "bg-neem-wash text-neem-strong" : "text-ink-2 hover:bg-wash"}`}
-            >
-              {d === "expert" ? t("detExpert") : t("detPlain")}
-            </button>
-          ))}
-        </div>
+        {!kisanMode && (
+          <div className="flex items-center gap-1.5">
+            <span className="text-ink-3">{t("detailLabel")}</span>
+            {(["expert", "plain"] as const).map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setDetail(d)}
+                className={`rounded-pill px-2.5 py-1 font-medium ${detail === d ? "bg-neem-wash text-neem-strong" : "text-ink-2 hover:bg-wash"}`}
+              >
+                {d === "expert" ? t("detExpert") : t("detPlain")}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {history.length > 1 && (
