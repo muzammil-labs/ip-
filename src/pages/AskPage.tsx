@@ -12,6 +12,7 @@ import { computeConfidence } from "../engines/confidence";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
+import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
@@ -21,6 +22,7 @@ import Callout from "../ui/Callout";
 import Pips from "../ui/Pips";
 import Sheet from "../ui/Sheet";
 import { Field } from "../ui/Field";
+import TimeMachine from "../panels/TimeMachine";
 import type { Answer, EvidenceState } from "../lib/types";
 
 const PERSONAS: { key: Persona; labelKey: string }[] = [
@@ -46,6 +48,8 @@ const COL_TITLES = {
 } as const;
 
 function AnswerColumn({ answer, side, detail }: { answer: Answer; side: "in" | "intl"; detail: string }) {
+  const t = useT();
+  const { asOfDate } = useSession();
   const d = answer[side];
   if (!d) return null;
   const L = COL_TITLES[answer.lang === "hi" || answer.lang === "te" ? answer.lang : "en"];
@@ -58,11 +62,15 @@ function AnswerColumn({ answer, side, detail }: { answer: Answer; side: "in" | "
       {detail === "expert" && (
         <div className="mt-3 border-t border-line pt-1">
           <EvidenceList>
-            {d.pts.map((p, ix) => (
-              <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux}>
-                {p.t}
-              </EvidenceRow>
-            ))}
+            {d.pts.map((p, ix) => {
+              const v = versionStatusFor(p.c, asOfDate);
+              return (
+                <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux} changed={v?.changed}>
+                  {p.t}
+                  {v && <span className="mt-1 block text-small font-medium text-ink-3">{t("timeMachineAsOfLine").replace("{status}", v.status)}</span>}
+                </EvidenceRow>
+              );
+            })}
           </EvidenceList>
         </div>
       )}
@@ -123,6 +131,12 @@ export default function AskPage() {
 
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
   const suggestIds = SUGGEST[persona] || SUGGEST.startup;
+
+  const versionedSourceIds = useMemo(() => {
+    if (!current || current.abstain) return [];
+    const allCites = [...(current.in?.pts ?? []), ...(current.intl?.pts ?? [])].flatMap((p) => p.c);
+    return [...new Set(allCites.filter(hasVersions))];
+  }, [current]);
 
   return (
     <div className={`mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14 ${kisanMode ? "text-body-lg" : ""}`}>
@@ -285,6 +299,12 @@ export default function AskPage() {
                       <b>{h}</b> = {e}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {versionedSourceIds.length > 0 && detail === "expert" && (
+                <div className="mt-3">
+                  <TimeMachine sourceIds={versionedSourceIds} />
                 </div>
               )}
 
