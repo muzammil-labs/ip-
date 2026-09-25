@@ -4,6 +4,7 @@ import Chapter from "../ui/Chapter";
 import Section from "../ui/Section";
 import EmptyState from "../ui/EmptyState";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
+import ExaminerView, { ExaminerToggleButton, useExaminerToggle } from "../panels/ExaminerView";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { classify } from "../engines/classify";
@@ -19,9 +20,20 @@ export default function Protect() {
   const t = useT();
   const { case: kase } = useCase();
   const result = useMemo(() => classify(kase), [kase]);
+  const examiner = useExaminerToggle();
 
   return (
-    <Chapter n={3} titleKey="chProtectTitle" purposeKey="chProtectPurpose">
+    <Chapter
+      n={3}
+      titleKey="chProtectTitle"
+      purposeKey="chProtectPurpose"
+      headerAction={result ? <ExaminerToggleButton open={examiner.open} setOpen={examiner.setOpen} /> : undefined}
+    >
+      {result && examiner.open && (
+        <div className="mb-8">
+          <ExaminerView />
+        </div>
+      )}
       {!result ? (
         <EmptyState
           message={t("protectNeedsClassify")}

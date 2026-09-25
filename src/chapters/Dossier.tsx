@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import Sheet from "../ui/Sheet";
 import Callout from "../ui/Callout";
 import { StatusChip } from "../ui/Chip";
+import ExaminerView, { ExaminerToggleButton, useExaminerToggle } from "../panels/ExaminerView";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { shareLinkFor } from "../lib/shareLink";
@@ -36,6 +37,7 @@ export default function Dossier() {
 
   const status = chapterStatus(kase);
   const gaps = chapterGaps(kase);
+  const examiner = useExaminerToggle();
 
   async function copyLink() {
     const link = shareLinkFor(kase);
@@ -62,7 +64,17 @@ export default function Dossier() {
   }
 
   return (
-    <Chapter n={7} titleKey="chDossierTitle" purposeKey="chDossierPurpose">
+    <Chapter
+      n={7}
+      titleKey="chDossierTitle"
+      purposeKey="chDossierPurpose"
+      headerAction={<ExaminerToggleButton open={examiner.open} setOpen={examiner.setOpen} />}
+    >
+      {examiner.open && (
+        <div className="mb-8">
+          <ExaminerView />
+        </div>
+      )}
       <Section title={t("dossierStatusHeading")}>
         <ul className="divide-y divide-line rounded-container border border-line">
           {CHAPTER_ORDER.filter((slug) => slug !== "dossier").map((slug) => (
