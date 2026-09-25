@@ -449,4 +449,7 @@ export const en: Record<string, string> = {
   "sahayakContext": "Answering for: {product}, {category}",
   "sahayakNoCategory": "not yet classified",
   "sahayakNoContext": "Start a case in Describe to answer with your product in context.",
+  "chapterRailAria": "Case chapters",
+  "evidenceSpineAria": "Clauses cited so far",
+  "evidenceSpineCount": "{n} clauses",
 };

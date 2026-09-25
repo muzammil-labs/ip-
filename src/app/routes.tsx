@@ -4,6 +4,10 @@ import { CHAPTERS, CHAPTER_ORDER, type ChapterSlug } from "../chapters";
 import { useT } from "../i18n/useT";
 import EmptyState from "../ui/EmptyState";
 
+// Lazy: ChapterStepper pulls in the Sheet primitive (Radix), keeping it off the main bundle (Part E's 200KB gzip budget).
+const ChapterRail = lazy(() => import("../ui/ChapterRail"));
+const ChapterStepper = lazy(() => import("../ui/ChapterStepper"));
+
 const Home = lazy(() => import("../pages/Home"));
 const Library = lazy(() => import("../pages/Library"));
 const SourcePage = lazy(() => import("../pages/SourcePage"));
@@ -18,12 +22,25 @@ function isChapterSlug(s: string): s is ChapterSlug {
   return (CHAPTER_ORDER as string[]).includes(s);
 }
 
-/** #/case/:chapter (B2): looks up the chapter component, or redirects to the first chapter on an unknown slug. */
+/** #/case/:chapter (B2): looks up the chapter component, or redirects to the first chapter on an unknown slug.
+ * UI-4.11: the chapter rail sits as a sticky left sidebar at ≥1024px; below that, a stepper bar replaces it. */
 function CaseChapterRoute() {
   const { chapter } = useParams<{ chapter: string }>();
   if (!chapter || !isChapterSlug(chapter)) return <Redirect to={`/case/${CHAPTER_ORDER[0]}`} />;
   const Chapter = CHAPTERS[chapter];
-  return <Chapter />;
+  return (
+    <div>
+      <ChapterStepper current={chapter} />
+      <div className="mx-auto flex max-w-[var(--w-shell)] items-start gap-8 px-4 py-6 sm:px-6 lg:py-10">
+        <div className="sticky top-24 hidden shrink-0 lg:block">
+          <ChapterRail current={chapter} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <Chapter />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function NotFound() {

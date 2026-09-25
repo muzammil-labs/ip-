@@ -449,4 +449,7 @@ export const te: Record<string, string> = {
   "sahayakContext": "దీని కోసం సమాధానం ఇస్తోంది: {product}, {category}",
   "sahayakNoCategory": "ఇంకా వర్గీకరించబడలేదు",
   "sahayakNoContext": "మీ ఉత్పత్తి సందర్భంలో సమాధానం పొందడానికి వివరించండిలో ఒక కేసును ప్రారంభించండి.",
+  "chapterRailAria": "కేసు అధ్యాయాలు",
+  "evidenceSpineAria": "ఇప్పటివరకు ఉదహరించిన నిబంధనలు",
+  "evidenceSpineCount": "{n} నిబంధనలు",
 };

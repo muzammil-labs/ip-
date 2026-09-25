@@ -449,4 +449,7 @@ export const hi: Record<string, string> = {
   "sahayakContext": "इसके लिए उत्तर दे रहे हैं: {product}, {category}",
   "sahayakNoCategory": "अभी तक वर्गीकृत नहीं",
   "sahayakNoContext": "अपने उत्पाद के संदर्भ में उत्तर पाने के लिए बताएं में एक केस शुरू करें।",
+  "chapterRailAria": "केस अध्याय",
+  "evidenceSpineAria": "अब तक उद्धृत धाराएं",
+  "evidenceSpineCount": "{n} धाराएं",
 };

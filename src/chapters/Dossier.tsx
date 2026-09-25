@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { LinkSimple, Check, FilePdf, UsersThree } from "@phosphor-icons/react";
 import Chapter from "../ui/Chapter";
@@ -10,7 +10,7 @@ import { StatusChip } from "../ui/Chip";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { shareLinkFor } from "../lib/shareLink";
-import { classify } from "../engines/classify";
+import { chapterStatus, chapterGaps } from "./status";
 import { CHAPTER_ORDER, type ChapterSlug } from "./order";
 import { api } from "../api/client";
 
@@ -34,20 +34,8 @@ export default function Dossier() {
   const [escalated, setEscalated] = useState(false);
   const [sending, setSending] = useState(false);
 
-  const classified = useMemo(() => !!classify(kase), [kase]);
-  const hasProduct = kase.product.name.trim().length > 0 && kase.formula.length > 0;
-
-  const status: Record<ChapterSlug, boolean> = {
-    describe: hasProduct,
-    classify: classified,
-    protect: classified,
-    owe: classified,
-    say: kase.claims.length > 0,
-    search: kase.formula.length > 0,
-    dossier: true,
-  };
-
-  const gaps = CHAPTER_ORDER.filter((slug) => slug !== "dossier" && !status[slug]);
+  const status = chapterStatus(kase);
+  const gaps = chapterGaps(kase);
 
   async function copyLink() {
     const link = shareLinkFor(kase);
