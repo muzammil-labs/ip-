@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import TopBar from "./TopBar";
 import SourceDrawer from "../components/SourceDrawer";
 import ApiInspector from "./ApiInspector";
+import PresenterMode from "./PresenterMode";
 import Sahayak from "../panels/Sahayak";
 import { useT } from "../i18n/useT";
 
@@ -45,6 +46,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       </footer>
       <SourceDrawer />
       <ApiInspector />
+      <PresenterMode />
       <Sahayak />
     </div>
   );

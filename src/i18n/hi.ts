@@ -326,6 +326,7 @@ export const hi: Record<string, string> = {
   "example2title": "खेती की हुई अश्वगंधा बेचने वाला किसान",
   "example2desc": "एक उत्पादक के जैव विविधता दायित्व, हिंदी में।",
   "apiInspectorTitle": "API कॉल",
+  "presenterStepLabel": "चरण {n} / {total}",
   "apiInspectorOpen": "API इंस्पेक्टर खोलें",
   "apiInspectorEmpty": "अभी तक कोई कॉल नहीं। ऐप का उपयोग करें, वे यहाँ दिखाई देंगी।",
   "apiInspectorClear": "लॉग साफ़ करें",

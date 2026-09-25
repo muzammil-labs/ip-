@@ -326,6 +326,7 @@ export const en: Record<string, string> = {
   "example2title": "Farmer selling cultivated Ashwagandha",
   "example2desc": "A grower's biodiversity duties, in Hindi.",
   "apiInspectorTitle": "API calls",
+  "presenterStepLabel": "Step {n} of {total}",
   "apiInspectorOpen": "Open API inspector",
   "apiInspectorEmpty": "No calls yet. Use the app and they will appear here.",
   "apiInspectorClear": "Clear log",
