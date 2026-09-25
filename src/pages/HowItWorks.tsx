@@ -116,7 +116,7 @@ export default function HowItWorks() {
       </Section>
 
       <Section title={t("apiContractHeading")} lede={t("apiContractLede")}>
-        <div className="overflow-x-auto rounded-container border border-line">
+        <div className="overflow-x-auto rounded-container border border-line" tabIndex={0} role="region" aria-label={t("apiContractHeading")}>
           <table className="w-full text-small">
             <thead className="bg-wash">
               <tr>

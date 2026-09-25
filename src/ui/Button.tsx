@@ -57,7 +57,10 @@ export default function Button({
       {...rest}
     >
       {loading ? (
-        <DotsSkeleton />
+        <>
+          <DotsSkeleton />
+          <span className="sr-only">{children}</span>
+        </>
       ) : (
         <>
           {icon && iconPosition === "left" && icon}

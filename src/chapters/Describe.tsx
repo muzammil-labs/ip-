@@ -144,7 +144,7 @@ export default function Describe() {
             ))}
           </ul>
         )}
-        <div className="grid gap-3 sm:grid-cols-[2fr_1.5fr_1fr_auto]">
+        <div className="grid gap-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_minmax(0,1fr)_auto]">
           <div>
             <Field
               label={t("describeFormulaPlantLabel")}

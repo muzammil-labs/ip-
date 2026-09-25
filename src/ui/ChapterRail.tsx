@@ -71,7 +71,7 @@ export default function ChapterRail({ current }: ChapterRailProps) {
         })}
       </ol>
 
-      <div className="flex w-12 flex-col items-center gap-1 border-l border-line pl-2" aria-label={t("evidenceSpineAria")}>
+      <div role="group" className="flex w-12 flex-col items-center gap-1 border-l border-line pl-2" aria-label={t("evidenceSpineAria")}>
         {spine.slice(0, 12).map((id) => (
           <Seal key={id} size={16} variant="filled" />
         ))}
