@@ -13,6 +13,9 @@ import { useCase } from "../state/case";
 import type { DosageForm, Market } from "../state/case";
 import { decodeSharedCase } from "../lib/shareLink";
 import { resolvePlant, searchPlants } from "../data/plants";
+import { useSession } from "../state/session";
+import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
+import { LANG_TAG } from "../lib/langTag";
 
 const FORMS: DosageForm[] = ["tablet", "capsule", "churna", "syrup", "oil", "cream", "other"];
 const MARKETS: Market[] = ["IN", "EU", "US", "GCC", "ASEAN"];
@@ -32,11 +35,20 @@ function bandFor(cr: number | undefined): string {
 export default function Describe() {
   const t = useT();
   const search = useSearch();
+  const { lang } = useSession();
   const { case: kase, dispatch } = useCase();
   const handled = useRef<string | null>(null);
   const [plantQuery, setPlantQuery] = useState("");
   const [part, setPart] = useState("");
   const [qty, setQty] = useState("");
+
+  const { supported: voiceSupported, listening, error: voiceError, start: startVoice } = useSpeechRecognition({
+    lang: LANG_TAG[lang],
+    onResult: (txt) => {
+      const next = kase.product.description.trim() ? `${kase.product.description.trim()} ${txt}` : txt;
+      dispatch({ type: "setField", field: "productDescription", value: next });
+    },
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(search);
@@ -108,8 +120,24 @@ export default function Describe() {
                 onChange={(e) => dispatch({ type: "setField", field: "productDescription", value: e.target.value })}
               />
             </div>
-            <IconButton label={t("describeVoiceInputAria")} icon={<Microphone size={18} />} disabled title={t("describeVoiceComingSoon")} />
+            {voiceSupported && (
+              <IconButton
+                label={listening ? t("voiceStop") : t("describeVoiceInputAria")}
+                icon={<Microphone size={18} />}
+                onClick={startVoice}
+                className={listening ? "animate-pulse bg-kumkum text-on-neem" : ""}
+              />
+            )}
           </div>
+          <p className="min-h-[1.25em] text-small text-ink-3" aria-live="polite">
+            {listening
+              ? t("voiceListening")
+              : voiceError === "no-speech"
+                ? t("voiceNoSpeech")
+                : voiceError === "not-allowed"
+                  ? t("voiceNotAllowed")
+                  : ""}
+          </p>
         </div>
       </Section>
 

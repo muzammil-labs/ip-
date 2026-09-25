@@ -9,6 +9,9 @@ import { SUGGEST } from "../data/suggest";
 import { ANSWERS } from "../data/answers";
 import { performAsk } from "../engines/ask";
 import { computeConfidence } from "../engines/confidence";
+import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
+import { speakText } from "../lib/speakText";
+import { LANG_TAG } from "../lib/langTag";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
@@ -65,7 +68,7 @@ export default function AskPage() {
   const [, navigate] = useLocation();
   const [input, setInput] = useState("");
   const [escalateOpen, setEscalateOpen] = useState(false);
-  const [listening, setListening] = useState(false);
+  const [voiceNote, setVoiceNote] = useState<string | null>(null);
   const t = useT();
 
   function submit(q?: string) {
@@ -75,44 +78,20 @@ export default function AskPage() {
     setInput(a.id === "unk" ? query : a.q);
   }
 
-  function startVoice() {
-    const SR = (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
-    if (!SR) {
-      alert(t("micUnsupported"));
-      return;
-    }
-    type SpeechRecognitionLike = {
-      lang: string;
-      interimResults: boolean;
-      onresult: (e: { results: { [i: number]: { [j: number]: { transcript: string } } } }) => void;
-      onerror: () => void;
-      onend: () => void;
-      start: () => void;
-    };
-    const Ctor = SR as new () => SpeechRecognitionLike;
-    const r = new Ctor();
-    r.lang = { en: "en-IN", hi: "hi-IN", te: "te-IN" }[lang];
-    r.interimResults = false;
-    setListening(true);
-    r.onresult = (e) => {
-      const txt = e.results[0][0].transcript;
+  const { supported: voiceSupported, listening, error: voiceError, start: startVoice } = useSpeechRecognition({
+    lang: LANG_TAG[lang],
+    onResult: (txt) => {
       setInput(txt);
       submit(txt);
-    };
-    r.onerror = () => setListening(false);
-    r.onend = () => setListening(false);
-    r.start();
-    logEvent("Voice input used", "Audio not stored");
-  }
+      logEvent("Voice input used", "Audio not stored");
+    },
+  });
 
   function speak() {
-    if (!current || !("speechSynthesis" in window)) return;
-    speechSynthesis.cancel();
+    if (!current) return;
     const txt = current.abstain ? current.abstain.why : [current.in?.plain, current.intl?.plain].filter(Boolean).join(" ");
-    const u = new SpeechSynthesisUtterance(txt);
-    u.lang = { en: "en-IN", hi: "hi-IN", te: "te-IN" }[current.lang];
-    speechSynthesis.speak(u);
+    const result = speakText(txt, LANG_TAG[current.lang]);
+    setVoiceNote(result === "no-voice" ? t("voiceNoVoiceForLang") : null);
   }
 
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
@@ -138,11 +117,28 @@ export default function AskPage() {
             className="h-12 text-body-lg"
           />
         </div>
-        <IconButton label={t("speakAria")} icon={<Microphone size={18} />} onClick={startVoice} className={listening ? "animate-pulse bg-kumkum text-on-neem" : ""} />
+        {voiceSupported && (
+          <IconButton
+            label={listening ? t("voiceStop") : t("speakAria")}
+            icon={<Microphone size={18} />}
+            onClick={startVoice}
+            className={listening ? "animate-pulse bg-kumkum text-on-neem" : ""}
+          />
+        )}
         <Button size="lg" icon={<PaperPlaneRight size={16} />} onClick={() => submit()}>
           {t("askBtn")}
         </Button>
       </div>
+
+      <p className="mt-1.5 min-h-[1.25em] text-small text-ink-3" aria-live="polite">
+        {listening
+          ? t("voiceListening")
+          : voiceError === "no-speech"
+            ? t("voiceNoSpeech")
+            : voiceError === "not-allowed"
+              ? t("voiceNotAllowed")
+              : ""}
+      </p>
 
       <div className="mt-3 flex flex-wrap gap-2">
         {suggestIds.map((id) => {
@@ -262,6 +258,11 @@ export default function AskPage() {
                 </div>
               )}
 
+              {voiceNote && (
+                <p className="mt-3 text-right text-small text-ink-3" aria-live="polite">
+                  {voiceNote}
+                </p>
+              )}
               <div className="mt-4 flex flex-wrap justify-end gap-2">
                 <Button variant="secondary" icon={<SpeakerHigh size={15} />} onClick={speak}>
                   {t("readAloud")}

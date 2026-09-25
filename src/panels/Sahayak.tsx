@@ -13,6 +13,9 @@ import { computeConfidence } from "../engines/confidence";
 import { classify } from "../engines/classify";
 import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 import { LAYER } from "../ui/layers";
+import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
+import { speakText } from "../lib/speakText";
+import { LANG_TAG } from "../lib/langTag";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
 import { Field } from "../ui/Field";
@@ -75,6 +78,7 @@ export default function Sahayak() {
   const [input, setInput] = useState("");
   const [tab, setTab] = useState<"in" | "intl">("in");
   const [escalateConfirm, setEscalateConfirm] = useState(false);
+  const [voiceNote, setVoiceNote] = useState<string | null>(null);
 
   const result = useMemo(() => classify(kase), [kase]);
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
@@ -89,35 +93,20 @@ export default function Sahayak() {
     setTab("in");
   }
 
-  function startVoice() {
-    const SR = (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
-    if (!SR) {
-      alert(t("micUnsupported"));
-      return;
-    }
-    type SRLike = { lang: string; interimResults: boolean; onresult: (e: { results: { [i: number]: { [j: number]: { transcript: string } } } }) => void; onerror: () => void; onend: () => void; start: () => void };
-    const r = new (SR as new () => SRLike)();
-    r.lang = { en: "en-IN", hi: "hi-IN", te: "te-IN" }[lang];
-    r.interimResults = false;
-    r.onresult = (e) => {
-      const txt = e.results[0][0].transcript;
+  const { supported: voiceSupported, listening, error: voiceError, start: startVoice } = useSpeechRecognition({
+    lang: LANG_TAG[lang],
+    onResult: (txt) => {
       setInput(txt);
       submit(txt);
-    };
-    r.onerror = () => {};
-    r.onend = () => {};
-    r.start();
-    logEvent("Voice input used", "Audio not stored");
-  }
+      logEvent("Voice input used", "Audio not stored");
+    },
+  });
 
   function speak() {
-    if (!current || !("speechSynthesis" in window)) return;
-    speechSynthesis.cancel();
+    if (!current) return;
     const txt = current.abstain ? current.abstain.why : [current.in?.plain, current.intl?.plain].filter(Boolean).join(" ");
-    const u = new SpeechSynthesisUtterance(txt);
-    u.lang = { en: "en-IN", hi: "hi-IN", te: "te-IN" }[current.lang];
-    speechSynthesis.speak(u);
+    const speakResult = speakText(txt, LANG_TAG[current.lang]);
+    setVoiceNote(speakResult === "no-voice" ? t("voiceNoVoiceForLang") : null);
   }
 
   function escalate() {
@@ -172,9 +161,26 @@ export default function Sahayak() {
                   placeholder={t("askInputPlaceholder")}
                 />
               </div>
-              <IconButton label={t("speakAria")} icon={<Microphone size={16} />} onClick={startVoice} />
+              {voiceSupported && (
+                <IconButton
+                  label={listening ? t("voiceStop") : t("speakAria")}
+                  icon={<Microphone size={16} />}
+                  onClick={startVoice}
+                  className={listening ? "animate-pulse bg-kumkum text-on-neem" : ""}
+                />
+              )}
               <IconButton label={t("askBtn")} icon={<PaperPlaneRight size={15} />} onClick={() => submit()} />
             </div>
+
+            <p className="mt-1 min-h-[1.25em] text-small text-ink-3" aria-live="polite">
+              {listening
+                ? t("voiceListening")
+                : voiceError === "no-speech"
+                  ? t("voiceNoSpeech")
+                  : voiceError === "not-allowed"
+                    ? t("voiceNotAllowed")
+                    : ""}
+            </p>
 
             <div className="mt-3 flex flex-wrap gap-1.5">
               {suggestIds.map((id) => {
@@ -259,6 +265,11 @@ export default function Sahayak() {
                       </div>
                     )}
 
+                    {voiceNote && (
+                      <p className="mt-2 text-right text-small text-ink-3" aria-live="polite">
+                        {voiceNote}
+                      </p>
+                    )}
                     <div className="mt-3 flex flex-wrap justify-end gap-2">
                       <IconButton label={t("readAloud")} icon={<SpeakerHigh size={15} />} onClick={speak} />
                       <Button
