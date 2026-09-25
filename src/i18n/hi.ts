@@ -14,6 +14,7 @@ export const hi: Record<string, string> = {
   "lang": "भाषा",
   "persona": "मैं हूँ",
   "tagline": "आयुर्वेद के लिए सहायक",
+  "footerPs": "Smart India Hackathon, PS 26045",
   "askTitle": "अपने आयुर्वेदिक उत्पाद के बारे में पूछें",
   "askLede": "हिन्दी, अंग्रेज़ी या तेलुगु में लिखें या बोलें। उत्तर का हर वाक्य उस कानून से जुड़ा है जिस पर वह आधारित है।",
   "askBtn": "पूछें",

@@ -14,6 +14,7 @@ export const en: Record<string, string> = {
   "lang": "Language",
   "persona": "I am a",
   "tagline": "Sahayak for Ayurveda",
+  "footerPs": "Smart India Hackathon, PS 26045",
   "askTitle": "Ask about your Ayurvedic product",
   "askLede": "Type or speak in English, Hindi or Telugu. Every sentence in the answer links to the law it rests on.",
   "askBtn": "Ask",
