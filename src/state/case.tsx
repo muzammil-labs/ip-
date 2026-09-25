@@ -91,7 +91,8 @@ export type CaseAction =
   | { type: "revokeConsent"; index: number }
   | { type: "setAsOf"; asOf: string }
   | { type: "reset" }
-  | { type: "loadExample"; example: Case };
+  | { type: "loadExample"; example: Case }
+  | { type: "loadShared"; shared: Case };
 
 function logged(c: Case, ev: string, detail = ""): Case {
   // Audit log is append-only: entries are never edited or removed, only added.
@@ -148,6 +149,12 @@ function reducer(c: Case, action: CaseAction): Case {
       return emptyCase();
     case "loadExample":
       return logged({ ...action.example, id: newCaseId(), createdAt: timeNow() }, "Example case loaded", action.example.product.name);
+    case "loadShared":
+      return logged(
+        { ...action.shared, id: newCaseId(), createdAt: timeNow(), audit: [], consent: [] },
+        "Case loaded from share link",
+        action.shared.product.name
+      );
   }
 }
 
