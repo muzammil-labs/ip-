@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useLocation } from "wouter";
 import TopBar from "./TopBar";
 import SourceDrawer from "../components/SourceDrawer";
+import ApiInspector from "./ApiInspector";
 import { useT } from "../i18n/useT";
 
 /**
@@ -42,6 +43,7 @@ export default function Shell({ children }: { children: ReactNode }) {
         {t("disc")}
       </footer>
       <SourceDrawer />
+      <ApiInspector />
     </div>
   );
 }

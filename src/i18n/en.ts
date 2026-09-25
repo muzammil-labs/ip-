@@ -292,4 +292,10 @@ export const en: Record<string, string> = {
   "example1desc": "One added ingredient moves it from classical to proprietary.",
   "example2title": "Farmer selling cultivated Ashwagandha",
   "example2desc": "A grower's biodiversity duties, in Hindi.",
+  "apiInspectorTitle": "API calls",
+  "apiInspectorOpen": "Open API inspector",
+  "apiInspectorEmpty": "No calls yet. Use the app and they will appear here.",
+  "apiInspectorClear": "Clear log",
+  "apiInspectorRequest": "Request",
+  "apiInspectorResponse": "Response",
 };

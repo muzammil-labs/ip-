@@ -292,4 +292,10 @@ export const hi: Record<string, string> = {
   "example1desc": "एक जोड़ी गई सामग्री इसे क्लासिकल से प्रोप्राइटरी में बदल देती है।",
   "example2title": "खेती की हुई अश्वगंधा बेचने वाला किसान",
   "example2desc": "एक उत्पादक के जैव विविधता दायित्व, हिंदी में।",
+  "apiInspectorTitle": "API कॉल",
+  "apiInspectorOpen": "API इंस्पेक्टर खोलें",
+  "apiInspectorEmpty": "अभी तक कोई कॉल नहीं। ऐप का उपयोग करें, वे यहाँ दिखाई देंगी।",
+  "apiInspectorClear": "लॉग साफ़ करें",
+  "apiInspectorRequest": "अनुरोध",
+  "apiInspectorResponse": "प्रतिक्रिया",
 };

@@ -292,4 +292,10 @@ export const te: Record<string, string> = {
   "example1desc": "జోడించిన ఒక పదార్థం దీన్ని క్లాసికల్ నుండి ప్రొప్రయిటరీకి మారుస్తుంది.",
   "example2title": "సాగు చేసిన అశ్వగంధను అమ్మే రైతు",
   "example2desc": "ఒక పెంపకందారు జీవవైవిధ్య బాధ్యతలు, హిందీలో.",
+  "apiInspectorTitle": "API కాల్స్",
+  "apiInspectorOpen": "API ఇన్‌స్పెక్టర్ తెరవండి",
+  "apiInspectorEmpty": "ఇంకా కాల్స్ లేవు. యాప్‌ను ఉపయోగించండి, అవి ఇక్కడ కనిపిస్తాయి.",
+  "apiInspectorClear": "లాగ్ క్లియర్ చేయండి",
+  "apiInspectorRequest": "అభ్యర్థన",
+  "apiInspectorResponse": "ప్రతిస్పందన",
 };
