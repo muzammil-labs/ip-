@@ -4,6 +4,7 @@
 |---|---|---|
 | `MASTER-PLAN.md` | **The build spec.** Audit (Part A), product shape (B), design system "The Clean Record" (C), phased tasks with operating rules (D, D0), pre-flight checklist (E), exact code for tokens, Tailwind mapping, CLAUDE.md, screenshot script, MCP config (appendices). | Every session. |
 | `SPOTLIGHT.md` | Ranked ideas that make the project stand out, with build tasks (Phase 8). | Phase 8, and when preparing the pitch. |
+| `UI-POLISH-PLAN.md` | **Phase 9.** Screenshot audit, palette refresh for both themes, page layout fixes, and ranked wow features (growing vine rail, leaf fall on chapter completion, theme reveal, dossier seal). Section 0 amends MASTER-PLAN C1, C2, C5, C6. | Phase 9. |
 | `FINALS-STRATEGY.md` | v7 strategy: competitor field, simulated judges, Case/dossier idea, feature rationale, legal corpus corrections (§9), demo script (§12), judge Q&A (§13), facts to verify (§16). | Phase 6 (content), Phase 7 (demo). |
 | `NEXT-CHAT-PROMPT.md` | Prompt to start a new build session. | Once per session. |
 | `IP-SAKTI-Master-Plan-v8.pdf`, `IP-SAKTI-Finals-Implementation-Plan.pdf` | Designed PDF versions of the above, for people. | Not needed by the model. |
@@ -23,5 +24,6 @@
 | 6 Differentiators | D0, Phase 6 | FINALS-STRATEGY §7, §9, §16 |
 | 7 Proof | D0, Phase 7, Part E | FINALS-STRATEGY §12 |
 | 8 Spotlight | D0, Phase 8 | SPOTLIGHT.md |
+| 9 Polish and wow | D0, Part E, C3, C4, C8 | UI-POLISH-PLAN.md (all of it) |
 
 Part E (pre-flight) applies to every UI task.
