@@ -398,4 +398,7 @@ export const hi: Record<string, string> = {
   "sourceimp": "आयातित",
   "oweBenefitShareHeading": "लाभ साझाकरण",
   "oweBenefitShareComingSoon": "यह भाग बाद के चरण में आएगा।",
+  "sayInputHeading": "आपका पाठ",
+  "sayClaimLabel": "लेबल या विज्ञापन पाठ",
+  "sayHighlightedHeading": "हाइलाइट किया गया",
 };

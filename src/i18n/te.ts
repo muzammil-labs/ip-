@@ -398,4 +398,7 @@ export const te: Record<string, string> = {
   "sourceimp": "దిగుమతి చేయబడింది",
   "oweBenefitShareHeading": "లాభ భాగస్వామ్యం",
   "oweBenefitShareComingSoon": "ఈ విభాగం తరువాతి దశలో వస్తుంది.",
+  "sayInputHeading": "మీ వచనం",
+  "sayClaimLabel": "లేబుల్ లేదా ప్రకటన వచనం",
+  "sayHighlightedHeading": "హైలైట్ చేయబడింది",
 };

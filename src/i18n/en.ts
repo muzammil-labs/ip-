@@ -398,4 +398,7 @@ export const en: Record<string, string> = {
   "sourceimp": "Imported",
   "oweBenefitShareHeading": "Benefit sharing",
   "oweBenefitShareComingSoon": "This section arrives in a later phase.",
+  "sayInputHeading": "Your text",
+  "sayClaimLabel": "Label or advertisement text",
+  "sayHighlightedHeading": "Highlighted",
 };
