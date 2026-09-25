@@ -62,7 +62,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0A1410" : "#F7F9F6");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#07110D" : "#F6F8F5");
     writeStoredTheme(theme);
   }, [theme]);
 

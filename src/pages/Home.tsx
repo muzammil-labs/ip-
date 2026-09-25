@@ -105,7 +105,7 @@ export default function Home() {
               <Plate botanicalName="Withania somnifera" commonNames={t("plantAshwagandha")} />
             </motion.div>
             <motion.div
-              className="relative z-10 -mt-10 max-w-[380px] rounded-container border border-line bg-surface p-5 shadow-2 sm:ml-8 sm:-mt-14"
+              className="relative z-10 -mt-10 max-w-[380px] rounded-container border border-line bg-surface-2 p-5 shadow-2 sm:ml-8 sm:-mt-14"
               variants={stamp}
               initial={motionOK ? "hidden" : false}
               animate="visible"

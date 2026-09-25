@@ -25,7 +25,7 @@ export default function Sheet({ open, onOpenChange, title, children }: SheetProp
           style={{ zIndex: LAYER.sheet }}
         />
         <Dialog.Content
-          className="fixed inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-container bg-surface shadow-2 focus:outline-none sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:max-h-none sm:w-full sm:max-w-[440px] sm:rounded-t-none sm:rounded-l-container"
+          className="fixed inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-container bg-surface-2 shadow-2 focus:outline-none sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:max-h-none sm:w-full sm:max-w-[440px] sm:rounded-t-none sm:rounded-l-container"
           style={{ zIndex: LAYER.sheet }}
         >
           <div className="flex justify-center pt-2 sm:hidden" aria-hidden="true">

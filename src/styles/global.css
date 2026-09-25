@@ -7,6 +7,7 @@
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-wash: var(--wash);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
@@ -16,6 +17,9 @@
   --color-neem: var(--neem);
   --color-neem-strong: var(--neem-strong);
   --color-neem-wash: var(--neem-wash);
+  --color-neem-deep: var(--neem-deep);
+  --color-leaf: var(--leaf);
+  --color-leaf-2: var(--leaf-2);
   --color-haldi: var(--haldi);
   --color-haldi-wash: var(--haldi-wash);
   --color-kumkum: var(--kumkum);

@@ -162,7 +162,7 @@ export default function Sahayak() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className={`fixed inset-x-0 bottom-0 flex max-h-[90dvh] flex-col overflow-y-auto rounded-t-container bg-surface p-5 shadow-2 sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:max-h-none sm:w-[440px] sm:rounded-t-none sm:rounded-l-container ${
+            className={`fixed inset-x-0 bottom-0 flex max-h-[90dvh] flex-col overflow-y-auto rounded-t-container bg-surface-2 p-5 shadow-2 sm:inset-x-auto sm:inset-y-0 sm:right-0 sm:max-h-none sm:w-[440px] sm:rounded-t-none sm:rounded-l-container ${
               hasBothColumns ? "lg:w-[720px]" : ""
             }`}
             style={{ zIndex: LAYER.sheet }}
