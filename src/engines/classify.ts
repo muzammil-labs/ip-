@@ -48,11 +48,6 @@ export function absOf(c: ClassifyState, cat: string | null): [string, string[]] 
   return [t, cs];
 }
 
-export function meterColor(level: number, polarity: "good" | "risk"): string {
-  if (polarity === "risk") return level === 3 ? "var(--kumkum)" : level === 2 ? "var(--turmeric)" : "var(--brand)";
-  return level === 3 ? "var(--brand)" : level === 2 ? "var(--turmeric)" : "var(--kumkum)";
-}
-
 const SHORT_CITE: Record<string, string> = {
   "pa-3p": "PA 3(p)", "pa-2": "PA 2(1)(j)", "pa-3d": "PA 3(d)", "pa-25": "PA 25",
   "dca-3a": "D&C 3(a)", "dca-3h": "D&C 3(h)", "dr-158b": "R.158B", "dr-2eb": "R.2(eb)",

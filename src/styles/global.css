@@ -34,26 +34,6 @@
   --shadow-2: var(--shadow-2);
 
   --color-on-neem: var(--on-neem);
-
-  /* TEMPORARY, Phase 1 only: keeps existing utility classes rendering until they
-     migrate to the tokens above and to rounded-control / rounded-container. Delete in UI-4.9. */
-  --color-paper: var(--paper);
-  --color-sunk: var(--sunk);
-  --color-brand: var(--brand);
-  --color-brand-strong: var(--brand-strong);
-  --color-brand-soft: var(--brand-soft);
-  --color-turmeric: var(--turmeric);
-  --color-turmeric-soft: var(--turmeric-soft);
-  --color-kumkum-soft: var(--kumkum-soft);
-  --color-focus: var(--focus);
-  --color-focus-soft: var(--focus-soft);
-  --radius-sm: var(--r-sm);
-  --radius-md: var(--r-md);
-  --radius-lg: var(--r-lg);
-  --shadow-xs: var(--shadow-1);
-  --shadow-sm: var(--shadow-1);
-  --shadow-md: var(--shadow-2);
-  --shadow-lg: var(--shadow-2);
 }
 
 /* Type scale in a plain @theme block (not inline) so utilities read var(--text-h1) and the mobile override below works.
