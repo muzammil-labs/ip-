@@ -13,6 +13,7 @@ import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { CQ } from "../data/classifyQuestions";
 import { buildResult, type ClassifyResult } from "../engines/classify";
+import { changedSourceIdSet } from "../engines/lawChanged";
 import { computeTkMatches } from "../engines/tkProximity";
 import { FORMULATIONS } from "../data/formulations";
 import type { ClassifyState } from "../lib/types";
@@ -49,6 +50,7 @@ export default function Classify() {
   }
 
   const tkMatches = useMemo(() => computeTkMatches(kase.formula), [kase.formula]);
+  const lawChangedIds = useMemo(() => changedSourceIdSet(kase), [kase]);
 
   return (
     <Chapter n={2} titleKey="chClassifyTitle" purposeKey="chClassifyPurpose">
@@ -103,7 +105,13 @@ export default function Classify() {
 
             <EvidenceList>
               {result.rows.map((r) => (
-                <EvidenceRow key={r.key} state={r.cites.length ? "V" : "U"} cites={r.cites} changed={!!r.changedFrom}>
+                <EvidenceRow
+                  key={r.key}
+                  state={r.cites.length ? "V" : "U"}
+                  cites={r.cites}
+                  changed={!!r.changedFrom || r.cites.some((c) => lawChangedIds.has(c))}
+                  lawChanged={r.cites.some((c) => lawChangedIds.has(c))}
+                >
                   <span className="font-semibold text-ink">{r.label}:</span> {r.text}
                   {r.changedFrom && <DiffMark previous={r.changedFrom} />}
                 </EvidenceRow>

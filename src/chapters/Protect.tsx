@@ -8,6 +8,7 @@ import ExaminerView, { ExaminerToggleButton, useExaminerToggle } from "../panels
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { classify } from "../engines/classify";
+import { changedSourceIdSet } from "../engines/lawChanged";
 import { protectionRows, type ProtectionRow, type ProtectionStrength } from "../data/protectionRows";
 
 const GROUPS: { strength: ProtectionStrength; headingKey: string; state: "V" | "U" | "R" }[] = [
@@ -20,6 +21,7 @@ export default function Protect() {
   const t = useT();
   const { case: kase } = useCase();
   const result = useMemo(() => classify(kase), [kase]);
+  const lawChangedIds = useMemo(() => changedSourceIdSet(kase), [kase]);
   const examiner = useExaminerToggle();
 
   return (
@@ -51,7 +53,13 @@ export default function Protect() {
             <Section key={g.strength} title={t(g.headingKey)}>
               <EvidenceList>
                 {rows.map((r) => (
-                  <EvidenceRow key={r.ip} state={g.state} cites={r.cites}>
+                  <EvidenceRow
+                    key={r.ip}
+                    state={g.state}
+                    cites={r.cites}
+                    changed={r.cites.some((c) => lawChangedIds.has(c))}
+                    lawChanged={r.cites.some((c) => lawChangedIds.has(c))}
+                  >
                     <span className="font-semibold text-ink">{t(`ip${r.ip}`)}:</span> {r.text}
                   </EvidenceRow>
                 ))}
