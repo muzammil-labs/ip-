@@ -40,7 +40,7 @@ export default function Shell({ children }: { children: ReactNode }) {
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-line px-4 py-5 text-center text-small text-ink-3 sm:px-6">
+      <footer className="border-t border-line px-4 py-5 text-center text-small text-ink-3 sm:px-6 print:hidden">
         {t("disc")}
       </footer>
       <SourceDrawer />
