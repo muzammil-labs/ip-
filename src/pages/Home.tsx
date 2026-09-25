@@ -12,6 +12,7 @@ import { useSession } from "../state/session";
 import { useCase } from "../state/case";
 import { EXAMPLES } from "../data/examples";
 import { ANSWERS } from "../data/answers";
+import { SOURCES } from "../data/sources";
 import { CHAPTER_ORDER } from "../chapters/order";
 
 /** Scroll-reveal wrapper: children stagger-fade-up once the section enters the viewport,
@@ -33,6 +34,12 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 }
 
 const HERO_ANSWER = ANSWERS.find((a) => a.id === "q1")!;
+
+const HERO_STATS = [
+  { value: CHAPTER_ORDER.length, labelKey: "homeStatChapters" },
+  { value: Object.keys(SOURCES).length, labelKey: "homeStatSources" },
+  { value: 3, labelKey: "homeStatLanguages" },
+];
 
 const CHAPTER_KEYS: Record<string, { titleKey: string; purposeKey: string }> = {
   describe: { titleKey: "chDescribeTitle", purposeKey: "chDescribePurpose" },
@@ -74,7 +81,7 @@ export default function Home() {
           animate="visible"
           variants={staggerContainer}
         >
-          <div>
+          <div className="lg:pt-8">
             <motion.h1 variants={fadeUp} className="max-w-[16ch] text-display text-ink">
               {t("homeH1")}
             </motion.h1>
@@ -93,11 +100,20 @@ export default function Home() {
                 </Button>
               </motion.span>
             </motion.div>
+            <motion.dl variants={fadeUp} className="mt-10 grid max-w-[30rem] grid-cols-3 gap-6 border-t border-line pt-6">
+              {HERO_STATS.map((s) => (
+                <div key={s.labelKey} className="flex flex-col-reverse">
+                  <dt className="mt-1 text-small text-ink-3">{t(s.labelKey)}</dt>
+                  <dd className="text-h1 tabular-nums text-neem">{s.value}</dd>
+                </div>
+              ))}
+            </motion.dl>
           </div>
 
           <motion.div variants={fadeUp} className="relative">
+            <div aria-hidden="true" className="pointer-events-none absolute -inset-10 -z-10 rounded-pill bg-neem-wash opacity-80 blur-3xl" />
             <motion.div
-              className="aspect-[16/9] sm:aspect-[4/3]"
+              className="aspect-[16/9] sm:aspect-[5/4]"
               initial={motionOK ? { opacity: 0, scale: 0.96 } : false}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
@@ -105,7 +121,7 @@ export default function Home() {
               <Plate botanicalName="Withania somnifera" commonNames={t("plantAshwagandha")} />
             </motion.div>
             <motion.div
-              className="relative z-10 -mt-10 max-w-[380px] rounded-container border border-line bg-surface-2 p-5 shadow-2 sm:ml-8 sm:-mt-14"
+              className="relative z-10 -mt-10 rounded-container border border-line bg-surface-2 p-5 shadow-2 sm:ml-8 sm:mr-0 sm:-mt-32"
               variants={stamp}
               initial={motionOK ? "hidden" : false}
               animate="visible"
