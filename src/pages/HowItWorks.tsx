@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
 import { Terminal, CheckCircle } from "@phosphor-icons/react";
 import { StatusChip } from "../ui/Chip";
@@ -23,6 +23,14 @@ const STACK: [string, string, string][] = [
   ["Verifier", "Entailment check", "Each sentence checked against its cited chunk; unsupported sentences are dropped"],
   ["Language", "Bhashini + IndicTrans2 fallback", "Glossary lock on legal terms, back-translation check before display"],
   ["Trust", "Append-only audit table", "Consent records logged; formulation fields encrypted and excluded from logs"],
+];
+
+const IN_PAGE_NAV: { id: string; labelKey: string }[] = [
+  { id: "pipeline", labelKey: "pipelineHeading" },
+  { id: "trick", labelKey: "trickSectionHeading" },
+  { id: "architecture", labelKey: "architectureHeading" },
+  { id: "coverage", labelKey: "coverageHeading" },
+  { id: "api-contract", labelKey: "apiContractHeading" },
 ];
 
 const API_ROUTES: { method: string; path: string; summaryKey: string }[] = [
@@ -56,6 +64,23 @@ export default function HowItWorks() {
     return order.filter((k) => byScreen.has(k)).map((k) => ({ screen: k, items: byScreen.get(k)! }));
   }, []);
 
+  const [activeId, setActiveId] = useState(IN_PAGE_NAV[0].id);
+
+  useEffect(() => {
+    const els = IN_PAGE_NAV.map((n) => document.getElementById(n.id)).filter((el): el is HTMLElement => el != null);
+    if (!els.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // The topmost section currently intersecting the "active band" near the top of the viewport wins.
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: "-96px 0px -70% 0px", threshold: 0 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -68,7 +93,27 @@ export default function HowItWorks() {
         </Button>
       </div>
 
-      <Section title={t("pipelineHeading")}>
+      <div className="mt-4 flex items-start gap-10 lg:mt-0">
+        <nav aria-label={t("trustH1")} className="sticky top-24 hidden w-56 shrink-0 lg:block">
+          <ul className="flex flex-col gap-1 border-l border-line">
+            {IN_PAGE_NAV.map((item) => (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  className={`-ml-px block w-full border-l-2 py-1.5 pl-4 text-left text-small transition-colors ${
+                    activeId === item.id ? "border-neem font-semibold text-neem" : "border-transparent text-ink-3 hover:text-ink"
+                  }`}
+                >
+                  {t(item.labelKey)}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="min-w-0 flex-1">
+      <Section id="pipeline" title={t("pipelineHeading")}>
         <ol className="divide-y divide-line rounded-container border border-line">
           {PIPELINE.map((p, i) => (
             <li key={p.stepKey} className="flex gap-3 px-4 py-3.5">
@@ -82,11 +127,11 @@ export default function HowItWorks() {
         </ol>
       </Section>
 
-      <Section title={t("trickSectionHeading")} lede={t("trickLede")}>
+      <Section id="trick" title={t("trickSectionHeading")} lede={t("trickLede")}>
         <TrickBox />
       </Section>
 
-      <Section title={t("architectureHeading")}>
+      <Section id="architecture" title={t("architectureHeading")}>
         <dl className="divide-y divide-line rounded-container border border-line">
           {STACK.map(([layer, choice, note]) => (
             <div key={layer} className="grid gap-1 px-4 py-3.5 sm:grid-cols-[1fr_2fr] sm:gap-4">
@@ -100,7 +145,7 @@ export default function HowItWorks() {
         </dl>
       </Section>
 
-      <Section title={t("coverageHeading")} lede={t("coverageLede")}>
+      <Section id="coverage" title={t("coverageHeading")} lede={t("coverageLede")}>
         <div className="flex flex-col gap-6">
           {grouped.map(({ screen, items }) => (
             <div key={screen}>
@@ -127,7 +172,7 @@ export default function HowItWorks() {
         </div>
       </Section>
 
-      <Section title={t("apiContractHeading")} lede={t("apiContractLede")}>
+      <Section id="api-contract" title={t("apiContractHeading")} lede={t("apiContractLede")}>
         <div className="overflow-x-auto rounded-container border border-line" tabIndex={0} role="region" aria-label={t("apiContractHeading")}>
           <table className="w-full text-small">
             <thead className="bg-wash">
@@ -153,6 +198,8 @@ export default function HowItWorks() {
           </table>
         </div>
       </Section>
+        </div>
+      </div>
     </div>
   );
 }
