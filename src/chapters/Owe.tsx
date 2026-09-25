@@ -8,6 +8,7 @@ import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import DiffMark from "../ui/DiffMark";
 import { StatusChip } from "../ui/Chip";
 import Callout from "../ui/Callout";
+import BenefitFlow from "../panels/BenefitFlow";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { classify } from "../engines/classify";
@@ -145,6 +146,10 @@ export default function Owe() {
                   <p className="text-small text-ink-3">
                     {t("benefitShareReportingNote")} <StatusChip tone="input">{t("benefitShareConfirmRegulation")}</StatusChip>
                   </p>
+                )}
+
+                {benefitShare.kind !== "not-applicable" && (
+                  <BenefitFlow result={benefitShare} />
                 )}
               </div>
             )}
