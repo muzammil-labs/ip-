@@ -17,6 +17,7 @@ export const en: Record<string, string> = {
   "footerPs": "Smart India Hackathon, PS 26045",
   "askTitle": "Ask about your Ayurvedic product",
   "askLede": "Type or speak in English, Hindi or Telugu. Every sentence in the answer links to the law it rests on.",
+  "askForPersona": "Answers are written for: {p}",
   "askBtn": "Ask",
   "disc": "Information, not legal advice. Verify with the cited source or a registered IP professional before acting.",
   "ovH1": "Every answer<span class=\"clause\">has a clause behind it.</span>",
