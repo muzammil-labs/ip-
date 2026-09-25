@@ -1,10 +1,11 @@
 import { ANSWERS } from "../data/answers";
 import { PRESETS } from "../data/constants";
 import { performAsk } from "../engines/ask";
+import { SCREEN_ROUTE } from "./legacyRoutes";
 import type { useApp } from "../state/store";
 import type { useSession } from "../state/session";
 
-type App = ReturnType<typeof useApp> & ReturnType<typeof useSession>;
+type App = ReturnType<typeof useApp> & ReturnType<typeof useSession> & { navigate: (to: string) => void };
 
 export interface TourStep {
   titleKey: string;
@@ -17,7 +18,7 @@ export const TOUR: TourStep[] = [
     titleKey: "tour0title",
     descKey: "tour0desc",
     run: (app) => {
-      app.go("ask");
+      app.navigate(SCREEN_ROUTE.ask);
       performAsk(app, ANSWERS[0].q);
     },
   },
@@ -25,7 +26,7 @@ export const TOUR: TourStep[] = [
     titleKey: "tour1title",
     descKey: "tour1desc",
     run: (app) => {
-      app.go("ask");
+      app.navigate(SCREEN_ROUTE.ask);
       const a = performAsk(app, ANSWERS[0].q);
       const p = a.in?.pts.find((pt) => pt.s === "C");
       if (p) app.openClauseSheet(p.c[0], p);
@@ -37,7 +38,7 @@ export const TOUR: TourStep[] = [
     run: (app) => {
       app.setLang("hi");
       app.setPersona("farmer");
-      app.go("ask");
+      app.navigate(SCREEN_ROUTE.ask);
       performAsk(app, ANSWERS[3].q);
     },
   },
@@ -46,7 +47,7 @@ export const TOUR: TourStep[] = [
     descKey: "tour3desc",
     run: (app) => {
       app.setLang("en");
-      app.go("classify");
+      app.navigate(SCREEN_ROUTE.classify);
       app.setPrevRows(null);
       app.setCls({ ...PRESETS.ashwa });
       setTimeout(() => app.answerCls("src", "wild"), 500);
@@ -55,13 +56,13 @@ export const TOUR: TourStep[] = [
   {
     titleKey: "tour4title",
     descKey: "tour4desc",
-    run: (app) => app.go("claims"),
+    run: (app) => app.navigate(SCREEN_ROUTE.claims),
   },
   {
     titleKey: "tour5title",
     descKey: "tour5desc",
     run: (app) => {
-      app.go("sources");
+      app.navigate(SCREEN_ROUTE.sources);
       setTimeout(() => document.getElementById("rule170")?.scrollIntoView({ behavior: "smooth", block: "center" }), 150);
     },
   },
@@ -69,13 +70,13 @@ export const TOUR: TourStep[] = [
     titleKey: "tour6title",
     descKey: "tour6desc",
     run: (app) => {
-      app.go("ask");
+      app.navigate(SCREEN_ROUTE.ask);
       performAsk(app, ANSWERS[5].q);
     },
   },
   {
     titleKey: "tour7title",
     descKey: "tour7desc",
-    run: (app) => app.go("trust"),
+    run: (app) => app.navigate(SCREEN_ROUTE.trust),
   },
 ];

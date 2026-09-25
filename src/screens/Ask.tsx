@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLocation } from "wouter";
 import { PaperPlaneRight, Microphone, SpeakerHigh, UserCircle, Question } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
 import { useApp as useAppType } from "../state/store";
 import { useSession } from "../state/session";
+import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 import { useT } from "../i18n/useT";
 import { SUGGEST } from "../data/suggest";
 import { ANSWERS } from "../data/answers";
@@ -64,6 +66,7 @@ export default function Ask() {
   const app = useApp();
   const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
   const { lang } = useSession();
+  const [, navigate] = useLocation();
   const [input, setInput] = useState("");
   const [escalateOpen, setEscalateOpen] = useState(false);
   const [listening, setListening] = useState(false);
@@ -298,7 +301,7 @@ export default function Ask() {
                   <button type="button" onClick={speak} className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
                     <SpeakerHigh size={15} /> {t("readAloud")}
                   </button>
-                  <button type="button" onClick={() => app.go("classify")} className="rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
+                  <button type="button" onClick={() => navigate(SCREEN_ROUTE.classify)} className="rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
                     {t("classifyMyProduct")}
                   </button>
                   <button type="button" onClick={() => setEscalateOpen(true)} className="rounded-full bg-brand px-4 py-2 text-[13px] font-semibold text-white">

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { Link, useLocation } from "wouter";
 import {
-  House, ChatCircleText, FlowArrow, MagnifyingGlass, Megaphone,
-  BookBookmark, ShieldCheck, MapTrifold, Sun, Moon, List, X,
+  House, FlowArrow, BookBookmark, Question, Sun, Moon, List, X,
 } from "@phosphor-icons/react";
-import { useApp, type Screen } from "../state/store";
 import { useSession } from "../state/session";
 import { useT, type Lang } from "../i18n/useT";
 import { LAYER } from "../ui/layers";
@@ -15,32 +14,19 @@ const LANG_OPTIONS: { value: Lang; label: string }[] = [
   { value: "te", label: "తె" },
 ];
 
-/**
- * The final IA (Home, Case, Library, How it works per Appendix B2) is built in Phase 3
- * and 4. Until then this bar keeps the current eight screens reachable, restyled to the
- * C9 shell spec (single line, 64px desktop / 56px mobile, right-side language and theme
- * controls, a primary "Start a case" action). See docs/plan/QUESTIONS.md.
- */
-const NAV: { key: Screen; icon: typeof House }[] = [
-  { key: "overview", icon: House },
-  { key: "ask", icon: ChatCircleText },
-  { key: "classify", icon: FlowArrow },
-  { key: "tk", icon: MagnifyingGlass },
-  { key: "claims", icon: Megaphone },
-  { key: "sources", icon: BookBookmark },
-  { key: "trust", icon: ShieldCheck },
-  { key: "blueprint", icon: MapTrifold },
+/** The four B2 destinations. Case links to the first chapter; the router redirects an unknown or missing chapter slug there too. */
+const NAV: { href: string; labelKey: string; icon: typeof House; match: (loc: string) => boolean }[] = [
+  { href: "/", labelKey: "navHome", icon: House, match: (loc) => loc === "/" },
+  { href: "/case/describe", labelKey: "navCase", icon: FlowArrow, match: (loc) => loc.startsWith("/case/") },
+  { href: "/library", labelKey: "navLibrary", icon: BookBookmark, match: (loc) => loc.startsWith("/library") },
+  { href: "/how", labelKey: "navHow", icon: Question, match: (loc) => loc === "/how" },
 ];
 
-function LangControl({ compact }: { compact?: boolean }) {
+function LangControl() {
   const { lang, setLang } = useSession();
   const t = useT();
   return (
-    <div
-      role="group"
-      aria-label={t("lang")}
-      className={`flex items-center gap-0.5 rounded-pill border border-line bg-surface p-0.5 ${compact ? "" : ""}`}
-    >
+    <div role="group" aria-label={t("lang")} className="flex items-center gap-0.5 rounded-pill border border-line bg-surface p-0.5">
       {LANG_OPTIONS.map(({ value, label }) => (
         <button
           key={value}
@@ -72,30 +58,24 @@ function ThemeToggle() {
   );
 }
 
-function Seal({ onClick }: { onClick: () => void }) {
+function Seal() {
   return (
-    <button
-      type="button"
-      onClick={onClick}
+    <Link
+      href="/"
       className="flex items-center gap-2 rounded-control pr-2 text-h3 font-bold tracking-tight text-ink transition-transform active:scale-[0.98]"
     >
       <span className="flex h-8 w-8 items-center justify-center rounded-control bg-neem text-on-neem text-small font-extrabold">
         IPS
       </span>
       <span className="hidden sm:inline">IP-SAKTI</span>
-    </button>
+    </Link>
   );
 }
 
 export default function TopBar() {
-  const { screen, go } = useApp();
+  const [location] = useLocation();
   const t = useT();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  function goTo(key: Screen) {
-    go(key);
-    setMenuOpen(false);
-  }
 
   return (
     <header
@@ -104,43 +84,44 @@ export default function TopBar() {
     >
       {/* Desktop: single line, 64px */}
       <div className="mx-auto hidden h-16 max-w-[var(--w-shell)] items-center gap-3 px-6 lg:flex">
-        <Seal onClick={() => go("overview")} />
+        <Seal />
 
         <nav className="ml-1 flex flex-1 items-center gap-1 overflow-x-auto" aria-label="Primary">
-          {NAV.map(({ key, icon: Icon }) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => go(key)}
-              aria-current={screen === key ? "page" : undefined}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-pill px-3 py-1.5 text-small font-medium transition-colors ${
-                screen === key ? "bg-neem-wash text-neem-strong" : "text-ink-2 hover:bg-wash hover:text-ink"
-              }`}
-            >
-              <Icon size={16} weight={screen === key ? "fill" : "regular"} />
-              {t(key)}
-            </button>
-          ))}
+          {NAV.map(({ href, labelKey, icon: Icon, match }) => {
+            const active = match(location);
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={`flex items-center gap-1.5 whitespace-nowrap rounded-pill px-3 py-1.5 text-small font-medium transition-colors ${
+                  active ? "bg-neem-wash text-neem-strong" : "text-ink-2 hover:bg-wash hover:text-ink"
+                }`}
+              >
+                <Icon size={16} weight={active ? "fill" : "regular"} />
+                {t(labelKey)}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <LangControl />
           <ThemeToggle />
-          <button
-            type="button"
-            onClick={() => go("classify")}
+          <Link
+            href="/case/describe"
             className="whitespace-nowrap rounded-pill bg-neem px-4 py-2 text-small font-semibold text-on-neem shadow-1 transition-transform active:scale-[0.98]"
           >
             {t("startCase")}
-          </button>
+          </Link>
         </div>
       </div>
 
       {/* Mobile: single line, 56px, destinations behind a menu sheet */}
       <div className="flex h-14 items-center gap-2 px-4 lg:hidden">
-        <Seal onClick={() => goTo("overview")} />
+        <Seal />
         <div className="ml-auto flex shrink-0 items-center gap-2">
-          <LangControl compact />
+          <LangControl />
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -188,27 +169,30 @@ export default function TopBar() {
                 </button>
               </div>
               <nav className="flex flex-col gap-1" aria-label="Primary mobile">
-                {NAV.map(({ key, icon: Icon }) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => goTo(key)}
-                    aria-current={screen === key ? "page" : undefined}
-                    className={`flex items-center gap-2.5 rounded-control px-3 py-2.5 text-body font-medium ${
-                      screen === key ? "bg-neem-wash text-neem-strong" : "text-ink-2"
-                    }`}
-                  >
-                    <Icon size={18} weight={screen === key ? "fill" : "regular"} />
-                    {t(key)}
-                  </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => goTo("classify")}
+                {NAV.map(({ href, labelKey, icon: Icon, match }) => {
+                  const active = match(location);
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={`flex items-center gap-2.5 rounded-control px-3 py-2.5 text-body font-medium ${
+                        active ? "bg-neem-wash text-neem-strong" : "text-ink-2"
+                      }`}
+                    >
+                      <Icon size={18} weight={active ? "fill" : "regular"} />
+                      {t(labelKey)}
+                    </Link>
+                  );
+                })}
+                <Link
+                  href="/case/describe"
+                  onClick={() => setMenuOpen(false)}
                   className="mt-2 rounded-pill bg-neem px-4 py-2.5 text-center text-small font-semibold text-on-neem"
                 >
                   {t("startCase")}
-                </button>
+                </Link>
               </nav>
             </motion.div>
           </>

@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLocation } from "wouter";
 import { useApp } from "../state/store";
 import { useSession } from "../state/session";
+import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 import { useT } from "../i18n/useT";
 import { CQ } from "../data/classifyQuestions";
 import { CAT } from "../data/classifyCategories";
@@ -56,6 +58,7 @@ export default function Classify() {
   const app = useApp();
   const { cls, setCls, answerCls, prevRows, setPrevRows } = app;
   const { openClauseSheet } = useSession();
+  const [, navigate] = useLocation();
   const t = useT();
 
   const { shown, total } = visibleQuestions(cls);
@@ -202,7 +205,7 @@ export default function Classify() {
                     <li key={i}>{s}</li>
                   ))}
                 </ol>
-                <button type="button" onClick={() => app.go("tk")} className="mt-4 rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
+                <button type="button" onClick={() => navigate(SCREEN_ROUTE.tk)} className="mt-4 rounded-full border border-line px-3.5 py-2 text-[13px] font-medium text-ink-2 hover:bg-sunk">
                   {t("searchPriorArt")}
                 </button>
               </div>

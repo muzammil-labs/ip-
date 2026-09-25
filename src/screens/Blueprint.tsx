@@ -1,9 +1,11 @@
 import { useMemo } from "react";
-import { useApp } from "../state/store";
+import { useLocation } from "wouter";
 import { useT } from "../i18n/useT";
 import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import Reveal from "../components/Reveal";
+import { SCREEN_ROUTE } from "../lib/legacyRoutes";
+import type { Screen } from "../state/store";
 
 const STACK: [string, string, string][] = [
   ["API", "FastAPI + Pydantic", "/ask, /classify, /claims/check, /sources, /escalate"],
@@ -24,7 +26,7 @@ const STAGES = [
 
 export default function Blueprint() {
   const t = useT();
-  const { go } = useApp();
+  const [, navigate] = useLocation();
 
   const grouped = useMemo(() => {
     const byScreen = new Map<string, [string, string][]>();
@@ -82,7 +84,7 @@ export default function Blueprint() {
             <div key={screen}>
               <button
                 type="button"
-                onClick={() => go(screen as any)}
+                onClick={() => navigate(SCREEN_ROUTE[screen as Screen])}
                 className="text-[13px] font-bold uppercase tracking-wide text-brand-strong hover:underline"
               >
                 {t(screen)}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { useLocation } from "wouter";
 import { ArrowRight, Compass, Columns, Gauge, ClockCounterClockwise, Scales, Play, CaretRight } from "@phosphor-icons/react";
 import { useApp } from "../state/store";
 import { useSession } from "../state/session";
@@ -8,6 +9,7 @@ import EvidenceGraph from "../components/EvidenceGraph";
 import HeroDemo from "../components/HeroDemo";
 import Reveal from "../components/Reveal";
 import { TOUR } from "../lib/tour";
+import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 
 const DIFFERENTIATORS = [
   { icon: Compass, tKey: "diff0t", bKey: "diff0b" },
@@ -18,18 +20,18 @@ const DIFFERENTIATORS = [
 ];
 
 export default function Overview() {
-  const { go } = useApp();
   const t = useT();
   const reduce = useReducedMotion();
   const [tourOn, setTourOn] = useState(false);
   const [tourIx, setTourIx] = useState(0);
   const app = useApp();
   const session = useSession();
+  const [, navigate] = useLocation();
 
   function startTour(i: number) {
     setTourIx(i);
     setTourOn(true);
-    TOUR[i].run({ ...app, ...session });
+    TOUR[i].run({ ...app, ...session, navigate });
   }
 
   return (
@@ -52,14 +54,14 @@ export default function Overview() {
             <div className="mt-7 flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => go("ask")}
+                onClick={() => navigate(SCREEN_ROUTE.ask)}
                 className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-sm transition-transform active:scale-[0.98]"
               >
                 {t("askQuestionBtn")} <ArrowRight size={16} />
               </button>
               <button
                 type="button"
-                onClick={() => go("blueprint")}
+                onClick={() => navigate(SCREEN_ROUTE.blueprint)}
                 className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-[14.5px] font-semibold text-ink transition-colors hover:bg-sunk"
               >
                 {t("seeHowBuiltBtn")}
