@@ -446,4 +446,7 @@ export const en: Record<string, string> = {
   "apiEscalationsSummary": "Hand off a Case to a human facilitator, consent-scoped",
   "apiConsentGrantSummary": "Grant consent to use a paid source",
   "apiConsentRevokeSummary": "Revoke a previously granted consent",
+  "sahayakContext": "Answering for: {product}, {category}",
+  "sahayakNoCategory": "not yet classified",
+  "sahayakNoContext": "Start a case in Describe to answer with your product in context.",
 };

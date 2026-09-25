@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import {
-  House, FlowArrow, BookBookmark, Question, Sun, Moon, List, X,
+  House, FlowArrow, BookBookmark, Question, Sun, Moon, List, X, ChatCircleText,
 } from "@phosphor-icons/react";
 import { useSession } from "../state/session";
 import { useT, type Lang } from "../i18n/useT";
@@ -75,6 +75,7 @@ function Seal() {
 export default function TopBar() {
   const [location] = useLocation();
   const t = useT();
+  const { setSahayakOpen } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -107,6 +108,14 @@ export default function TopBar() {
 
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <LangControl />
+          <button
+            type="button"
+            onClick={() => setSahayakOpen(true)}
+            aria-label={t("askSahayak")}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill border border-line bg-surface text-ink-2 transition-colors hover:text-ink"
+          >
+            <ChatCircleText size={16} />
+          </button>
           <ThemeToggle />
           <Link
             href="/case/describe"
@@ -122,6 +131,14 @@ export default function TopBar() {
         <Seal />
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <LangControl />
+          <button
+            type="button"
+            onClick={() => setSahayakOpen(true)}
+            aria-label={t("askSahayak")}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill border border-line bg-surface text-ink-2"
+          >
+            <ChatCircleText size={16} />
+          </button>
           <button
             type="button"
             onClick={() => setMenuOpen(true)}

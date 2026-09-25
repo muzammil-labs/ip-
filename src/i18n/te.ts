@@ -446,4 +446,7 @@ export const te: Record<string, string> = {
   "apiEscalationsSummary": "ఒక కేసును మానవ ఫెసిలిటేటర్‌కు అప్పగించండి, సమ్మతి-పరిమితం",
   "apiConsentGrantSummary": "చెల్లింపు మూలాన్ని ఉపయోగించడానికి సమ్మతి ఇవ్వండి",
   "apiConsentRevokeSummary": "గతంలో ఇచ్చిన సమ్మతిని ఉపసంహరించుకోండి",
+  "sahayakContext": "దీని కోసం సమాధానం ఇస్తోంది: {product}, {category}",
+  "sahayakNoCategory": "ఇంకా వర్గీకరించబడలేదు",
+  "sahayakNoContext": "మీ ఉత్పత్తి సందర్భంలో సమాధానం పొందడానికి వివరించండిలో ఒక కేసును ప్రారంభించండి.",
 };
