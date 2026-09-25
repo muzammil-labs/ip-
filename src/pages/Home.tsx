@@ -147,8 +147,8 @@ export default function Home() {
       <section className="mx-auto max-w-[var(--w-shell)] px-4 py-14 sm:px-6">
         <h2 className="text-h2 text-ink">{t("homeExamplesHeading")}</h2>
         <p className="mt-2 max-w-[56ch] text-body text-ink-2">{t("homeExamplesLede")}</p>
-        <Reveal className="mt-6 grid gap-4 sm:grid-cols-3">
-          {EXAMPLES.map((ex) => (
+        <Reveal className="-mx-4 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+          {EXAMPLES.map((ex, i) => (
             <motion.button
               key={ex.key}
               type="button"
@@ -157,11 +157,9 @@ export default function Home() {
               whileTap={motionOK ? { scale: 0.98 } : undefined}
               transition={{ type: "spring", stiffness: 380, damping: 26 }}
               onClick={() => openExample(ex)}
-              className="flex flex-col items-start gap-3 rounded-container border border-line bg-surface p-5 text-left shadow-1"
+              className="flex w-[80%] shrink-0 snap-start flex-col items-start gap-3 rounded-container border border-line bg-surface p-4 text-left shadow-1 sm:w-auto"
             >
-              <div className="aspect-[4/3] w-full">
-                <Plate botanicalName={ex.build().formula[0]?.plant.botanicalName ?? ""} />
-              </div>
+              <Plate compact markVariant={i} botanicalName={ex.build().formula[0]?.plant.botanicalName ?? ""} />
               <h3 className="text-h3 text-ink">{t(ex.titleKey)}</h3>
               <p className="text-small text-ink-2">{t(ex.descKey)}</p>
               <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">

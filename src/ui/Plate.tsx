@@ -8,7 +8,13 @@ export interface PlateProps {
   botanicalName: string;
   commonNames?: string;
   creditHref?: string;
+  /** Shorter 16:9 tile for dense grids (placeholder only). */
+  compact?: boolean;
+  /** Varies the placeholder mark's orientation so neighbouring tiles in a grid don't repeat. */
+  markVariant?: number;
 }
+
+const MARK_VARIANTS = ["", "-scale-x-100", "rotate-6", "-scale-x-100 -rotate-6"];
 
 /**
  * A botanical plate: real, licence-checked photography only (C6), duotone-treated via
@@ -18,12 +24,16 @@ export interface PlateProps {
  * surface (Home) reads as broken when it borrows the same treatment used for genuine
  * empty data elsewhere in the app, even though neither fakes a photograph.
  */
-export default function Plate({ slug, botanicalName, commonNames, creditHref }: PlateProps) {
+export default function Plate({ slug, botanicalName, commonNames, creditHref, compact = false, markVariant = 0 }: PlateProps) {
   const t = useT();
   if (!slug) {
     return (
-      <div className="relative flex aspect-[4/3] w-full items-end overflow-hidden rounded-container border border-line bg-neem-wash">
-        <BotanicalMark className="absolute inset-0 h-full w-full p-8 text-neem-strong/45" />
+      <div
+        className={`relative flex ${compact ? "aspect-[16/9]" : "aspect-[4/3]"} w-full items-end overflow-hidden rounded-container border border-line bg-neem-wash`}
+      >
+        <BotanicalMark
+          className={`absolute inset-0 h-full w-full ${compact ? "p-5" : "p-8"} text-neem-strong/45 ${MARK_VARIANTS[markVariant % MARK_VARIANTS.length]}`}
+        />
         <div className="relative z-10 w-full bg-gradient-to-t from-neem-wash from-40% to-transparent px-5 pb-3 pt-8 text-center">
           <p className="text-small font-semibold italic text-neem-strong">{botanicalName}</p>
         </div>
