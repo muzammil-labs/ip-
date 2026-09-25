@@ -1,4 +1,4 @@
-import { Leaf } from "@phosphor-icons/react";
+import BotanicalMark from "./BotanicalMark";
 import { useT } from "../i18n/useT";
 
 export interface PlateProps {
@@ -22,9 +22,11 @@ export default function Plate({ slug, botanicalName, commonNames, creditHref }: 
   const t = useT();
   if (!slug) {
     return (
-      <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-container border border-line bg-neem-wash px-6 text-center">
-        <Leaf size={28} weight="duotone" className="text-neem-strong/70" />
-        <p className="max-w-[28ch] text-small italic text-neem-strong/80">{botanicalName}</p>
+      <div className="relative flex aspect-[4/3] w-full items-end overflow-hidden rounded-container border border-line bg-neem-wash">
+        <BotanicalMark className="absolute inset-0 h-full w-full p-8 text-neem-strong/45" />
+        <div className="relative z-10 w-full bg-gradient-to-t from-neem-wash from-40% to-transparent px-5 pb-3 pt-8 text-center">
+          <p className="text-small font-semibold italic text-neem-strong">{botanicalName}</p>
+        </div>
       </div>
     );
   }
