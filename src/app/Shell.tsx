@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { useLocation } from "wouter";
 import TopBar from "./TopBar";
-import SourceDrawer from "../components/SourceDrawer";
+import ClauseSheet from "../panels/ClauseSheet";
 import ApiInspector from "./ApiInspector";
 import PresenterMode from "./PresenterMode";
 import Sahayak from "../panels/Sahayak";
@@ -44,7 +44,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       <footer className="border-t border-line px-4 py-5 text-center text-small text-ink-3 sm:px-6 print:hidden">
         {t("disc")}
       </footer>
-      <SourceDrawer />
+      <ClauseSheet />
       <ApiInspector />
       <PresenterMode />
       <Sahayak />
