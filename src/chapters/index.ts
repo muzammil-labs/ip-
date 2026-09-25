@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { CHAPTER_ORDER, type ChapterSlug } from "./order";
 
 /** The seven Case chapters (B2), in journey order. Keyed by the #/case/:chapter slug.
  * Lazy so each chapter's own dependencies (Radix, DataTable) split out of the main
@@ -13,6 +14,5 @@ export const CHAPTERS = {
   dossier: lazy(() => import("./Dossier")),
 } as const;
 
-export type ChapterSlug = keyof typeof CHAPTERS;
-
-export const CHAPTER_ORDER: ChapterSlug[] = ["describe", "classify", "protect", "owe", "say", "search", "dossier"];
+export { CHAPTER_ORDER };
+export type { ChapterSlug };

@@ -9,7 +9,7 @@ import { useSession } from "../state/session";
 import { useCase } from "../state/case";
 import { EXAMPLES } from "../data/examples";
 import { ANSWERS } from "../data/answers";
-import { CHAPTER_ORDER } from "../chapters";
+import { CHAPTER_ORDER } from "../chapters/order";
 
 const HERO_ANSWER = ANSWERS.find((a) => a.id === "q1")!;
 
