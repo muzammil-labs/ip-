@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocation } from "wouter";
 import { PaperPlaneRight, Microphone, SpeakerHigh, Question, X } from "@phosphor-icons/react";
@@ -17,6 +17,7 @@ import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
 import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
+import { useClauseSearch } from "../hooks/useClauseSearch";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
 import { Field } from "../ui/Field";
@@ -97,6 +98,13 @@ export default function Sahayak() {
     const allCites = [...(current.in?.pts ?? []), ...(current.intl?.pts ?? [])].flatMap((p) => p.c);
     return [...new Set(allCites.filter(hasVersions))];
   }, [current]);
+
+  const { results: clauseResults, loading: clauseLoading, search: searchClauses } = useClauseSearch();
+  useEffect(() => {
+    if (current?.id === "unk") searchClauses(current.q);
+  }, [current, searchClauses]);
+  const clauseIndia = clauseResults.filter((h) => h.jur === "India").slice(0, 5);
+  const clauseIntl = clauseResults.filter((h) => h.jur !== "India").slice(0, 5);
 
   function submit(q?: string) {
     const query = q ?? input;
@@ -241,6 +249,28 @@ export default function Sahayak() {
                     <div className="mt-3">
                       <Button onClick={escalate}>{escalateConfirm ? t("escalateSend") + "✓" : t("abstainEscalate")}</Button>
                     </div>
+
+                    {current.id === "unk" && (
+                      <div className="mt-3 border-t border-line pt-3">
+                        <p className="text-small font-semibold uppercase tracking-wide text-ink-3">{t("relevantClausesHeading")}</p>
+                        {clauseLoading ? (
+                          <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesLoading")}</p>
+                        ) : clauseIndia.length === 0 && clauseIntl.length === 0 ? (
+                          <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesEmpty")}</p>
+                        ) : (
+                          <>
+                            <EvidenceList>
+                              {[...clauseIndia, ...clauseIntl].map((h) => (
+                                <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                  {h.act}
+                                </EvidenceRow>
+                              ))}
+                            </EvidenceList>
+                            <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesNote")}</p>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <>

@@ -13,6 +13,7 @@ import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
 import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
+import { useClauseSearch } from "../hooks/useClauseSearch";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
@@ -137,6 +138,13 @@ export default function AskPage() {
     const allCites = [...(current.in?.pts ?? []), ...(current.intl?.pts ?? [])].flatMap((p) => p.c);
     return [...new Set(allCites.filter(hasVersions))];
   }, [current]);
+
+  const { results: clauseResults, loading: clauseLoading, search: searchClauses } = useClauseSearch();
+  useEffect(() => {
+    if (current?.id === "unk") searchClauses(current.q);
+  }, [current, searchClauses]);
+  const clauseIndia = clauseResults.filter((h) => h.jur === "India").slice(0, 5);
+  const clauseIntl = clauseResults.filter((h) => h.jur !== "India").slice(0, 5);
 
   return (
     <div className={`mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14 ${kisanMode ? "text-body-lg" : ""}`}>
@@ -278,6 +286,47 @@ export default function AskPage() {
                   <div className="mt-4">
                     <Button onClick={() => setEscalateOpen(true)}>{t("abstainEscalate")}</Button>
                   </div>
+
+                  {current.id === "unk" && (
+                    <div className="mt-5 border-t border-line pt-4">
+                      <h4 className="text-small font-semibold uppercase tracking-wide text-ink-3">{t("relevantClausesHeading")}</h4>
+                      {clauseLoading ? (
+                        <p className="mt-2 text-small text-ink-3">{t("relevantClausesLoading")}</p>
+                      ) : clauseIndia.length === 0 && clauseIntl.length === 0 ? (
+                        <p className="mt-2 text-small text-ink-3">{t("relevantClausesEmpty")}</p>
+                      ) : (
+                        <>
+                          <div className="mt-2 grid gap-4 sm:grid-cols-2">
+                            {clauseIndia.length > 0 && (
+                              <div>
+                                <p className="text-small font-semibold text-ink-2">{t("juIndia")}</p>
+                                <EvidenceList>
+                                  {clauseIndia.map((h) => (
+                                    <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                      {h.act}
+                                    </EvidenceRow>
+                                  ))}
+                                </EvidenceList>
+                              </div>
+                            )}
+                            {clauseIntl.length > 0 && (
+                              <div>
+                                <p className="text-small font-semibold text-ink-2">{t("juIntl")}</p>
+                                <EvidenceList>
+                                  {clauseIntl.map((h) => (
+                                    <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                      {h.act}
+                                    </EvidenceRow>
+                                  ))}
+                                </EvidenceList>
+                              </div>
+                            )}
+                          </div>
+                          <p className="mt-2 text-small text-ink-3">{t("relevantClausesNote")}</p>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
