@@ -29,11 +29,17 @@ export default function Chapter({ n, titleKey, purposeKey, status, headerAction,
   const t = useT();
   const motionOK = useMotionOK();
   const maxW = wide ? "max-w-[var(--w-shell)]" : "max-w-[var(--w-main)]";
+  // UI-9.12: the header and body boxes must be structurally identical (same mx-auto, max-w and
+  // horizontal padding on the same element), not just the same max-w value. Padding on an ancestor
+  // of one but not the other only cancels out when max-w actually constrains the box; next to the
+  // chapter rail (narrower than --w-shell), it doesn't, and the two edges drift apart. So the
+  // horizontal padding for the header lives on the same element as its max-w (like the body), and
+  // the wash band itself (the thing that needs to be full-bleed) carries none of its own.
   return (
     <div>
-      <div className="bg-wash px-4 py-8 sm:px-6">
+      <div className="bg-wash py-8">
         <motion.div
-          className={`mx-auto flex ${maxW} items-start gap-4`}
+          className={`mx-auto flex ${maxW} items-start gap-4 px-4 sm:px-6`}
           initial={motionOK ? "hidden" : false}
           animate="visible"
           variants={fadeUp}
