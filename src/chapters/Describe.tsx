@@ -101,7 +101,9 @@ export default function Describe() {
     .replace("{markets}", summaryMarkets);
 
   return (
-    <Chapter n={1} titleKey="chDescribeTitle" purposeKey="chDescribePurpose">
+    <Chapter n={1} titleKey="chDescribeTitle" purposeKey="chDescribePurpose" wide>
+      <div className="flex flex-col gap-0 xl:flex-row xl:items-start xl:gap-10">
+      <div className="min-w-0 flex-1">
       <Section title={t("describeProductSectionTitle")}>
         <div className="flex flex-col gap-6">
           <Field
@@ -147,6 +149,7 @@ export default function Describe() {
           value={kase.product.form}
           onChange={(v) => dispatch({ type: "setField", field: "productForm", value: v })}
           options={FORMS.map((f) => ({ value: f, title: t(`form${f}`), description: t(`form${f}Desc`) }))}
+          columnsLg={3}
         />
       </Section>
 
@@ -226,9 +229,17 @@ export default function Describe() {
         />
       </Section>
 
-      <Section title={t("describeFindingHeading")}>
-        <Finding headline={t("describeFindingHeadline")}>{summary}</Finding>
-      </Section>
+      </div>
+
+      {/* Below xl, this renders in normal document flow after the form (default flex-col
+       * stacking). At xl and up, the row becomes flex-row and this becomes a sticky sidebar
+       * beside the form instead. One Finding instance either way, just repositioned. */}
+      <aside className="xl:sticky xl:top-24 xl:w-80 xl:shrink-0">
+        <Section title={t("describeFindingHeading")}>
+          <Finding headline={t("describeFindingHeadline")}>{summary}</Finding>
+        </Section>
+      </aside>
+      </div>
     </Chapter>
   );
 }

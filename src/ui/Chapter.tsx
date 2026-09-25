@@ -17,18 +17,23 @@ export interface ChapterProps {
   status?: ChapterStatus;
   /** UI-6.7: an optional control (e.g. the examiner's-view toggle) shown at the right of the header row. */
   headerAction?: ReactNode;
+  /** UI-9.9: widens the header and body to --w-shell instead of --w-main, for a chapter that needs
+   * a second column (Describe's summary sidebar). Header and body share the same max-width so their
+   * left edges always line up. */
+  wide?: boolean;
   children?: ReactNode;
 }
 
 /** Chapter header (Seal with number, h1 title, body-lg purpose, optional StatusChip) in a full-width wash band, then children. */
-export default function Chapter({ n, titleKey, purposeKey, status, headerAction, children }: ChapterProps) {
+export default function Chapter({ n, titleKey, purposeKey, status, headerAction, wide = false, children }: ChapterProps) {
   const t = useT();
   const motionOK = useMotionOK();
+  const maxW = wide ? "max-w-[var(--w-shell)]" : "max-w-[var(--w-main)]";
   return (
     <div>
       <div className="bg-wash px-4 py-8 sm:px-6">
         <motion.div
-          className="mx-auto flex max-w-[var(--w-main)] items-start gap-4"
+          className={`mx-auto flex ${maxW} items-start gap-4`}
           initial={motionOK ? "hidden" : false}
           animate="visible"
           variants={fadeUp}
@@ -46,7 +51,7 @@ export default function Chapter({ n, titleKey, purposeKey, status, headerAction,
           </div>
         </motion.div>
       </div>
-      <div className="mx-auto max-w-[var(--w-main)] px-4 py-8 sm:px-6">{children}</div>
+      <div className={`mx-auto ${maxW} px-4 py-8 sm:px-6`}>{children}</div>
     </div>
   );
 }

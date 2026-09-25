@@ -14,9 +14,11 @@ export interface RadioCardsProps<T extends string> {
   label: string;
   /** "lg" renders larger icon-led cards, one per row on mobile, for low-literacy / touch-first flows (Kisan mode). */
   size?: "md" | "lg";
+  /** Grid columns at the lg breakpoint and up (sm stays 2-up either way). Default 2. */
+  columnsLg?: 2 | 3;
 }
 
-export default function RadioCards<T extends string>({ options, value, onChange, label, size = "md" }: RadioCardsProps<T>) {
+export default function RadioCards<T extends string>({ options, value, onChange, label, size = "md", columnsLg = 2 }: RadioCardsProps<T>) {
   function onKeyDown(e: React.KeyboardEvent, ix: number) {
     let next = -1;
     if (e.key === "ArrowDown" || e.key === "ArrowRight") next = (ix + 1) % options.length;
@@ -30,7 +32,11 @@ export default function RadioCards<T extends string>({ options, value, onChange,
   const hasIcons = options.some((o) => o.icon);
 
   return (
-    <div role="radiogroup" aria-label={label} className={`grid gap-3 sm:grid-cols-2 ${size === "lg" ? "gap-4" : ""}`}>
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className={`grid gap-3 sm:grid-cols-2 ${columnsLg === 3 ? "lg:grid-cols-3" : ""} ${size === "lg" ? "gap-4" : ""}`}
+    >
       {options.map((o, ix) => {
         const selected = o.value === value;
         return (
