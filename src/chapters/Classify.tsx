@@ -7,10 +7,14 @@ import { StatusChip } from "../ui/Chip";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import DiffMark from "../ui/DiffMark";
 import EmptyState from "../ui/EmptyState";
+import Callout from "../ui/Callout";
+import TkMatchCard from "../ui/TkMatchCard";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { CQ } from "../data/classifyQuestions";
 import { buildResult, type ClassifyResult } from "../engines/classify";
+import { computeTkMatches } from "../engines/tkProximity";
+import { FORMULATIONS } from "../data/formulations";
 import type { ClassifyState } from "../lib/types";
 
 function visibleQuestions(c: ClassifyState) {
@@ -43,6 +47,8 @@ export default function Classify() {
     dispatch({ type: "answer", k, v });
     setEditingKey(null);
   }
+
+  const tkMatches = useMemo(() => computeTkMatches(kase.formula), [kase.formula]);
 
   return (
     <Chapter n={2} titleKey="chClassifyTitle" purposeKey="chClassifyPurpose">
@@ -108,7 +114,18 @@ export default function Classify() {
       </Section>
 
       <Section title={t("classifyTkHeading")}>
-        <EmptyState message={t("classifyTkComingSoon")} />
+        {tkMatches.length === 0 ? (
+          <EmptyState message={t("tkNoFormula")} />
+        ) : (
+          <div className="flex flex-col gap-4">
+            <Callout tone="note" title={t("tkCalloutTitle").replace("{n}", String(FORMULATIONS.length))}>
+              {t("tkCalloutBody")}
+            </Callout>
+            {tkMatches.map((m) => (
+              <TkMatchCard key={m.formulation.slug} match={m} />
+            ))}
+          </div>
+        )}
       </Section>
     </Chapter>
   );

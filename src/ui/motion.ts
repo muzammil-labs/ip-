@@ -9,6 +9,12 @@ export const thread: Variants = {
   visible: { scaleX: 1, transition: { duration: 0.48, ease: EASE } },
 };
 
+/** Same draw-in as `thread`, but for an SVG line/path (pathLength 0 to 1) instead of a scaleX bar. */
+export const threadPath: Variants = {
+  hidden: { pathLength: 0 },
+  visible: { pathLength: 1, transition: { duration: 0.48, ease: EASE } },
+};
+
 /** A seal, cite chip or finding appearing when evidence is verified. Spring 420/28. */
 export const stamp: Variants = {
   hidden: { opacity: 0, scale: 0.92 },

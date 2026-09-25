@@ -30,6 +30,10 @@ export function resolvePlant(query: string): PlantEntry | null {
   );
 }
 
+export function plantBySlug(slug: string): PlantEntry | null {
+  return PLANTS.find((p) => p.slug === slug) ?? null;
+}
+
 /** Substring search across every name field, for a type-ahead list. */
 export function searchPlants(query: string, limit = 6): PlantEntry[] {
   const q = normalize(query);
