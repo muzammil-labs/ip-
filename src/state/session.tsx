@@ -33,6 +33,9 @@ interface SessionState {
   sahayakOpen: boolean;
   presenter: boolean;
   clauseSheet: ClauseSheetState | null;
+  /** UI-6.2 legal time machine: an ISO date ("YYYY-MM-DD") the user is viewing sources as of, or null
+   * for "today" (live). Session-only, not persisted. */
+  asOfDate: string | null;
 }
 
 interface SessionApi extends SessionState {
@@ -43,6 +46,7 @@ interface SessionApi extends SessionState {
   setPresenter: (v: boolean) => void;
   openClauseSheet: (sourceId: string, point?: SourcePoint | null) => void;
   closeClauseSheet: () => void;
+  setAsOfDate: (d: string | null) => void;
 }
 
 const SessionContext = createContext<SessionApi | null>(null);
@@ -54,6 +58,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [sahayakOpen, setSahayakOpen] = useState(false);
   const [presenter, setPresenter] = useState(false);
   const [clauseSheet, setClauseSheet] = useState<ClauseSheetState | null>(null);
+  const [asOfDate, setAsOfDate] = useState<string | null>(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -72,8 +77,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const closeClauseSheet = useCallback(() => setClauseSheet(null), []);
 
   const value: SessionApi = {
-    lang, theme, sahayakOpen, presenter, clauseSheet,
-    setLang, setTheme, toggleTheme, setSahayakOpen, setPresenter, openClauseSheet, closeClauseSheet,
+    lang, theme, sahayakOpen, presenter, clauseSheet, asOfDate,
+    setLang, setTheme, toggleTheme, setSahayakOpen, setPresenter, openClauseSheet, closeClauseSheet, setAsOfDate,
   };
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

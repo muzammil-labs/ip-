@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowSquareOut, Lock, Check } from "@phosphor-icons/react";
 import { Link } from "wouter";
 import Chapter from "../ui/Chapter";
@@ -10,6 +10,7 @@ import DataTable from "../ui/DataTable";
 import { StatusChip } from "../ui/Chip";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useCoverage } from "../state/coverage";
 import type { LedgerEntry } from "../lib/types";
 
 interface Registry {
@@ -31,6 +32,7 @@ const REGISTRIES: Registry[] = [
 export default function Search() {
   const t = useT();
   const { case: kase, dispatch } = useCase();
+  const { mark } = useCoverage();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [consentChecked, setConsentChecked] = useState(false);
 
@@ -39,11 +41,16 @@ export default function Search() {
     return `(${kase.formula.map((f) => `"${f.plant.botanicalName ?? f.plant.name}"`).join(" OR ")})`;
   }, [kase.formula]);
 
+  useEffect(() => {
+    if (query) mark(4); // TKDL and prior-art pointer: a ready-made query for five databases
+  }, [query, mark]);
+
   const tkdlGranted = kase.consent.some((c) => c.src === "tkdl" && c.active);
 
   function grantConsent() {
     if (!consentChecked) return;
     dispatch({ type: "grantConsent", src: "tkdl", scope: query ?? t("searchYourProduct") });
+    mark(5); // paid subscriptions only with explicit, logged, revocable permission
     setSheetOpen(false);
     setConsentChecked(false);
   }

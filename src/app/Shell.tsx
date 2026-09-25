@@ -1,11 +1,16 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { Suspense, lazy, useEffect, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import TopBar from "./TopBar";
-import SourceDrawer from "../components/SourceDrawer";
+import ClauseSheet from "../panels/ClauseSheet";
 import ApiInspector from "./ApiInspector";
+import PresenterMode from "./PresenterMode";
 import Sahayak from "../panels/Sahayak";
 import { useT } from "../i18n/useT";
+import { useCoverage } from "../state/coverage";
+
+// Lazy: pulls in Radix (Tooltip), and only ever renders in presenter mode, off the main bundle.
+const CoverageBar = lazy(() => import("../panels/CoverageBar"));
 
 /**
  * The outer chrome for every page: header, main column and the footer disclaimer,
@@ -21,10 +26,18 @@ export default function Shell({ children }: { children: ReactNode }) {
   const t = useT();
   const reduce = useReducedMotion();
   const [location] = useLocation();
+  const { mark } = useCoverage();
+
+  useEffect(() => {
+    mark(13); // standing "information, not legal advice" disclaimer, fixed on every screen
+  }, [mark]);
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-canvas text-ink-2">
       <TopBar />
+      <Suspense fallback={null}>
+        <CoverageBar />
+      </Suspense>
 
       <main id="main" tabIndex={-1} className="relative flex-1 outline-none">
         <AnimatePresence mode="wait">
@@ -40,11 +53,12 @@ export default function Shell({ children }: { children: ReactNode }) {
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-line px-4 py-5 text-center text-small text-ink-3 sm:px-6">
+      <footer className="border-t border-line px-4 py-5 text-center text-small text-ink-3 sm:px-6 print:hidden">
         {t("disc")}
       </footer>
-      <SourceDrawer />
+      <ClauseSheet />
       <ApiInspector />
+      <PresenterMode />
       <Sahayak />
     </div>
   );

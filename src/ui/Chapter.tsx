@@ -13,11 +13,13 @@ export interface ChapterProps {
   titleKey: string;
   purposeKey: string;
   status?: ChapterStatus;
+  /** UI-6.7: an optional control (e.g. the examiner's-view toggle) shown at the right of the header row. */
+  headerAction?: ReactNode;
   children?: ReactNode;
 }
 
 /** Chapter header (Seal with number, h1 title, body-lg purpose, optional StatusChip) in a full-width wash band, then children. */
-export default function Chapter({ n, titleKey, purposeKey, status, children }: ChapterProps) {
+export default function Chapter({ n, titleKey, purposeKey, status, headerAction, children }: ChapterProps) {
   const t = useT();
   return (
     <div>
@@ -25,9 +27,12 @@ export default function Chapter({ n, titleKey, purposeKey, status, children }: C
         <div className="mx-auto flex max-w-[var(--w-main)] items-start gap-4">
           <Seal size={48} variant="number" number={n} />
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-h1 text-ink">{t(titleKey)}</h1>
-              {status && <StatusChip tone={status.tone}>{t(status.labelKey)}</StatusChip>}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-h1 text-ink">{t(titleKey)}</h1>
+                {status && <StatusChip tone={status.tone}>{t(status.labelKey)}</StatusChip>}
+              </div>
+              {headerAction}
             </div>
             <p className="mt-2 text-body-lg text-ink-2">{t(purposeKey)}</p>
           </div>

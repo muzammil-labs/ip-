@@ -1,0 +1,21 @@
+/* UI-6.4 dossier print. Only loaded by pages/DossierPrint.tsx (code-split via its own lazy route),
+   never on the main bundle. @page rules can't be expressed as Tailwind utilities, so they live here;
+   everything else (hiding chrome, page breaks) uses Tailwind's print: variant and break-* utilities
+   directly in components. */
+
+@page {
+  size: A4;
+  margin: 20mm 16mm;
+}
+
+/* Chromium does not render @page margin-box content (counter(page)/counter(pages)) as of this
+   build, so this is a best-effort progressive enhancement for browsers that do (e.g. Firefox);
+   Chromium users get the browser print dialog's own page-number option instead. Logged in
+   docs/plan/QUESTIONS.md (Phase 6). */
+@page {
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 9px;
+    color: #666;
+  }
+}

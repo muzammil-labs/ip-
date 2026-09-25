@@ -1,14 +1,16 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Terminal, CheckCircle } from "@phosphor-icons/react";
 import { StatusChip } from "../ui/Chip";
 import Section from "../ui/Section";
 import Button from "../ui/Button";
 import { useT } from "../i18n/useT";
+import { useCoverage } from "../state/coverage";
 import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import { SCREEN_ROUTE, type LegacyScreen } from "../lib/legacyRoutes";
 import { openApiInspector } from "../app/ApiInspector";
+import TrickBox from "../panels/TrickBox";
 
 const PIPELINE = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ stepKey: `pipe${i}step`, descKey: `pipe${i}desc` }));
 
@@ -37,6 +39,12 @@ const API_ROUTES: { method: string; path: string; summaryKey: string }[] = [
 export default function HowItWorks() {
   const t = useT();
   const [, navigate] = useLocation();
+  const { mark } = useCoverage();
+
+  useEffect(() => {
+    mark(15); // evaluable on accuracy, citations, abstention and language quality (AyurIP-Bench)
+    mark(16); // knowledge graph and agentic orchestration, staged build (this page's architecture section)
+  }, [mark]);
 
   const grouped = useMemo(() => {
     const byScreen = new Map<string, [string, string][]>();
@@ -72,6 +80,10 @@ export default function HowItWorks() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section title={t("trickSectionHeading")} lede={t("trickLede")}>
+        <TrickBox />
       </Section>
 
       <Section title={t("architectureHeading")}>

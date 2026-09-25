@@ -28,6 +28,22 @@ export interface Answer {
   esc?: boolean;
 }
 
+/** One period in a source's history. `from`/`to` are ISO dates, "YYYY-MM" or "YYYY" when the exact day
+ * isn't confirmed (MASTER-PLAN UI-6.2: "if unsure, show the event without a day"). `to` omitted means
+ * this is the current period. */
+export interface SourceVersion {
+  from: string;
+  to?: string;
+  status: string;
+  note?: string;
+}
+
+/** A point on the legal time machine's track. `date` follows the same partial-date rule as SourceVersion. */
+export interface SourceEvent {
+  date: string;
+  label: string;
+}
+
 export interface Source {
   t: string;
   /** t split for two-line, no-em-dash rendering (C8): act/instrument name. Falls back to t when absent. */
@@ -46,6 +62,10 @@ export interface Source {
   flux?: boolean;
   paid?: boolean;
   note?: string;
+  /** UI-6.2 legal time machine: this source's status over time, oldest first. */
+  versions?: SourceVersion[];
+  /** UI-6.2: dated milestones shown as ticks on the time machine's track. */
+  events?: SourceEvent[];
 }
 
 export interface Confidence {

@@ -59,6 +59,20 @@
   }
 }
 
+/* UI-7.2 presenter mode: every text utility shifts up one step in the same scale (no ad-hoc size),
+   so the base body text reads roughly 18px instead of 16px, legible from the back of a room. Placed
+   after the mobile block and matched on :root so it wins at any viewport width while presenter mode
+   is on (app/PresenterMode.tsx sets/clears this attribute). */
+:root[data-presenter="true"] {
+  --text-mono: 0.875rem;    --text-mono--line-height: 1.3125rem;
+  --text-small: 1rem;       --text-small--line-height: 1.625rem;
+  --text-body: 1.125rem;    --text-body--line-height: 1.8125rem;
+  --text-body-lg: 1.25rem;  --text-body-lg--line-height: 1.6875rem;
+  --text-h3: 1.75rem;       --text-h3--line-height: 2.125rem;
+  --text-h2: 2.5rem;        --text-h2--line-height: 2.875rem;  --text-h2--letter-spacing: -0.015em;
+  --text-h1: 3.5rem;        --text-h1--line-height: 3.75rem;   --text-h1--letter-spacing: -0.02em;
+}
+
 :lang(hi), :lang(te) { line-height: 1.75; }
 :lang(hi) h1, :lang(hi) h2, :lang(te) h1, :lang(te) h2 { letter-spacing: 0; }
 

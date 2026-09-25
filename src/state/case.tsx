@@ -39,6 +39,9 @@ export interface Case {
   persona: Persona;
   markets: Market[];
   turnoverCr?: number;
+  /** UI-6.3: whether the formula's source material is a high-value biological resource (e.g. red
+   * sanders, sandalwood, agarwood) under the BD (ABS) Regulations 2025. */
+  highValueResource?: boolean;
   claims: ClaimItem[];
   questions: CaseQuestion[];
   consent: LedgerEntry[];
@@ -82,6 +85,7 @@ export type CaseAction =
   | { type: "setField"; field: "persona"; value: Persona }
   | { type: "setField"; field: "markets"; value: Market[] }
   | { type: "setField"; field: "turnoverCr"; value: number | undefined }
+  | { type: "setField"; field: "highValueResource"; value: boolean }
   | { type: "answer"; k: string; v: string }
   | { type: "addFormulaItem"; item: FormulaItem }
   | { type: "removeFormulaItem"; index: number }
@@ -115,6 +119,8 @@ function reducer(c: Case, action: CaseAction): Case {
           return logged({ ...c, markets: action.value }, "Markets changed", action.value.join(", "));
         case "turnoverCr":
           return logged({ ...c, turnoverCr: action.value }, "Turnover set");
+        case "highValueResource":
+          return logged({ ...c, highValueResource: action.value }, "High-value resource flag set", String(action.value));
       }
       return c;
     }

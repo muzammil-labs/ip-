@@ -3,6 +3,7 @@ import { useLocation, useSearch } from "wouter";
 import { PaperPlaneRight, Microphone, SpeakerHigh, Question, Leaf, Tree, Storefront, Trophy } from "@phosphor-icons/react";
 import { useApp, type Persona } from "../state/store";
 import { useSession } from "../state/session";
+import { useCoverage } from "../state/coverage";
 import { SCREEN_ROUTE } from "../lib/legacyRoutes";
 import { useT } from "../i18n/useT";
 import { SUGGEST } from "../data/suggest";
@@ -12,6 +13,8 @@ import { computeConfidence } from "../engines/confidence";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
+import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
+import { useClauseSearch } from "../hooks/useClauseSearch";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
@@ -21,6 +24,7 @@ import Callout from "../ui/Callout";
 import Pips from "../ui/Pips";
 import Sheet from "../ui/Sheet";
 import { Field } from "../ui/Field";
+import TimeMachine from "../panels/TimeMachine";
 import type { Answer, EvidenceState } from "../lib/types";
 
 const PERSONAS: { key: Persona; labelKey: string }[] = [
@@ -46,6 +50,8 @@ const COL_TITLES = {
 } as const;
 
 function AnswerColumn({ answer, side, detail }: { answer: Answer; side: "in" | "intl"; detail: string }) {
+  const t = useT();
+  const { asOfDate } = useSession();
   const d = answer[side];
   if (!d) return null;
   const L = COL_TITLES[answer.lang === "hi" || answer.lang === "te" ? answer.lang : "en"];
@@ -58,11 +64,15 @@ function AnswerColumn({ answer, side, detail }: { answer: Answer; side: "in" | "
       {detail === "expert" && (
         <div className="mt-3 border-t border-line pt-1">
           <EvidenceList>
-            {d.pts.map((p, ix) => (
-              <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux}>
-                {p.t}
-              </EvidenceRow>
-            ))}
+            {d.pts.map((p, ix) => {
+              const v = versionStatusFor(p.c, asOfDate);
+              return (
+                <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux} changed={v?.changed}>
+                  {p.t}
+                  {v && <span className="mt-1 block text-small font-medium text-ink-3">{t("timeMachineAsOfLine").replace("{status}", v.status)}</span>}
+                </EvidenceRow>
+              );
+            })}
           </EvidenceList>
         </div>
       )}
@@ -75,6 +85,7 @@ export default function AskPage() {
   const app = useApp();
   const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
   const { lang } = useSession();
+  const { mark } = useCoverage();
   const [, navigate] = useLocation();
   const search = useSearch();
   const kisanMode = new URLSearchParams(search).get("mode") === "kisan";
@@ -122,7 +133,34 @@ export default function AskPage() {
   }, [kisanMode, current]);
 
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
+
+  // UI-7.5 coverage tracker: mark the PS requirements this answer just demonstrated.
+  useEffect(() => {
+    if (!current) return;
+    if (current.abstain) {
+      mark(9); // safe abstention on out-of-scope or uncertain queries
+      return;
+    }
+    mark(0); // explicit jurisdiction switch, India/International kept separate
+    mark(7); // every sentence carries clause-level citations
+    mark(8); // confidence indicator
+    if (current.lang !== "en") mark(12); // multilingual delivery
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
   const suggestIds = SUGGEST[persona] || SUGGEST.startup;
+
+  const versionedSourceIds = useMemo(() => {
+    if (!current || current.abstain) return [];
+    const allCites = [...(current.in?.pts ?? []), ...(current.intl?.pts ?? [])].flatMap((p) => p.c);
+    return [...new Set(allCites.filter(hasVersions))];
+  }, [current]);
+
+  const { results: clauseResults, loading: clauseLoading, search: searchClauses } = useClauseSearch();
+  useEffect(() => {
+    if (current?.id === "unk") searchClauses(current.q);
+  }, [current, searchClauses]);
+  const clauseIndia = clauseResults.filter((h) => h.jur === "India").slice(0, 5);
+  const clauseIntl = clauseResults.filter((h) => h.jur !== "India").slice(0, 5);
 
   return (
     <div className={`mx-auto max-w-[var(--w-shell)] px-4 py-10 sm:px-6 sm:py-14 ${kisanMode ? "text-body-lg" : ""}`}>
@@ -264,6 +302,47 @@ export default function AskPage() {
                   <div className="mt-4">
                     <Button onClick={() => setEscalateOpen(true)}>{t("abstainEscalate")}</Button>
                   </div>
+
+                  {current.id === "unk" && (
+                    <div className="mt-5 border-t border-line pt-4">
+                      <h4 className="text-small font-semibold uppercase tracking-wide text-ink-3">{t("relevantClausesHeading")}</h4>
+                      {clauseLoading ? (
+                        <p className="mt-2 text-small text-ink-3">{t("relevantClausesLoading")}</p>
+                      ) : clauseIndia.length === 0 && clauseIntl.length === 0 ? (
+                        <p className="mt-2 text-small text-ink-3">{t("relevantClausesEmpty")}</p>
+                      ) : (
+                        <>
+                          <div className="mt-2 grid gap-4 sm:grid-cols-2">
+                            {clauseIndia.length > 0 && (
+                              <div>
+                                <p className="text-small font-semibold text-ink-2">{t("juIndia")}</p>
+                                <EvidenceList>
+                                  {clauseIndia.map((h) => (
+                                    <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                      {h.act}
+                                    </EvidenceRow>
+                                  ))}
+                                </EvidenceList>
+                              </div>
+                            )}
+                            {clauseIntl.length > 0 && (
+                              <div>
+                                <p className="text-small font-semibold text-ink-2">{t("juIntl")}</p>
+                                <EvidenceList>
+                                  {clauseIntl.map((h) => (
+                                    <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                      {h.act}
+                                    </EvidenceRow>
+                                  ))}
+                                </EvidenceList>
+                              </div>
+                            )}
+                          </div>
+                          <p className="mt-2 text-small text-ink-3">{t("relevantClausesNote")}</p>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -285,6 +364,12 @@ export default function AskPage() {
                       <b>{h}</b> = {e}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {versionedSourceIds.length > 0 && detail === "expert" && (
+                <div className="mt-3">
+                  <TimeMachine sourceIds={versionedSourceIds} />
                 </div>
               )}
 
@@ -335,6 +420,8 @@ export default function AskPage() {
             onClick={() => {
               logEvent("Escalated to facilitator", "Shared: question, answer");
               addLedger("Facilitator", "Escalation, this session");
+              mark(10); // escalation to a human IP facilitator
+              mark(14); // consent capture / audit trail
               setEscalateOpen(false);
             }}
           >

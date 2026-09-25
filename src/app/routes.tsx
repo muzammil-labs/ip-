@@ -7,6 +7,7 @@ import EmptyState from "../ui/EmptyState";
 // Lazy: ChapterStepper pulls in the Sheet primitive (Radix), keeping it off the main bundle (Part E's 200KB gzip budget).
 const ChapterRail = lazy(() => import("../ui/ChapterRail"));
 const ChapterStepper = lazy(() => import("../ui/ChapterStepper"));
+const LawChangedBanner = lazy(() => import("../panels/LawChangedBanner"));
 
 const Home = lazy(() => import("../pages/Home"));
 const Library = lazy(() => import("../pages/Library"));
@@ -31,6 +32,7 @@ function CaseChapterRoute() {
   return (
     <div>
       <ChapterStepper current={chapter} />
+      <LawChangedBanner />
       <div className="mx-auto flex max-w-[var(--w-shell)] items-start gap-8 px-4 py-6 sm:px-6 lg:py-10">
         <div className="sticky top-24 hidden shrink-0 lg:block">
           <ChapterRail current={chapter} />

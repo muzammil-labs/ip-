@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Chapter from "../ui/Chapter";
 import Section from "../ui/Section";
 import RadioCards from "../ui/RadioCards";
@@ -11,8 +11,10 @@ import Callout from "../ui/Callout";
 import TkMatchCard from "../ui/TkMatchCard";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useCoverage } from "../state/coverage";
 import { CQ } from "../data/classifyQuestions";
 import { buildResult, type ClassifyResult } from "../engines/classify";
+import { changedSourceIdSet } from "../engines/lawChanged";
 import { computeTkMatches } from "../engines/tkProximity";
 import { FORMULATIONS } from "../data/formulations";
 import type { ClassifyState } from "../lib/types";
@@ -31,6 +33,7 @@ function visibleQuestions(c: ClassifyState) {
 export default function Classify() {
   const t = useT();
   const { case: kase, dispatch } = useCase();
+  const { mark } = useCoverage();
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const prevResult = useRef<ClassifyResult | null>(null);
 
@@ -49,6 +52,14 @@ export default function Classify() {
   }
 
   const tkMatches = useMemo(() => computeTkMatches(kase.formula), [kase.formula]);
+  const lawChangedIds = useMemo(() => changedSourceIdSet(kase), [kase]);
+
+  useEffect(() => {
+    if (!result) return;
+    mark(1); // classify the formulation with minimum clarifying questions
+    mark(2); // routing across patents, GI, trade marks, copyright, designs, trade secrets, PVP
+    mark(3); // ABS compliance helper (the abs row is part of every classify result)
+  }, [result, mark]);
 
   return (
     <Chapter n={2} titleKey="chClassifyTitle" purposeKey="chClassifyPurpose">
@@ -103,7 +114,13 @@ export default function Classify() {
 
             <EvidenceList>
               {result.rows.map((r) => (
-                <EvidenceRow key={r.key} state={r.cites.length ? "V" : "U"} cites={r.cites} changed={!!r.changedFrom}>
+                <EvidenceRow
+                  key={r.key}
+                  state={r.cites.length ? "V" : "U"}
+                  cites={r.cites}
+                  changed={!!r.changedFrom || r.cites.some((c) => lawChangedIds.has(c))}
+                  lawChanged={r.cites.some((c) => lawChangedIds.has(c))}
+                >
                   <span className="font-semibold text-ink">{r.label}:</span> {r.text}
                   {r.changedFrom && <DiffMark previous={r.changedFrom} />}
                 </EvidenceRow>

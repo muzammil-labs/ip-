@@ -3,15 +3,19 @@ import { ArrowSquareOut } from "@phosphor-icons/react";
 import { SOURCES } from "../data/sources";
 import { TIER_NAME_KEY } from "../data/constants";
 import { useT } from "../i18n/useT";
+import { useSession } from "../state/session";
 import Section from "../ui/Section";
 import { StatusChip } from "../ui/Chip";
 import EmptyState from "../ui/EmptyState";
+import TimeMachine from "../panels/TimeMachine";
+import { versionAt } from "../engines/asOf";
 import { citedIn } from "../lib/citedIn";
 
 /** #/library/:sourceId (B2): a clause page for one source, linked from every CiteChip. */
 export default function SourcePage() {
   const { sourceId } = useParams<{ sourceId: string }>();
   const t = useT();
+  const { asOfDate } = useSession();
   const s = sourceId ? SOURCES[sourceId] : undefined;
 
   if (!s || !sourceId) {
@@ -23,6 +27,7 @@ export default function SourcePage() {
   }
 
   const citations = citedIn(sourceId);
+  const activeVersion = versionAt(s, asOfDate ? new Date(asOfDate) : new Date());
 
   return (
     <div className="mx-auto max-w-[var(--w-main)] px-4 py-10 sm:px-6">
@@ -70,13 +75,37 @@ export default function SourcePage() {
       </Section>
 
       <Section title={t("versionHistoryHeading")}>
-        <ul className="divide-y divide-line rounded-container border border-line">
-          <li className="flex items-center justify-between gap-3 px-4 py-3">
-            <span className="text-body text-ink-2">{s.ver}</span>
-            <StatusChip tone={s.flux ? "input" : "done"}>{s.flux ? t("lawChanged") : t("dossierDone")}</StatusChip>
-          </li>
-        </ul>
-        {sourceId === "dr-170" && <p className="mt-2 text-small text-ink-3">{t("rule170VersionNote")}</p>}
+        {s.versions?.length ? (
+          <div className="flex flex-col gap-4">
+            <TimeMachine sourceIds={[sourceId]} />
+            <ul className="divide-y divide-line rounded-container border border-line">
+              {s.versions.map((v, i) => {
+                const active = v === activeVersion;
+                return (
+                  <li key={i} className={`flex items-start justify-between gap-3 px-4 py-3 ${active ? "bg-neem-wash" : ""}`}>
+                    <div>
+                      <p className="text-body font-semibold text-ink">{v.status}</p>
+                      {v.note && <p className="mt-0.5 text-small text-ink-2">{v.note}</p>}
+                      <p className="mt-0.5 text-small text-ink-3">
+                        {v.from}
+                        {" – "}
+                        {v.to ?? t("timeMachinePresent")}
+                      </p>
+                    </div>
+                    {active && <StatusChip tone="done">{t("timeMachineCurrent")}</StatusChip>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : (
+          <ul className="divide-y divide-line rounded-container border border-line">
+            <li className="flex items-center justify-between gap-3 px-4 py-3">
+              <span className="text-body text-ink-2">{s.ver}</span>
+              <StatusChip tone={s.flux ? "input" : "done"}>{s.flux ? t("lawChanged") : t("dossierDone")}</StatusChip>
+            </li>
+          </ul>
+        )}
       </Section>
 
       <Section title={t("citedInHeading")}>

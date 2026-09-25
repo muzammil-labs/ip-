@@ -5,7 +5,7 @@ import { mkdirSync } from "node:fs";
 import AxeBuilder from "@axe-core/playwright";
 
 const ROUTES = ["/", "/case/describe", "/case/classify", "/case/protect", "/case/owe", "/case/say",
-  "/case/search", "/case/dossier", "/library", "/how", "/ask", "/ask?mode=kisan", "/dev/ui"];
+  "/case/search", "/case/dossier", "/dossier/print", "/library", "/how", "/ask", "/ask?mode=kisan", "/dev/ui"];
 const SIZES = [["desk", 1440, 900, false], ["mob", 390, 844, true]];
 const THEMES = ["light", "dark"];
 const exe = process.env.CHROME_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";

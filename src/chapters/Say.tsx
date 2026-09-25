@@ -7,6 +7,7 @@ import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import EmptyState from "../ui/EmptyState";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useCoverage } from "../state/coverage";
 import { claimsCheck, type ClaimReport } from "../engines/claims";
 
 const SAMPLE = "Our churna permanently cures diabetes and high blood pressure with no side effects, clinically proven and 100% natural.";
@@ -14,6 +15,7 @@ const SAMPLE = "Our churna permanently cures diabetes and high blood pressure wi
 export default function Say() {
   const t = useT();
   const { case: kase, dispatch } = useCase();
+  const { mark } = useCoverage();
   const [text, setText] = useState(kase.claims[0]?.text ?? "");
   const [report, setReport] = useState<ClaimReport | null>(null);
 
@@ -21,6 +23,7 @@ export default function Say() {
     const r = claimsCheck(kase, value);
     setReport(r);
     dispatch({ type: "setClaims", claims: [{ text: value, medium: "label" }] });
+    mark(6); // advertising, labelling, food and cosmetic claim regimes
   }
 
   return (

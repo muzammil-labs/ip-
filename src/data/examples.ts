@@ -74,6 +74,34 @@ export function farmerAshwaExample(): Case {
   });
 }
 
+/** UI-6.9: saved before the Biological Diversity (Amendment) Act, 2023's provisions took effect
+ * (1 Apr 2024), so the pre-amendment bda-6/bda-7 versions applied when this Case was made. Loading
+ * it now, against the current corpus, demonstrates the law-changed banner and the Shift highlight
+ * on the affected Owe/Protect rows. */
+export function wildHarvestPreAmendmentExample(): Case {
+  const now = new Date().toISOString();
+  return {
+    id: "example_wild-harvest-2024",
+    createdAt: now,
+    corpusVersion: "2024-01-01",
+    product: {
+      name: "Wild-harvested Ashwagandha capsule",
+      description: "A capsule made from wild-collected Ashwagandha root, sold by an Indian company.",
+      form: "capsule",
+    },
+    formula: [{ plant: { name: "Ashwagandha", botanicalName: "Withania somnifera" }, part: "root" }],
+    answers: { use: "med", text: "ingr", src: "wild", ent: "in" },
+    persona: "startup",
+    markets: ["IN"],
+    turnoverCr: 8,
+    claims: [],
+    questions: [],
+    consent: [],
+    audit: [{ time: now, ev: "Example case loaded", detail: "Wild-harvested Ashwagandha capsule" }],
+    asOf: "2024-01-01",
+  };
+}
+
 export interface ExampleCase {
   key: string;
   titleKey: string;
@@ -86,4 +114,5 @@ export const EXAMPLES: ExampleCase[] = [
   { key: "ashwa-extract", titleKey: "example0title", descKey: "example0desc", build: ashwaExtractExample },
   { key: "chyawan-saffron", titleKey: "example1title", descKey: "example1desc", build: chyawanprashSaffronExample },
   { key: "farmer-ashwa", titleKey: "example2title", descKey: "example2desc", build: farmerAshwaExample },
+  { key: "wild-harvest-2024", titleKey: "example3title", descKey: "example3desc", build: wildHarvestPreAmendmentExample },
 ];

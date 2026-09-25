@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocation } from "wouter";
 import { PaperPlaneRight, Microphone, SpeakerHigh, Question, X } from "@phosphor-icons/react";
@@ -16,12 +16,15 @@ import { LAYER } from "../ui/layers";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
+import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
+import { useClauseSearch } from "../hooks/useClauseSearch";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
 import { Field } from "../ui/Field";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import Callout from "../ui/Callout";
 import Pips from "../ui/Pips";
+import TimeMachine from "./TimeMachine";
 import type { Answer, EvidenceState } from "../lib/types";
 
 const COL_TITLES = {
@@ -49,6 +52,8 @@ function AnswerTabs({ answer, active, onChange }: { answer: Answer; active: "in"
 }
 
 function AnswerPane({ answer, side }: { answer: Answer; side: "in" | "intl" }) {
+  const t = useT();
+  const { asOfDate } = useSession();
   const d = answer[side];
   if (!d) return null;
   return (
@@ -56,11 +61,15 @@ function AnswerPane({ answer, side }: { answer: Answer; side: "in" | "intl" }) {
       <p className="text-body leading-relaxed text-ink-2">{d.plain}</p>
       <div className="mt-3 border-t border-line pt-1">
         <EvidenceList>
-          {d.pts.map((p, ix) => (
-            <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux}>
-              {p.t}
-            </EvidenceRow>
-          ))}
+          {d.pts.map((p, ix) => {
+            const v = versionStatusFor(p.c, asOfDate);
+            return (
+              <EvidenceRow key={ix} state={p.s as EvidenceState} cites={p.c} lawChanged={p.flux} changed={v?.changed}>
+                {p.t}
+                {v && <span className="mt-1 block text-small font-medium text-ink-3">{t("timeMachineAsOfLine").replace("{status}", v.status)}</span>}
+              </EvidenceRow>
+            );
+          })}
         </EvidenceList>
       </div>
     </div>
@@ -84,6 +93,18 @@ export default function Sahayak() {
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
   const suggestIds = SUGGEST[kase.persona] || SUGGEST.startup;
   const hasBothColumns = !!(current && current.in && current.intl);
+  const versionedSourceIds = useMemo(() => {
+    if (!current || current.abstain) return [];
+    const allCites = [...(current.in?.pts ?? []), ...(current.intl?.pts ?? [])].flatMap((p) => p.c);
+    return [...new Set(allCites.filter(hasVersions))];
+  }, [current]);
+
+  const { results: clauseResults, loading: clauseLoading, search: searchClauses } = useClauseSearch();
+  useEffect(() => {
+    if (current?.id === "unk") searchClauses(current.q);
+  }, [current, searchClauses]);
+  const clauseIndia = clauseResults.filter((h) => h.jur === "India").slice(0, 5);
+  const clauseIntl = clauseResults.filter((h) => h.jur !== "India").slice(0, 5);
 
   function submit(q?: string) {
     const query = q ?? input;
@@ -228,6 +249,28 @@ export default function Sahayak() {
                     <div className="mt-3">
                       <Button onClick={escalate}>{escalateConfirm ? t("escalateSend") + "✓" : t("abstainEscalate")}</Button>
                     </div>
+
+                    {current.id === "unk" && (
+                      <div className="mt-3 border-t border-line pt-3">
+                        <p className="text-small font-semibold uppercase tracking-wide text-ink-3">{t("relevantClausesHeading")}</p>
+                        {clauseLoading ? (
+                          <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesLoading")}</p>
+                        ) : clauseIndia.length === 0 && clauseIntl.length === 0 ? (
+                          <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesEmpty")}</p>
+                        ) : (
+                          <>
+                            <EvidenceList>
+                              {[...clauseIndia, ...clauseIntl].map((h) => (
+                                <EvidenceRow key={h.id} state="U" cites={[h.id]}>
+                                  {h.act}
+                                </EvidenceRow>
+                              ))}
+                            </EvidenceList>
+                            <p className="mt-1.5 text-small text-ink-3">{t("relevantClausesNote")}</p>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <>
@@ -237,6 +280,12 @@ export default function Sahayak() {
                         <div className="mt-2">
                           <Pips confidence={confidence} />
                         </div>
+                      </div>
+                    )}
+
+                    {versionedSourceIds.length > 0 && (
+                      <div className="mt-3">
+                        <TimeMachine sourceIds={versionedSourceIds} />
                       </div>
                     )}
 

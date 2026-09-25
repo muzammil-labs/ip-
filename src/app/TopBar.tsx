@@ -80,7 +80,7 @@ export default function TopBar() {
 
   return (
     <header
-      className="sticky top-0 border-b border-line bg-canvas/90 backdrop-blur-md"
+      className="sticky top-0 border-b border-line bg-canvas/90 backdrop-blur-md print:hidden"
       style={{ zIndex: LAYER.header }}
     >
       {/* Desktop: single line, 64px */}
