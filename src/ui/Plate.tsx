@@ -1,4 +1,4 @@
-import EmptyState from "./EmptyState";
+import { Leaf } from "@phosphor-icons/react";
 import { useT } from "../i18n/useT";
 
 export interface PlateProps {
@@ -13,15 +13,18 @@ export interface PlateProps {
 /**
  * A botanical plate: real, licence-checked photography only (C6), duotone-treated via
  * the .plate CSS class (Appendix D). Until a slug's images exist in public/plates/, this
- * renders the EmptyState variant (seal outline plus the botanical name) instead of a
- * placeholder or generated image, so nothing looks broken and nothing is faked.
+ * renders a designed placeholder (tinted tile, leaf mark, the botanical name) rather than
+ * the generic dashed "no content" EmptyState: a decorative image slot on a marketing
+ * surface (Home) reads as broken when it borrows the same treatment used for genuine
+ * empty data elsewhere in the app, even though neither fakes a photograph.
  */
 export default function Plate({ slug, botanicalName, commonNames, creditHref }: PlateProps) {
   const t = useT();
   if (!slug) {
     return (
-      <div className="aspect-[4/3] w-full">
-        <EmptyState message={botanicalName} />
+      <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-container border border-line bg-neem-wash px-6 text-center">
+        <Leaf size={28} weight="duotone" className="text-neem-strong/70" />
+        <p className="max-w-[28ch] text-small italic text-neem-strong/80">{botanicalName}</p>
       </div>
     );
   }
