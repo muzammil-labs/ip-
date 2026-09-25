@@ -42,6 +42,13 @@ export const staggerContainer: Variants = {
   visible: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
 };
 
+/** A leaf sprouting on the chapter rail's VineRail the moment a chapter's status flips to done.
+ * Scale 0 to 1 with a small counter-rotation settling to 0, spring 300/20. */
+export const sprout: Variants = {
+  hidden: { scale: 0, rotate: -30, opacity: 0 },
+  visible: { scale: 1, rotate: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 20 } },
+};
+
 /** True when motion should actually run: false under prefers-reduced-motion. */
 export function useMotionOK(): boolean {
   return !useReducedMotion();
