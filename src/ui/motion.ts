@@ -30,6 +30,18 @@ export const shift: Variants = {
   idle: { backgroundColor: "rgba(0,0,0,0)" },
 };
 
+/** An element rises into place on entrance or scroll-into-view. 520ms, ease [0.16, 1, 0.3, 1]. */
+export const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.52, ease: EASE } },
+};
+
+/** Parent wrapper for a group of `fadeUp` children that should reveal in sequence, not at once. */
+export const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
+};
+
 /** True when motion should actually run: false under prefers-reduced-motion. */
 export function useMotionOK(): boolean {
   return !useReducedMotion();

@@ -1,15 +1,36 @@
+import type { ReactNode } from "react";
 import { useLocation, Link } from "wouter";
+import { motion } from "motion/react";
 import { ArrowRight, CaretRight } from "@phosphor-icons/react";
 import Button from "../ui/Button";
 import Seal from "../ui/Seal";
 import Plate from "../ui/Plate";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
+import { fadeUp, staggerContainer, stamp, useMotionOK } from "../ui/motion";
 import { useT } from "../i18n/useT";
 import { useSession } from "../state/session";
 import { useCase } from "../state/case";
 import { EXAMPLES } from "../data/examples";
 import { ANSWERS } from "../data/answers";
 import { CHAPTER_ORDER } from "../chapters/order";
+
+/** Scroll-reveal wrapper: children stagger-fade-up once the section enters the viewport,
+ * never re-triggering on re-scroll, and collapsing to an instant static render when the
+ * visitor asked for reduced motion. */
+function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const motionOK = useMotionOK();
+  return (
+    <motion.div
+      className={className}
+      initial={motionOK ? "hidden" : false}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={staggerContainer}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 const HERO_ANSWER = ANSWERS.find((a) => a.id === "q1")!;
 
@@ -36,6 +57,7 @@ export default function Home() {
   const [, navigate] = useLocation();
   const { setSahayakOpen } = useSession();
   const { dispatch } = useCase();
+  const motionOK = useMotionOK();
 
   function openExample(example: (typeof EXAMPLES)[number]) {
     dispatch({ type: "loadExample", example: example.build() });
@@ -45,26 +67,50 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="mx-auto max-w-[var(--w-shell)] px-4 pb-14 pt-10 sm:px-6 sm:pt-16">
-        <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <section className="mx-auto max-w-[var(--w-shell)] overflow-hidden px-4 pb-14 pt-10 sm:px-6 sm:pt-16">
+        <motion.div
+          className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
+          initial={motionOK ? "hidden" : false}
+          animate="visible"
+          variants={staggerContainer}
+        >
           <div>
-            <h1 className="max-w-[16ch] text-display text-ink">{t("homeH1")}</h1>
-            <p className="mt-5 max-w-[46ch] text-body-lg text-ink-2">{t("homeSub")}</p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Button size="lg" icon={<ArrowRight size={18} />} iconPosition="right" onClick={() => navigate("/case/describe")}>
-                {t("startCase")}
-              </Button>
-              <Button size="lg" variant="secondary" onClick={() => setSahayakOpen(true)}>
-                {t("askSahayak")}
-              </Button>
-            </div>
+            <motion.h1 variants={fadeUp} className="max-w-[16ch] text-display text-ink">
+              {t("homeH1")}
+            </motion.h1>
+            <motion.p variants={fadeUp} className="mt-5 max-w-[46ch] text-body-lg text-ink-2">
+              {t("homeSub")}
+            </motion.p>
+            <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-3">
+              <motion.span whileHover={motionOK ? { y: -2 } : undefined} whileTap={motionOK ? { scale: 0.97 } : undefined} className="inline-block">
+                <Button size="lg" icon={<ArrowRight size={18} />} iconPosition="right" onClick={() => navigate("/case/describe")}>
+                  {t("startCase")}
+                </Button>
+              </motion.span>
+              <motion.span whileHover={motionOK ? { y: -2 } : undefined} whileTap={motionOK ? { scale: 0.97 } : undefined} className="inline-block">
+                <Button size="lg" variant="secondary" onClick={() => setSahayakOpen(true)}>
+                  {t("askSahayak")}
+                </Button>
+              </motion.span>
+            </motion.div>
           </div>
 
-          <div className="relative">
-            <div className="aspect-[16/9] sm:aspect-[4/3]">
+          <motion.div variants={fadeUp} className="relative">
+            <motion.div
+              className="aspect-[16/9] sm:aspect-[4/3]"
+              initial={motionOK ? { opacity: 0, scale: 0.96 } : false}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            >
               <Plate botanicalName="Withania somnifera" commonNames={t("plantAshwagandha")} />
-            </div>
-            <div className="relative z-10 -mt-10 max-w-[380px] rounded-container border border-line bg-surface p-5 shadow-2 sm:ml-8 sm:-mt-14">
+            </motion.div>
+            <motion.div
+              className="relative z-10 -mt-10 max-w-[380px] rounded-container border border-line bg-surface p-5 shadow-2 sm:ml-8 sm:-mt-14"
+              variants={stamp}
+              initial={motionOK ? "hidden" : false}
+              animate="visible"
+              transition={{ delay: 0.35 }}
+            >
               <p className="text-small font-semibold text-ink-3">{t("homeLiveAnswerLabel")}</p>
               <p className="mt-1 text-body font-semibold text-ink">{HERO_ANSWER.q}</p>
               <div className="mt-1">
@@ -76,22 +122,26 @@ export default function Home() {
                   ))}
                 </EvidenceList>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Example cases */}
       <section className="mx-auto max-w-[var(--w-shell)] px-4 py-14 sm:px-6">
         <h2 className="text-h2 text-ink">{t("homeExamplesHeading")}</h2>
         <p className="mt-2 max-w-[56ch] text-body text-ink-2">{t("homeExamplesLede")}</p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <Reveal className="mt-6 grid gap-4 sm:grid-cols-3">
           {EXAMPLES.map((ex) => (
-            <button
+            <motion.button
               key={ex.key}
               type="button"
+              variants={fadeUp}
+              whileHover={motionOK ? { y: -6, boxShadow: "var(--shadow-2)" } : undefined}
+              whileTap={motionOK ? { scale: 0.98 } : undefined}
+              transition={{ type: "spring", stiffness: 380, damping: 26 }}
               onClick={() => openExample(ex)}
-              className="flex flex-col items-start gap-3 rounded-container border border-line bg-surface p-5 text-left shadow-1 transition-colors hover:border-line-strong"
+              className="flex flex-col items-start gap-3 rounded-container border border-line bg-surface p-5 text-left shadow-1"
             >
               <div className="aspect-[4/3] w-full">
                 <Plate botanicalName={ex.build().formula[0]?.plant.botanicalName ?? ""} />
@@ -101,9 +151,9 @@ export default function Home() {
               <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
                 {t("homeExampleCta")} <CaretRight size={13} />
               </span>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       {/* How a case works */}
@@ -111,49 +161,75 @@ export default function Home() {
         <h2 className="text-h2 text-ink">{t("homeHowHeading")}</h2>
         <p className="mt-2 max-w-[56ch] text-body text-ink-2">{t("homeHowLede")}</p>
         <div className="relative mt-8">
-          <div className="absolute left-6 top-0 hidden h-full w-px bg-line lg:left-0 lg:top-6 lg:h-px lg:w-full" aria-hidden="true" />
-          <ol className="relative flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-2">
-            {CHAPTER_ORDER.map((slug, i) => (
-              <li key={slug} className="flex items-start gap-3 lg:flex-1 lg:flex-col lg:items-center lg:text-center">
-                <Seal size={48} variant="number" number={i + 1} className="shrink-0 bg-canvas" />
-                <div className="min-w-0">
-                  <p className="text-h3 text-ink">{t(CHAPTER_KEYS[slug].titleKey)}</p>
-                  <p className="mt-0.5 text-small text-ink-2 lg:max-w-[16ch]">{t(CHAPTER_KEYS[slug].purposeKey)}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <motion.div
+            className="absolute left-6 top-0 hidden h-full w-px origin-top bg-line lg:left-0 lg:top-6 lg:h-px lg:w-full lg:origin-left"
+            aria-hidden="true"
+            initial={motionOK ? { scaleY: 0, scaleX: 0 } : false}
+            whileInView={{ scaleY: 1, scaleX: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          />
+          <Reveal className="relative">
+            <ol className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-2">
+              {CHAPTER_ORDER.map((slug, i) => (
+                <motion.li
+                  key={slug}
+                  variants={fadeUp}
+                  className="flex items-start gap-3 lg:flex-1 lg:flex-col lg:items-center lg:text-center"
+                >
+                  <Seal size={48} variant="number" number={i + 1} className="shrink-0 bg-canvas" />
+                  <div className="min-w-0">
+                    <p className="text-h3 text-ink">{t(CHAPTER_KEYS[slug].titleKey)}</p>
+                    <p className="mt-0.5 text-small text-ink-2 lg:max-w-[16ch]">{t(CHAPTER_KEYS[slug].purposeKey)}</p>
+                  </div>
+                </motion.li>
+              ))}
+            </ol>
+          </Reveal>
         </div>
       </section>
 
       {/* Why trust it */}
       <section className="mx-auto max-w-[var(--w-shell)] px-4 py-14 sm:px-6">
         <h2 className="text-h2 text-ink">{t("homeTrustHeading")}</h2>
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          <Link
-            href="/how"
-            className="flex flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong lg:row-span-2"
+        <Reveal className="mt-6 grid gap-4 lg:grid-cols-2">
+          <motion.div
+            variants={fadeUp}
+            whileHover={motionOK ? { y: -4 } : undefined}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
+            className="lg:row-span-2"
           >
-            <h3 className="text-h3 text-ink">{t(TRUST_FACTS[0].titleKey)}</h3>
-            <p className="text-body text-ink-2">{t(TRUST_FACTS[0].bodyKey)}</p>
-            <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
-              {t("homeTrustCta")} <CaretRight size={13} />
-            </span>
-          </Link>
-          {TRUST_FACTS.slice(1).map((f) => (
             <Link
-              key={f.titleKey}
               href="/how"
-              className="flex flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
+              className="flex h-full flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
             >
-              <h3 className="text-h3 text-ink">{t(f.titleKey)}</h3>
-              <p className="text-body text-ink-2">{t(f.bodyKey)}</p>
+              <h3 className="text-h3 text-ink">{t(TRUST_FACTS[0].titleKey)}</h3>
+              <p className="text-body text-ink-2">{t(TRUST_FACTS[0].bodyKey)}</p>
               <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
                 {t("homeTrustCta")} <CaretRight size={13} />
               </span>
             </Link>
+          </motion.div>
+          {TRUST_FACTS.slice(1).map((f) => (
+            <motion.div
+              key={f.titleKey}
+              variants={fadeUp}
+              whileHover={motionOK ? { y: -4 } : undefined}
+              transition={{ type: "spring", stiffness: 380, damping: 26 }}
+            >
+              <Link
+                href="/how"
+                className="flex h-full flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
+              >
+                <h3 className="text-h3 text-ink">{t(f.titleKey)}</h3>
+                <p className="text-body text-ink-2">{t(f.bodyKey)}</p>
+                <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
+                  {t("homeTrustCta")} <CaretRight size={13} />
+                </span>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </Reveal>
       </section>
     </div>
   );
