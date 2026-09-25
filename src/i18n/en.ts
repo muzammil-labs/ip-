@@ -370,4 +370,10 @@ export const en: Record<string, string> = {
   "describeSummaryDefaultName": "This product",
   "describeSummaryNoFormula": "no plants added yet",
   "describeSummaryTemplate": "{name} is formulated with {plants}, intended for {markets}.",
+  "classifyQuestionsHeading": "Answer a few questions",
+  "classifyChange": "Change",
+  "classifyResultHeading": "Result",
+  "classifyMostLikely": "Most likely",
+  "classifyTkHeading": "Traditional-knowledge proximity",
+  "classifyTkComingSoon": "This check arrives in a later phase.",
 };

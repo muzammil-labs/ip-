@@ -370,4 +370,10 @@ export const hi: Record<string, string> = {
   "describeSummaryDefaultName": "यह उत्पाद",
   "describeSummaryNoFormula": "अभी तक कोई पौधा नहीं जोड़ा गया",
   "describeSummaryTemplate": "{name} {plants} से तैयार किया गया है, {markets} के लिए।",
+  "classifyQuestionsHeading": "कुछ सवालों के जवाब दें",
+  "classifyChange": "बदलें",
+  "classifyResultHeading": "परिणाम",
+  "classifyMostLikely": "सबसे संभावित",
+  "classifyTkHeading": "पारंपरिक ज्ञान निकटता",
+  "classifyTkComingSoon": "यह जाँच बाद के चरण में आएगी।",
 };

@@ -370,4 +370,10 @@ export const te: Record<string, string> = {
   "describeSummaryDefaultName": "ఈ ఉత్పత్తి",
   "describeSummaryNoFormula": "ఇంకా మొక్కలు జోడించలేదు",
   "describeSummaryTemplate": "{name} {plants}తో తయారు చేయబడింది, {markets} కోసం ఉద్దేశించింది.",
+  "classifyQuestionsHeading": "కొన్ని ప్రశ్నలకు సమాధానం ఇవ్వండి",
+  "classifyChange": "మార్చండి",
+  "classifyResultHeading": "ఫలితం",
+  "classifyMostLikely": "అత్యంత అవకాశం ఉన్నది",
+  "classifyTkHeading": "సాంప్రదాయ జ్ఞాన సామీప్యత",
+  "classifyTkComingSoon": "ఈ తనిఖీ తరువాతి దశలో వస్తుంది.",
 };
