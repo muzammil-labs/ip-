@@ -1,20 +1,16 @@
-import Describe from "./Describe";
-import Classify from "./Classify";
-import Protect from "./Protect";
-import Owe from "./Owe";
-import Say from "./Say";
-import Search from "./Search";
-import Dossier from "./Dossier";
+import { lazy } from "react";
 
-/** The seven Case chapters (B2), in journey order. Keyed by the #/case/:chapter slug. */
+/** The seven Case chapters (B2), in journey order. Keyed by the #/case/:chapter slug.
+ * Lazy so each chapter's own dependencies (Radix, DataTable) split out of the main
+ * bundle, same as the top-level pages in app/routes.tsx (Part E's 200KB gzip budget). */
 export const CHAPTERS = {
-  describe: Describe,
-  classify: Classify,
-  protect: Protect,
-  owe: Owe,
-  say: Say,
-  search: Search,
-  dossier: Dossier,
+  describe: lazy(() => import("./Describe")),
+  classify: lazy(() => import("./Classify")),
+  protect: lazy(() => import("./Protect")),
+  owe: lazy(() => import("./Owe")),
+  say: lazy(() => import("./Say")),
+  search: lazy(() => import("./Search")),
+  dossier: lazy(() => import("./Dossier")),
 } as const;
 
 export type ChapterSlug = keyof typeof CHAPTERS;
