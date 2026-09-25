@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "shots": "vite build && node scripts/shots.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "sizecheck": "vite build && node scripts/check-bundle-size.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
