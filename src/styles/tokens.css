@@ -17,6 +17,7 @@
   --neem-strong: #08543A;
   --neem-wash: #E3F2E8;
   --neem-deep: #063D29;    /* showcase bands: closing CTA, dossier seal backdrop */
+  --on-neem-deep: #FFFFFF; /* text on neem-deep: unlike neem, neem-deep is dark in BOTH themes, so this does not flip */
   --on-neem: #FFFFFF;      /* text and icons on neem fills */
 
   /* Decorative only (vines, falling leaves, kolam): never text, never UI state */
@@ -70,6 +71,7 @@
   --neem-strong: #7FDDAE;
   --neem-wash: #12301F;
   --neem-deep: #0F3324;
+  --on-neem-deep: #E8F1EB; /* same value as --ink here: neem-deep stays dark in dark theme too */
   --on-neem: #0A1410;
   --leaf: #3F8A63;
   --leaf-2: #A8893A;

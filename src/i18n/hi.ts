@@ -373,6 +373,8 @@ export const hi: Record<string, string> = {
   "homeTrust2Title": "जब इसे नहीं पता होता तो यह कहता है",
   "homeTrust2Body": "जब सबूत खत्म हो जाते हैं, तो IP-SAKTI अनुमान लगाने के बजाय मना कर देता है और आपको किसी व्यक्ति के पास भेज देता है।",
   "homeTrustCta": "देखें यह कैसे काम करता है",
+  "homeCtaHeading": "अपना उत्पाद लाइए। उद्धरणों सहित डोज़ियर लेकर जाइए।",
+  "homeCtaBody": "अंग्रेज़ी, हिंदी या तेलुगु में सात अध्याय। हर निष्कर्ष उस धारा का नाम बताता है जिस पर वह आधारित है।",
   "describeProductSectionTitle": "उत्पाद",
   "describeProductNameLabel": "उत्पाद का नाम",
   "describeProductNamePlaceholder": "जैसे अश्वगंधा जड़ अर्क (CO2)",

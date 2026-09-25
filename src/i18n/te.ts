@@ -373,6 +373,8 @@ export const te: Record<string, string> = {
   "homeTrust2Title": "దానికి తెలియనప్పుడు అది చెబుతుంది",
   "homeTrust2Body": "ఆధారాలు అయిపోయినప్పుడు, IP-SAKTI ఊహించడానికి బదులు నిరాకరించి మిమ్మల్ని ఒక వ్యక్తికి అప్పగిస్తుంది.",
   "homeTrustCta": "ఇది ఎలా పనిచేస్తుందో చూడండి",
+  "homeCtaHeading": "మీ ఉత్పత్తిని తీసుకురండి. ఉదహరించిన డోసియర్‌తో వెళ్లండి.",
+  "homeCtaBody": "ఇంగ్లీష్, హిందీ లేదా తెలుగులో ఏడు అధ్యాయాలు. ప్రతి అన్వేషణ అది ఆధారపడిన నిబంధనను పేర్కొంటుంది.",
   "describeProductSectionTitle": "ఉత్పత్తి",
   "describeProductNameLabel": "ఉత్పత్తి పేరు",
   "describeProductNamePlaceholder": "ఉదా. అశ్వగంధ వేరు సారం (CO2)",

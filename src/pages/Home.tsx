@@ -5,6 +5,7 @@ import { ArrowRight, CaretRight } from "@phosphor-icons/react";
 import Button from "../ui/Button";
 import Seal from "../ui/Seal";
 import Plate from "../ui/Plate";
+import BotanicalMark from "../ui/BotanicalMark";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import { fadeUp, staggerContainer, stamp, useMotionOK } from "../ui/motion";
 import { useT } from "../i18n/useT";
@@ -50,6 +51,8 @@ const CHAPTER_KEYS: Record<string, { titleKey: string; purposeKey: string }> = {
   search: { titleKey: "chSearchTitle", purposeKey: "chSearchPurpose" },
   dossier: { titleKey: "chDossierTitle", purposeKey: "chDossierPurpose" },
 };
+
+const TRUST_SPECIMEN = ANSWERS.find((a) => a.id === "q2")!.in!.pts[2];
 
 const TRUST_FACTS = [
   { titleKey: "homeTrust0Title", bodyKey: "homeTrust0Body" },
@@ -219,6 +222,13 @@ export default function Home() {
             >
               <h3 className="text-h3 text-ink">{t(TRUST_FACTS[0].titleKey)}</h3>
               <p className="text-body text-ink-2">{t(TRUST_FACTS[0].bodyKey)}</p>
+              <div className="my-4 rounded-control border border-line bg-canvas px-4 py-1">
+                <EvidenceList>
+                  <EvidenceRow state={TRUST_SPECIMEN.s} cites={TRUST_SPECIMEN.c}>
+                    {TRUST_SPECIMEN.t}
+                  </EvidenceRow>
+                </EvidenceList>
+              </div>
               <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
                 {t("homeTrustCta")} <CaretRight size={13} />
               </span>
@@ -244,6 +254,34 @@ export default function Home() {
             </motion.div>
           ))}
         </Reveal>
+      </section>
+
+      {/* Closing call to action */}
+      <section className="mx-auto max-w-[var(--w-shell)] px-4 pb-14 sm:px-6">
+        <motion.div
+          className="relative overflow-hidden rounded-container bg-neem-deep px-6 py-12 text-center sm:px-12 sm:py-16"
+          initial={motionOK ? "hidden" : false}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+        >
+          <BotanicalMark className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 -rotate-45 text-on-neem-deep/10 sm:h-72 sm:w-72" />
+          <div className="relative">
+            {/* text-on-neem-deep!: beats global.css's bare "h1, h2, h3 { color: var(--ink) }" rule,
+                which otherwise wins over this Tailwind utility class (unlayered CSS always
+                outranks a layered utility of equal or lower specificity). */}
+            <h2 className="mx-auto max-w-[24ch] text-h1 text-on-neem-deep!">{t("homeCtaHeading")}</h2>
+            <p className="mx-auto mt-3 max-w-[52ch] text-body-lg text-on-neem-deep/85">{t("homeCtaBody")}</p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button size="lg" variant="secondary" icon={<ArrowRight size={18} />} iconPosition="right" onClick={() => navigate("/case/describe")}>
+                {t("startCase")}
+              </Button>
+              <Button size="lg" variant="ghost" className="text-on-neem-deep! hover:bg-on-neem-deep/10!" onClick={() => setSahayakOpen(true)}>
+                {t("askSahayak")}
+              </Button>
+            </div>
+          </div>
+        </motion.div>
       </section>
     </div>
   );

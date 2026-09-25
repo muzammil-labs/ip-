@@ -373,6 +373,8 @@ export const en: Record<string, string> = {
   "homeTrust2Title": "It says so when it doesn't know",
   "homeTrust2Body": "When the evidence runs out, IP-SAKTI declines and hands you to a human instead of guessing.",
   "homeTrustCta": "See how it works",
+  "homeCtaHeading": "Bring your product. Leave with a cited dossier.",
+  "homeCtaBody": "Seven chapters in English, Hindi or Telugu. Every finding names the clause it rests on.",
   "describeProductSectionTitle": "Product",
   "describeProductNameLabel": "Product name",
   "describeProductNamePlaceholder": "e.g. Ashwagandha root extract (CO2)",
