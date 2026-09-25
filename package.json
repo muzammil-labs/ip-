@@ -10,7 +10,8 @@
     "typecheck": "tsc -b --noEmit",
     "shots": "vite build && node scripts/shots.mjs",
     "test": "vitest run",
-    "sizecheck": "vite build && node scripts/check-bundle-size.mjs"
+    "sizecheck": "vite build && node scripts/check-bundle-size.mjs",
+    "e2e": "vite build && node tests/e2e/demo.spec.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",

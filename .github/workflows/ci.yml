@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and engine tests (Vitest)
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Bundle-size check (initial JS <= 200KB gzip)
+        run: node scripts/check-bundle-size.mjs
+
+      # scripts/shots.mjs and tests/e2e/demo.spec.mjs drive playwright-core, which has no
+      # bundled browser; this action installs a real Chrome the same way the pre-installed
+      # Chromium in the local dev sandbox already does, and CHROME_PATH points both scripts
+      # at it exactly like they already fall back to a fixed local path in that sandbox.
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: stable
+
+      - name: Screenshots, overflow and axe checks on every route (both themes, both sizes)
+        run: node scripts/shots.mjs
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+
+      - name: Playwright e2e of the demo path, with axe checks
+        run: node tests/e2e/demo.spec.mjs
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+
+      - name: Upload shots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shots
+          path: shots/
+          retention-days: 7
