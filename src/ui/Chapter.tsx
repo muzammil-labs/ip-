@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import { motion } from "motion/react";
 import Seal from "./Seal";
 import { StatusChip, type StatusTone } from "./Chip";
+import { fadeUp, useMotionOK } from "./motion";
 import { useT } from "../i18n/useT";
 
 export interface ChapterStatus {
@@ -21,11 +23,17 @@ export interface ChapterProps {
 /** Chapter header (Seal with number, h1 title, body-lg purpose, optional StatusChip) in a full-width wash band, then children. */
 export default function Chapter({ n, titleKey, purposeKey, status, headerAction, children }: ChapterProps) {
   const t = useT();
+  const motionOK = useMotionOK();
   return (
     <div>
       <div className="bg-wash px-4 py-8 sm:px-6">
-        <div className="mx-auto flex max-w-[var(--w-main)] items-start gap-4">
-          <Seal size={48} variant="number" number={n} />
+        <motion.div
+          className="mx-auto flex max-w-[var(--w-main)] items-start gap-4"
+          initial={motionOK ? "hidden" : false}
+          animate="visible"
+          variants={fadeUp}
+        >
+          <Seal size={48} variant="number" number={n} animate />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
@@ -36,7 +44,7 @@ export default function Chapter({ n, titleKey, purposeKey, status, headerAction,
             </div>
             <p className="mt-2 text-body-lg text-ink-2">{t(purposeKey)}</p>
           </div>
-        </div>
+        </motion.div>
       </div>
       <div className="mx-auto max-w-[var(--w-main)] px-4 py-8 sm:px-6">{children}</div>
     </div>
