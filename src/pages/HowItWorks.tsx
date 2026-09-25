@@ -10,6 +10,7 @@ import { COVERAGE } from "../data/coverage";
 import { NAV } from "../data/constants";
 import { SCREEN_ROUTE, type LegacyScreen } from "../lib/legacyRoutes";
 import { openApiInspector } from "../app/ApiInspector";
+import TrickBox from "../panels/TrickBox";
 
 const PIPELINE = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ stepKey: `pipe${i}step`, descKey: `pipe${i}desc` }));
 
@@ -79,6 +80,10 @@ export default function HowItWorks() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section title={t("trickSectionHeading")} lede={t("trickLede")}>
+        <TrickBox />
       </Section>
 
       <Section title={t("architectureHeading")}>
