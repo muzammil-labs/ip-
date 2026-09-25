@@ -72,20 +72,3 @@
   --shadow-2: 0 16px 40px -8px rgba(0, 0, 0, .6);
   color-scheme: dark;
 }
-
-/* TEMPORARY aliases for Phase 1 only. Delete in UI-4.9. */
-:root, :root[data-theme="dark"] {
-  --paper: var(--canvas);
-  --sunk: var(--wash);
-  --brand: var(--neem);
-  --brand-strong: var(--neem-strong);
-  --brand-soft: var(--neem-wash);
-  --turmeric: var(--haldi);
-  --turmeric-soft: var(--haldi-wash);
-  --kumkum-soft: var(--kumkum-wash);
-  --focus: var(--indigo);
-  --focus-soft: var(--indigo-wash);
-  --r-sm: var(--r-control);
-  --r-md: var(--r-control);
-  --r-lg: var(--r-container);
-}

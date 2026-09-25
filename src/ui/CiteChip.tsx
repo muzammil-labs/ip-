@@ -1,4 +1,4 @@
-import { shortCite } from "../lib/classify";
+import { shortCite } from "../engines/classify";
 import { useSession } from "../state/session";
 import { useT } from "../i18n/useT";
 import type { SourcePoint } from "../lib/types";

@@ -37,7 +37,7 @@ export function EvidenceRow({ state, children, cites = [], point, lawChanged, ch
       variants={shift}
       className="flex items-start gap-2.5 px-1 py-3 text-body"
     >
-      <span title={t(stateNameKey)} aria-label={t(stateNameKey)} className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-pill ${cls}`}>
+      <span role="img" title={t(stateNameKey)} aria-label={t(stateNameKey)} className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-pill ${cls}`}>
         <Icon size={12} weight="bold" />
       </span>
       <span className="min-w-0 flex-1 text-ink-2">

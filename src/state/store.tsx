@@ -1,26 +1,12 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import type { Answer, ClassifyState } from "../lib/types";
+import type { Answer, AuditEntry, LedgerEntry } from "../lib/types";
 
-export type Screen = "overview" | "ask" | "classify" | "tk" | "claims" | "sources" | "trust" | "blueprint";
+export type { AuditEntry, LedgerEntry } from "../lib/types";
 export type Persona = "startup" | "vaidya" | "research" | "farmer";
 export type Jurisdiction = "both" | "in" | "intl";
 export type Detail = "plain" | "expert";
 
-export interface AuditEntry {
-  time: string;
-  ev: string;
-  detail: string;
-}
-
-export interface LedgerEntry {
-  src: string;
-  scope: string;
-  time: string;
-  active: boolean;
-}
-
 interface AppState {
-  screen: Screen;
   persona: Persona;
   juris: Jurisdiction;
   detail: Detail;
@@ -28,13 +14,9 @@ interface AppState {
   history: string[];
   audit: AuditEntry[];
   ledger: LedgerEntry[];
-  cls: ClassifyState;
-  prevRows: { cat: string; rowsByKey: Record<string, string> } | null;
-  claimCat: string;
 }
 
 interface AppApi extends AppState {
-  go: (s: Screen) => void;
   setPersona: (p: Persona) => void;
   setJuris: (j: Jurisdiction) => void;
   setDetail: (d: Detail) => void;
@@ -43,10 +25,6 @@ interface AppApi extends AppState {
   logEvent: (ev: string, detail?: string) => void;
   addLedger: (src: string, scope: string) => void;
   revokeLedger: (index: number) => void;
-  setCls: (obj: ClassifyState) => void;
-  answerCls: (k: string, v: string) => void;
-  setPrevRows: (v: AppState["prevRows"]) => void;
-  setClaimCat: (c: string) => void;
 }
 
 const AppContext = createContext<AppApi | null>(null);
@@ -55,8 +33,10 @@ function timeNow() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
+/** State for the Ask feature (#/ask, UI-4.9), which predates the Case model. Persona,
+ * jurisdiction, detail level and the current/history conversation state live here;
+ * the Case's own audit and consent (state/case.tsx) are the real, displayed record. */
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [screen, setScreen] = useState<Screen>("overview");
   const [persona, setPersona] = useState<Persona>("startup");
   const [juris, setJuris] = useState<Jurisdiction>("both");
   const [detail, setDetail] = useState<Detail>("expert");
@@ -64,11 +44,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [history, setHistory] = useState<string[]>([]);
   const [audit, setAudit] = useState<AuditEntry[]>([]);
   const [ledger, setLedger] = useState<LedgerEntry[]>([]);
-  const [cls, setClsState] = useState<ClassifyState>({});
-  const [prevRows, setPrevRows] = useState<AppState["prevRows"]>(null);
-  const [claimCat, setClaimCat] = useState("drug");
-
-  const go = useCallback((s: Screen) => setScreen(s), []);
 
   const pushHistory = useCallback((q: string) => {
     setHistory((h) => [q, ...h.filter((x) => x !== q)].slice(0, 6));
@@ -85,18 +60,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setLedger((l) => l.map((entry, i) => (i === index ? { ...entry, active: false } : entry)));
   }, []);
 
-  const setCls = useCallback((obj: ClassifyState) => setClsState(obj), []);
-
-  const answerCls = useCallback((k: string, v: string) => {
-    setClsState((c) => ({ ...c, [k]: v }));
-  }, []);
-
   const value = useMemo<AppApi>(
     () => ({
-      screen, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat,
-      go, setPersona, setJuris, setDetail, setCurrent, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls, setPrevRows, setClaimCat,
+      persona, juris, detail, current, history, audit, ledger,
+      setPersona, setJuris, setDetail, setCurrent, pushHistory, logEvent, addLedger, revokeLedger,
     }),
-    [screen, persona, juris, detail, current, history, audit, ledger, cls, prevRows, claimCat, go, pushHistory, logEvent, addLedger, revokeLedger, setCls, answerCls]
+    [persona, juris, detail, current, history, audit, ledger, pushHistory, logEvent, addLedger, revokeLedger]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

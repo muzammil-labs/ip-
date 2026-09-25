@@ -30,6 +30,10 @@ export interface Answer {
 
 export interface Source {
   t: string;
+  /** t split for two-line, no-em-dash rendering (C8): act/instrument name. Falls back to t when absent. */
+  act?: string;
+  /** t split for two-line rendering: section, rule or document title within act. */
+  section?: string;
   tier: number;
   jur: string;
   reg: string;
@@ -76,4 +80,17 @@ export interface ClassifyCategory {
   name: string;
   sum: string;
   rows: Record<string, [string, string[]]>;
+}
+
+export interface AuditEntry {
+  time: string;
+  ev: string;
+  detail: string;
+}
+
+export interface LedgerEntry {
+  src: string;
+  scope: string;
+  time: string;
+  active: boolean;
 }

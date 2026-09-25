@@ -1,7 +1,10 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+import { useLocation } from "wouter";
 import TopBar from "./TopBar";
 import SourceDrawer from "../components/SourceDrawer";
+import ApiInspector from "./ApiInspector";
+import Sahayak from "../panels/Sahayak";
 import { useT } from "../i18n/useT";
 
 /**
@@ -14,9 +17,10 @@ import { useT } from "../i18n/useT";
  * Migrating every screen onto the --w-main / --w-shell system is Phase 4 work, done
  * screen by screen as each one is rebuilt to the new design (see docs/plan/QUESTIONS.md).
  */
-export default function Shell({ children, screenKey }: { children: ReactNode; screenKey: string }) {
+export default function Shell({ children }: { children: ReactNode }) {
   const t = useT();
   const reduce = useReducedMotion();
+  const [location] = useLocation();
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-canvas text-ink-2">
@@ -25,7 +29,7 @@ export default function Shell({ children, screenKey }: { children: ReactNode; sc
       <main id="main" tabIndex={-1} className="relative flex-1 outline-none">
         <AnimatePresence mode="wait">
           <motion.div
-            key={screenKey}
+            key={location}
             initial={reduce ? false : { opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? undefined : { opacity: 0 }}
@@ -40,6 +44,8 @@ export default function Shell({ children, screenKey }: { children: ReactNode; sc
         {t("disc")}
       </footer>
       <SourceDrawer />
+      <ApiInspector />
+      <Sahayak />
     </div>
   );
 }

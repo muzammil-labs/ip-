@@ -3,10 +3,10 @@ import { useT } from "../i18n/useT";
 import type { EvidenceState } from "../lib/types";
 
 const COLOR: Record<EvidenceState, string> = {
-  V: "text-brand bg-brand-soft",
-  U: "text-turmeric bg-turmeric-soft",
-  C: "text-kumkum bg-kumkum-soft",
-  R: "text-ink-3 bg-sunk",
+  V: "text-neem bg-neem-wash",
+  U: "text-haldi bg-haldi-wash",
+  C: "text-kumkum bg-kumkum-wash",
+  R: "text-ink-3 bg-wash",
 };
 
 export default function EvidenceMark({ state }: { state: EvidenceState }) {

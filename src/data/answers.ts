@@ -22,7 +22,7 @@ export const ANSWERS: Answer[] = [
    {s:"V",t:"Sending Indian plant material to a foreign partner needs prior informed consent and agreed benefit-sharing terms under the Nagoya Protocol, applied in India through the BD Act.",c:["nagoya","bda-6"]},
    {s:"V",t:"A Budapest Treaty deposit is needed only if the invention relies on a micro-organism, which a plant-extraction process usually does not.",c:["budapest"]}
   ]},
- gaps:["Prior-art search on supercritical CO₂ extraction of Withania somnifera (patent databases and TKDL, which needs your permission)","Whether the roots are cultivated or wild-collected — this changes your biodiversity duties","Comparative efficacy data against a conventional extract, needed if Section 3(d) is raised"],
+ gaps:["Prior-art search on supercritical CO₂ extraction of Withania somnifera (patent databases and TKDL, which needs your permission)","Whether the roots are cultivated or wild-collected, which changes your biodiversity duties","Comparative efficacy data against a conventional extract, needed if Section 3(d) is raised"],
  esc:false},
 
 {id:"q2", persona:["vaidya","startup"], lang:"en",
@@ -43,7 +43,7 @@ export const ANSWERS: Answer[] = [
    {s:"V",t:"In the EU, a classical product may qualify as a traditional herbal medicinal product only with 30 years of documented use, 15 of them in the EU.",c:["eu-thmpd"]},
    {s:"U",t:"For design protection abroad, the Hague route depends on India's membership, which must be verified first; otherwise file nationally.",c:["hague"]}
   ]},
- gaps:["The exact book, chapter and verse of the formula you follow","Whether you changed any ingredient, quantity or method from the text — even one change can move you to proprietary medicine"],
+ gaps:["The exact book, chapter and verse of the formula you follow","Whether you changed any ingredient, quantity or method from the text, even one change can move you to proprietary medicine"],
  esc:false},
 
 {id:"q3", persona:["startup","vaidya"], lang:"en",
@@ -57,12 +57,12 @@ export const ANSWERS: Answer[] = [
    {s:"V",t:"Rule 170, which required State approval before advertising ASU drugs, was omitted in July 2024; the Supreme Court stayed that omission, then vacated the stay in August 2025. It currently stands omitted, with contentions left open.",c:["dr-170"],flux:true},
    {s:"V",t:"If the product is sold as Ayurveda Aahara instead, no disease claim of any kind is allowed.",c:["fssai-aa"]}
   ]},
- intl:{plain:"Export markets restrict disease claims too — for example, US supplements cannot claim to cure disease.",
+ intl:{plain:"Export markets restrict disease claims too: for example, US supplements cannot claim to cure disease.",
   pts:[
    {s:"V",t:"In the US, a supplement claiming to treat or cure disease is treated as an unapproved drug.",c:["us-dshea"]},
    {s:"V",t:"In the EU, traditional herbal registrations are limited to conditions that don't need medical supervision, which excludes diabetes treatment claims.",c:["eu-thmpd"]}
   ]},
- gaps:["The exact wording and medium of the advertisement — try Claim check","Whether you sell it as a drug, Ayurveda Aahara or cosmetic"],
+ gaps:["The exact wording and medium of the advertisement, try Claim check","Whether you sell it as a drug, Ayurveda Aahara or cosmetic"],
  esc:false},
 
 {id:"q4", persona:["farmer"], lang:"hi",

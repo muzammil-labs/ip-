@@ -32,7 +32,7 @@ export default function DataTable<T>({ columns, rows, rowKey, onRowClick, emptyM
       ) : (
         <>
           {/* Desktop / tablet: table */}
-          <div className="hidden overflow-x-auto rounded-container border border-line sm:block">
+          <div className="hidden overflow-x-auto rounded-container border border-line sm:block" tabIndex={0}>
             <table className="w-full border-collapse text-small">
               <thead className="sticky top-0 bg-surface">
                 <tr>

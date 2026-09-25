@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IP-SAKTI">
+  <rect x="0" y="0" width="48" height="48" fill="#0B6B45" />
+  <g transform="translate(24 24) scale(0.72) translate(-24 -24)">
+    <circle cx="24" cy="24" r="22" fill="#0B6B45" stroke="#FFFFFF" stroke-width="2" />
+    <circle cx="24" cy="24" r="16" fill="none" stroke="#FFFFFF" stroke-width="1.25" opacity="0.55" />
+    <text x="24" y="24" text-anchor="middle" dominant-baseline="central" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="20" fill="#FFFFFF">&#167;</text>
+  </g>
+</svg>
