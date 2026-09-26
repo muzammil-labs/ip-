@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import Seal from "./Seal";
 import { StatusChip } from "./Chip";
 import VineRail from "./VineRail";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useSession } from "../state/session";
 import { chapterStatus } from "../chapters/status";
 import { evidenceSpine } from "../chapters/evidenceSpine";
 import { CHAPTER_ORDER, type ChapterSlug } from "../chapters/order";
@@ -30,10 +32,21 @@ export interface ChapterRailProps {
 export default function ChapterRail({ current }: ChapterRailProps) {
   const t = useT();
   const { case: kase } = useCase();
+  const { celebrate } = useSession();
   const status = chapterStatus(kase);
   const spine = evidenceSpine(kase);
   const currentIx = CHAPTER_ORDER.indexOf(current);
   const doneIx = CHAPTER_ORDER.map((slug, i) => (slug !== "dossier" && status[slug] ? i : -1)).filter((i) => i >= 0);
+
+  // UI-9.14: a leaf sprouts on the vine (and LeafFall runs once) the moment a chapter's status
+  // flips from not-done to done. Dossier is excluded here; its own moment is UI-9.16.
+  const prevStatus = useRef(status);
+  useEffect(() => {
+    for (const slug of CHAPTER_ORDER) {
+      if (slug !== "dossier" && status[slug] && !prevStatus.current[slug]) celebrate(slug);
+    }
+    prevStatus.current = status;
+  }, [status, celebrate]);
 
   return (
     <nav aria-label={t("chapterRailAria")} className="flex gap-3">

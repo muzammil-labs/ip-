@@ -88,7 +88,7 @@ await axeCheck(page, "dossier print");
 console.log("Step: How it works shows PS coverage and API contract");
 await page.goto(`${BASE}/#/how`, { waitUntil: "networkidle" });
 await page.waitForTimeout(400);
-ok(await page.getByText("Problem-statement coverage", { exact: false }).isVisible(), "PS coverage section renders");
+ok(await page.getByRole("heading", { name: "Problem-statement coverage" }).isVisible(), "PS coverage section renders");
 ok(await page.getByText("/v1/ask", { exact: false }).isVisible(), "API contract table renders");
 
 ok(consoleErrors.length === 0, "zero console errors across the whole demo path");

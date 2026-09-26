@@ -6,6 +6,7 @@ import ClauseSheet from "../panels/ClauseSheet";
 import ApiInspector from "./ApiInspector";
 import PresenterMode from "./PresenterMode";
 import Sahayak from "../panels/Sahayak";
+import LeafFall from "../ui/LeafFall";
 import { useT } from "../i18n/useT";
 import { useCoverage } from "../state/coverage";
 
@@ -86,6 +87,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       <ApiInspector />
       <PresenterMode />
       <Sahayak />
+      <LeafFall />
     </div>
   );
 }

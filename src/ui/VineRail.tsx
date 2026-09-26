@@ -13,7 +13,8 @@ export interface VineRailProps {
   doneIx: number[];
 }
 
-const LEAF = "M0 0 C 5 -9, 19 -11, 30 -2 C 20 6, 6 7, 0 0 Z";
+/** Shared with LeafFall (UI-9.14): the one leaf shape used everywhere a leaf appears. */
+export const LEAF_PATH = "M0 0 C 5 -9, 19 -11, 30 -2 C 20 6, 6 7, 0 0 Z";
 
 function rowCenterY(ix: number, total: number): number {
   // Matches the row spacing the rail's own <li> list produces closely enough for a decorative
@@ -78,7 +79,7 @@ export default function VineRail({ total, currentIx, doneIx }: VineRailProps) {
             animate="visible"
             variants={sprout}
           >
-            <path d={LEAF} fill="currentColor" />
+            <path d={LEAF_PATH} fill="currentColor" />
           </motion.svg>
         );
       })}
