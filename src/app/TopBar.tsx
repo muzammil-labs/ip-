@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { flushSync } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import {
@@ -6,6 +7,7 @@ import {
 } from "@phosphor-icons/react";
 import { useSession } from "../state/session";
 import { useT, type Lang } from "../i18n/useT";
+import { useMotionOK } from "../ui/motion";
 import { LAYER } from "../ui/layers";
 
 const LANG_OPTIONS: { value: Lang; label: string }[] = [
@@ -44,12 +46,36 @@ function LangControl() {
   );
 }
 
+/** UI-9.15: the theme change reveals from the toggle button itself, growing a circular
+ * clip-path from its centre (the View Transitions API, not Motion, since it animates a
+ * pseudo-element snapshot of the whole page). Falls back to an instant switch when the API
+ * is unsupported (Firefox) or reduced motion is requested. */
 function ThemeToggle() {
   const { theme, toggleTheme } = useSession();
+  const motionOK = useMotionOK();
+
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    if (!motionOK || !document.startViewTransition) {
+      toggleTheme();
+      return;
+    }
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const transition = document.startViewTransition(() => flushSync(() => toggleTheme()));
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 450, easing: "cubic-bezier(0.16, 1, 0.3, 1)", pseudoElement: "::view-transition-new(root)" }
+      );
+    });
+  }
+
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={handleClick}
       aria-label="Toggle dark mode"
       className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill border border-line bg-surface text-ink-2 transition-colors hover:text-ink"
     >

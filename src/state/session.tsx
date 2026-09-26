@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Lang } from "../i18n/useT";
 import type { SourcePoint } from "../lib/types";
 
@@ -36,6 +36,9 @@ interface SessionState {
   /** UI-6.2 legal time machine: an ISO date ("YYYY-MM-DD") the user is viewing sources as of, or null
    * for "today" (live). Session-only, not persisted. */
   asOfDate: string | null;
+  /** UI-9.14 LeafFall: bumps whenever celebrate() fires a new (not-yet-celebrated) key, so LeafFall's
+   * effect can key off it. Null until the first celebration. */
+  celebration: { key: string; at: number } | null;
 }
 
 interface SessionApi extends SessionState {
@@ -47,6 +50,8 @@ interface SessionApi extends SessionState {
   openClauseSheet: (sourceId: string, point?: SourcePoint | null) => void;
   closeClauseSheet: () => void;
   setAsOfDate: (d: string | null) => void;
+  /** Fires LeafFall for this key (a chapter slug, or "dossier"), at most once per key per session. */
+  celebrate: (key: string) => void;
 }
 
 const SessionContext = createContext<SessionApi | null>(null);
@@ -59,10 +64,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [presenter, setPresenter] = useState(false);
   const [clauseSheet, setClauseSheet] = useState<ClauseSheetState | null>(null);
   const [asOfDate, setAsOfDate] = useState<string | null>(null);
+  const [celebration, setCelebration] = useState<{ key: string; at: number } | null>(null);
+  const celebratedKeys = useRef(new Set<string>());
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0A1410" : "#F7F9F6");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#07110D" : "#F6F8F5");
     writeStoredTheme(theme);
   }, [theme]);
 
@@ -75,10 +82,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setClauseSheet({ sourceId, point });
   }, []);
   const closeClauseSheet = useCallback(() => setClauseSheet(null), []);
+  const celebrate = useCallback((key: string) => {
+    if (celebratedKeys.current.has(key)) return;
+    celebratedKeys.current.add(key);
+    setCelebration({ key, at: Date.now() });
+  }, []);
 
   const value: SessionApi = {
-    lang, theme, sahayakOpen, presenter, clauseSheet, asOfDate,
-    setLang, setTheme, toggleTheme, setSahayakOpen, setPresenter, openClauseSheet, closeClauseSheet, setAsOfDate,
+    lang, theme, sahayakOpen, presenter, clauseSheet, asOfDate, celebration,
+    setLang, setTheme, toggleTheme, setSahayakOpen, setPresenter, openClauseSheet, closeClauseSheet, setAsOfDate, celebrate,
   };
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

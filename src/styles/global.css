@@ -7,6 +7,7 @@
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-wash: var(--wash);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
@@ -16,6 +17,10 @@
   --color-neem: var(--neem);
   --color-neem-strong: var(--neem-strong);
   --color-neem-wash: var(--neem-wash);
+  --color-neem-deep: var(--neem-deep);
+  --color-on-neem-deep: var(--on-neem-deep);
+  --color-leaf: var(--leaf);
+  --color-leaf-2: var(--leaf-2);
   --color-haldi: var(--haldi);
   --color-haldi-wash: var(--haldi-wash);
   --color-kumkum: var(--kumkum);
@@ -95,6 +100,15 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* UI-9.15: the theme toggle drives the reveal itself (a clip-path Web Animation on
+   ::view-transition-new(root), started from TopBar's ThemeToggle), so the browser's own
+   cross-fade default is turned off here; the two snapshots would otherwise cross-fade
+   underneath our circular reveal. */
+::view-transition-old(root), ::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 /* Appendix D: botanical plate duotone. The source image stays untouched in public/plates/src/;

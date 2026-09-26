@@ -15,6 +15,7 @@ import { speakText } from "../lib/speakText";
 import { LANG_TAG } from "../lib/langTag";
 import { hasVersions, versionStatusFor } from "../lib/timeMachineVersion";
 import { useClauseSearch } from "../hooks/useClauseSearch";
+import Seal from "../ui/Seal";
 import Segmented from "../ui/Segmented";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
@@ -270,6 +271,18 @@ export default function AskPage() {
           </div>
         )}
       </div>
+
+      {!current && (
+        <div className="mt-6 flex items-start gap-4 rounded-container border border-dashed border-line p-6">
+          <Seal size={32} />
+          <div>
+            <p className="text-body text-ink-2">{t("askLede")}</p>
+            <p className="mt-1 text-small text-ink-3">
+              {t("askForPersona").replace("{p}", t(PERSONAS.find((p) => p.key === persona)?.labelKey ?? "personaStartup"))}
+            </p>
+          </div>
+        </div>
+      )}
 
       {history.length > 1 && (
         <div className="mt-4 flex flex-wrap gap-2">

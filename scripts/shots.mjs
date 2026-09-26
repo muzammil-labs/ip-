@@ -17,7 +17,8 @@ await new Promise((r) => setTimeout(r, 2500));
 const browser = await chromium.launch({ executablePath: exe, args: ["--no-sandbox"] });
 let failures = 0;
 for (const theme of THEMES) for (const [name, w, h, mobile] of SIZES) {
-  const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile });
+  // Reduced motion so scroll-reveal sections render statically in full-page captures.
+  const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, reducedMotion: "reduce" });
   await ctx.addInitScript((t) => { try { localStorage.setItem("ips.theme", t); } catch {} }, theme);
   const page = await ctx.newPage();
   const errors = [];

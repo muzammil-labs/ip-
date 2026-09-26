@@ -57,7 +57,11 @@ export default function Library() {
         </span>
       ),
     },
-    { key: "tier", header: t("colTier"), render: (r) => t("tierLabel").replace("{n}", String(r.tier)) },
+    {
+      key: "tier",
+      header: t("colTier"),
+      render: (r) => <span className="whitespace-nowrap">{t("tierLabel").replace("{n}", String(r.tier))}</span>,
+    },
     { key: "jur", header: t("colJurisdiction"), render: (r) => r.jur },
     {
       key: "status",

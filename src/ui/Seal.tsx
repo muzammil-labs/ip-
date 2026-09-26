@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { stamp, useMotionOK } from "./motion";
 
-export type SealSize = 16 | 24 | 32 | 48;
+export type SealSize = 16 | 24 | 32 | 48 | 96;
 export type SealVariant = "outline" | "filled" | "number";
 
 export interface SealProps {
