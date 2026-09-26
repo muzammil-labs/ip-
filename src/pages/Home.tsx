@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useLocation, Link } from "wouter";
-import { motion } from "motion/react";
+import { motion, animate, useMotionValue, useTransform } from "motion/react";
 import { ArrowRight, CaretRight } from "@phosphor-icons/react";
 import Button from "../ui/Button";
 import Seal from "../ui/Seal";
@@ -36,6 +36,25 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 }
 
 const HERO_ANSWER = ANSWERS.find((a) => a.id === "q1")!;
+
+/** UI-9.19: counts 0 to `value` over 900ms on mount (the hero stats render inside the
+ * hero's own on-mount stagger, not on scroll, so "first visible" is just "first render"
+ * here). Reduced motion shows the value immediately. */
+function CountUpStat({ value, motionOK }: { value: number; motionOK: boolean }) {
+  const count = useMotionValue(motionOK ? 0 : value);
+  const rounded = useTransform(count, (v) => Math.round(v));
+  const [display, setDisplay] = useState(motionOK ? 0 : value);
+
+  useEffect(() => rounded.on("change", setDisplay), [rounded]);
+  useEffect(() => {
+    if (!motionOK) return;
+    const controls = animate(count, value, { duration: 0.9, ease: [0.16, 1, 0.3, 1] });
+    return controls.stop;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [motionOK, value]);
+
+  return <>{display}</>;
+}
 
 const HERO_STATS = [
   { value: CHAPTER_ORDER.length, labelKey: "homeStatChapters" },
@@ -115,7 +134,9 @@ export default function Home() {
               {HERO_STATS.map((s) => (
                 <div key={s.labelKey} className="flex flex-col-reverse">
                   <dt className="mt-1 text-small text-ink-3">{t(s.labelKey)}</dt>
-                  <dd className="text-h1 tabular-nums text-neem">{s.value}</dd>
+                  <dd className="text-h1 tabular-nums text-neem">
+                    <CountUpStat value={s.value} motionOK={motionOK} />
+                  </dd>
                 </div>
               ))}
             </motion.dl>
