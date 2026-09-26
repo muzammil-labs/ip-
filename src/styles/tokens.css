@@ -1,21 +1,21 @@
 :root {
   /* Surfaces */
-  --canvas: #F6F8F5;
+  --canvas: #F8F7F2;
   --surface: #FFFFFF;
   --surface-2: #FFFFFF;    /* raised surfaces (answer card, sheets); equals surface in light */
-  --wash: #ECF2EE;
-  --line: #D5DED7;
-  --line-strong: #7E8F84;
+  --wash: #F0F0E7;
+  --line: #DCDACE;
+  --line-strong: #86897C;
 
   /* Text */
-  --ink: #0B1A13;
-  --ink-2: #34443B;
-  --ink-3: #56665C;
+  --ink: #16201A;
+  --ink-2: #3C463C;
+  --ink-3: #5C6459;
 
   /* Accent (the only one) */
-  --neem: #0B6B45;
-  --neem-strong: #08543A;
-  --neem-wash: #E3F2E8;
+  --neem: #106A4C;
+  --neem-strong: #0B5440;
+  --neem-wash: #E5F0E7;
   --neem-deep: #063D29;    /* showcase bands: closing CTA, dossier seal backdrop */
   --on-neem-deep: #FFFFFF; /* text on neem-deep: unlike neem, neem-deep is dark in BOTH themes, so this does not flip */
   --on-neem: #FFFFFF;      /* text and icons on neem fills */
