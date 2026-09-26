@@ -102,6 +102,15 @@ button {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
 
+/* UI-9.15: the theme toggle drives the reveal itself (a clip-path Web Animation on
+   ::view-transition-new(root), started from TopBar's ThemeToggle), so the browser's own
+   cross-fade default is turned off here; the two snapshots would otherwise cross-fade
+   underneath our circular reveal. */
+::view-transition-old(root), ::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Appendix D: botanical plate duotone. The source image stays untouched in public/plates/src/;
    the treatment is applied through CSS so it follows the theme. */
 .plate { position: relative; border-radius: var(--r-container); overflow: hidden; background: var(--surface); }
