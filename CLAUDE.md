@@ -6,7 +6,10 @@ React 19, TypeScript, Vite 6 (base "./"), Tailwind v4, Motion, Phosphor icons. L
 
 ## Plans (source of truth)
 Start with `docs/plan/README.md`. It lists every plan and what to read for each phase.
-- `docs/plan/MASTER-PLAN.md`: the build spec. Part D (tasks) + D0 (operating rules) + Part E (pre-flight) govern all work.
+- `docs/plan/STRATEGY-V9.md`: current priorities (team submits 27 Sep 2026, national deadline 30 Sep, screening sprint, unique angles, 6-slide content).
+- `docs/plan/SUBMISSION-KIT.md`: screening submission content (portal text, slides, video). For the team; the build only needs it for S-2 wording.
+- `docs/plan/PS-26045.md`: official problem statement text. Features and copy should map to its wording.
+- `docs/plan/MASTER-PLAN.md`: the build spec. Phase order 0, 1, S, 2 to 8. Part D (tasks) + D0 (operating rules) + Part E (pre-flight) govern all work.
 - `docs/plan/SPOTLIGHT.md`: stand-out features (Phase 8).
 - `docs/plan/FINALS-STRATEGY.md`: product strategy, legal corrections, demo script, judge Q&A.
 

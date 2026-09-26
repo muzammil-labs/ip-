@@ -11,7 +11,7 @@ Print five copies of the bilingual Pathway Report for the demo case (A4, colour,
 *Effort:* printing plus UI-6.4. *Risk:* none.
 
 ### 2. Judges follow along on their own phones
-Slide 1 carries a large QR code that opens the PWA on the demo case (`#/case/describe?c=…`). Judges can tap along while you present, and try their own question afterwards. Being able to use the product during the pitch turns them from spectators into users.
+At the finale, the first pitch slide (not the screening PDF, where evaluators do not scan QR codes) carries a large QR code that opens the PWA on the demo case (`#/case/describe?c=…`). Judges can tap along while you present, and try their own question afterwards. Being able to use the product during the pitch turns them from spectators into users.
 *Effort:* half a day (share links exist from UI-3.4). *Risk:* venue Wi-Fi; the PWA caches after first load, so ask them to scan at the start.
 
 ### 3. Examiner's view (new, frontend-only)
