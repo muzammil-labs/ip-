@@ -129,7 +129,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
             >
-              <Plate botanicalName="Withania somnifera" commonNames={t("plantAshwagandha")} />
+              <Plate botanicalName="Withania somnifera" commonNames={t("plantAshwagandha")} living />
             </motion.div>
             <motion.div
               className="relative z-10 -mt-10 rounded-container border border-line bg-surface-2 p-5 shadow-2 sm:ml-8 sm:mr-0 sm:-mt-32"
