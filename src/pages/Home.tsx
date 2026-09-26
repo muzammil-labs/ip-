@@ -17,6 +17,27 @@ import { ANSWERS } from "../data/answers";
 import { SOURCES } from "../data/sources";
 import { CHAPTER_ORDER } from "../chapters/order";
 
+/** UI-9.20 (optional): a soft radial highlight that follows the pointer on example and
+ * trust cards. --x/--y are set directly on the hovered element's own style (not React
+ * state, so this never re-renders); skipped for touch, which has no hover to follow. */
+function handleCardSpotlight(e: React.PointerEvent<HTMLElement>) {
+  if (e.pointerType === "touch") return;
+  const el = e.currentTarget;
+  const rect = el.getBoundingClientRect();
+  el.style.setProperty("--x", `${e.clientX - rect.left}px`);
+  el.style.setProperty("--y", `${e.clientY - rect.top}px`);
+}
+
+function CardSpotlight() {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-60"
+      style={{ background: "radial-gradient(240px circle at var(--x, 50%) var(--y, 50%), var(--color-neem-wash), transparent 70%)" }}
+    />
+  );
+}
+
 /** Scroll-reveal wrapper: children stagger-fade-up once the section enters the viewport,
  * never re-triggering on re-scroll, and collapsing to an instant static render when the
  * visitor asked for reduced motion. */
@@ -189,8 +210,10 @@ export default function Home() {
               whileTap={motionOK ? { scale: 0.98 } : undefined}
               transition={{ type: "spring", stiffness: 380, damping: 26 }}
               onClick={() => openExample(ex)}
-              className="flex w-[80%] shrink-0 snap-start flex-col items-start gap-3 rounded-container border border-line bg-surface p-4 text-left shadow-1 sm:w-auto"
+              onPointerMove={handleCardSpotlight}
+              className="group relative flex w-[80%] shrink-0 snap-start flex-col items-start gap-3 overflow-hidden rounded-container border border-line bg-surface p-4 text-left shadow-1 sm:w-auto"
             >
+              <CardSpotlight />
               <Plate compact markVariant={i} botanicalName={ex.build().formula[0]?.plant.botanicalName ?? ""} />
               <h3 className="text-h3 text-ink">{t(ex.titleKey)}</h3>
               <p className="text-small text-ink-2">{t(ex.descKey)}</p>
@@ -247,8 +270,10 @@ export default function Home() {
           >
             <Link
               href="/how"
-              className="flex h-full flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
+              onPointerMove={handleCardSpotlight}
+              className="group relative flex h-full flex-col gap-2 overflow-hidden rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
             >
+              <CardSpotlight />
               <h3 className="text-h3 text-ink">{t(TRUST_FACTS[0].titleKey)}</h3>
               <p className="text-body text-ink-2">{t(TRUST_FACTS[0].bodyKey)}</p>
               <div className="my-4 rounded-control border border-line bg-canvas px-4 py-1">
@@ -272,8 +297,10 @@ export default function Home() {
             >
               <Link
                 href="/how"
-                className="flex h-full flex-col gap-2 rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
+                onPointerMove={handleCardSpotlight}
+                className="group relative flex h-full flex-col gap-2 overflow-hidden rounded-container border border-line bg-surface p-6 shadow-1 transition-colors hover:border-line-strong"
               >
+                <CardSpotlight />
                 <h3 className="text-h3 text-ink">{t(f.titleKey)}</h3>
                 <p className="text-body text-ink-2">{t(f.bodyKey)}</p>
                 <span className="mt-auto inline-flex items-center gap-1 text-small font-semibold text-neem">
