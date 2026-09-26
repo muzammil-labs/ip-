@@ -6,6 +6,7 @@ import Button from "../ui/Button";
 import Seal from "../ui/Seal";
 import Plate from "../ui/Plate";
 import BotanicalMark from "../ui/BotanicalMark";
+import KolamPattern from "../ui/KolamPattern";
 import { EvidenceRow, EvidenceList } from "../ui/EvidenceRow";
 import { fadeUp, staggerContainer, stamp, useMotionOK } from "../ui/motion";
 import { useT } from "../i18n/useT";
@@ -83,7 +84,8 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="mx-auto max-w-[var(--w-shell)] overflow-hidden px-4 pb-14 pt-10 sm:px-6 sm:pt-16">
+      <section className="relative mx-auto max-w-[var(--w-shell)] overflow-hidden px-4 pb-14 pt-10 sm:px-6 sm:pt-16">
+        <KolamPattern id="kolam-hero" />
         <motion.div
           className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
           initial={motionOK ? "hidden" : false}
@@ -290,6 +292,7 @@ export default function Home() {
           variants={fadeUp}
         >
           <BotanicalMark className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 -rotate-45 text-on-neem-deep/10 sm:h-72 sm:w-72" />
+          <KolamPattern id="kolam-cta" className="text-on-neem-deep opacity-[0.14]! dark:opacity-[0.14]!" />
           <div className="relative">
             {/* text-on-neem-deep!: beats global.css's bare "h1, h2, h3 { color: var(--ink) }" rule,
                 which otherwise wins over this Tailwind utility class (unlayered CSS always
