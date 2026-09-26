@@ -510,6 +510,7 @@ export const en: Record<string, string> = {
   "searchRegEspacenetDesc": "Worldwide patent documents",
   "searchRegAyushDesc": "Published Ayurveda research",
   "searchRegTkdlDesc": "Codified formulations from classical texts",
+  "dossierCompleteCaption": "Every chapter is done. Your case is ready to share.",
   "dossierStatusHeading": "Status",
   "dossierDone": "Done",
   "dossierNeedsInput": "Needs input",

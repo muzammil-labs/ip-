@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
+import { motion } from "motion/react";
 import { LinkSimple, Check, FilePdf, UsersThree } from "@phosphor-icons/react";
 import Chapter from "../ui/Chapter";
 import Section from "../ui/Section";
 import Button from "../ui/Button";
 import Sheet from "../ui/Sheet";
 import Callout from "../ui/Callout";
+import Seal from "../ui/Seal";
 import { StatusChip } from "../ui/Chip";
+import { useMotionOK } from "../ui/motion";
 import ExaminerView, { ExaminerToggleButton, useExaminerToggle } from "../panels/ExaminerView";
 import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
+import { useSession } from "../state/session";
 import { shareLinkFor } from "../lib/shareLink";
 import { chapterStatus, chapterGaps } from "./status";
 import { CHAPTER_ORDER, type ChapterSlug } from "./order";
 import { api } from "../api/client";
+
+/** UI-9.16: whether the stamp-in and ripple have already played once this session, tracked
+ * outside React state (module scope, not persisted) since it must survive Dossier unmounting
+ * and remounting as the visitor navigates away and back within the same session. */
+let dossierSealPlayed = false;
 
 const CHAPTER_TITLE_KEY: Record<ChapterSlug, string> = {
   describe: "chDescribeTitle",
@@ -38,6 +47,17 @@ export default function Dossier() {
   const status = chapterStatus(kase);
   const gaps = chapterGaps(kase);
   const examiner = useExaminerToggle();
+  const motionOK = useMotionOK();
+  const { celebrate } = useSession();
+
+  const isComplete = CHAPTER_ORDER.filter((slug) => slug !== "dossier").every((slug) => status[slug]);
+  const [playSealEntrance] = useState(() => isComplete && !dossierSealPlayed);
+
+  useEffect(() => {
+    if (!isComplete) return;
+    dossierSealPlayed = true;
+    celebrate("dossier");
+  }, [isComplete, celebrate]);
 
   async function copyLink() {
     const link = shareLinkFor(kase);
@@ -70,6 +90,31 @@ export default function Dossier() {
       purposeKey="chDossierPurpose"
       headerAction={<ExaminerToggleButton open={examiner.open} setOpen={examiner.setOpen} />}
     >
+      {isComplete && (
+        <div className="mb-8 flex flex-col items-center gap-3 text-center">
+          <div className="relative flex items-center justify-center">
+            {playSealEntrance && motionOK && (
+              <motion.span
+                aria-hidden="true"
+                className="absolute rounded-pill border-2 border-leaf-2"
+                style={{ width: 96, height: 96 }}
+                initial={{ scale: 1, opacity: 0.5 }}
+                animate={{ scale: 1.8, opacity: 0 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              />
+            )}
+            <motion.span
+              initial={playSealEntrance && motionOK ? { opacity: 0, scale: 1.4, y: -2 } : false}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 420, damping: 28 }}
+            >
+              <Seal size={96} variant="filled" />
+            </motion.span>
+          </div>
+          <p className="text-body-lg font-semibold text-ink">{t("dossierCompleteCaption")}</p>
+        </div>
+      )}
+
       {examiner.open && (
         <div className="mb-8">
           <ExaminerView />

@@ -510,6 +510,7 @@ export const hi: Record<string, string> = {
   "searchRegEspacenetDesc": "विश्वव्यापी पेटेंट दस्तावेज़",
   "searchRegAyushDesc": "प्रकाशित आयुर्वेद शोध",
   "searchRegTkdlDesc": "शास्त्रीय ग्रंथों से संहिताबद्ध फॉर्मूलेशन",
+  "dossierCompleteCaption": "हर अध्याय पूरा हो गया है। आपका मामला साझा करने के लिए तैयार है।",
   "dossierStatusHeading": "स्थिति",
   "dossierDone": "पूर्ण",
   "dossierNeedsInput": "इनपुट चाहिए",

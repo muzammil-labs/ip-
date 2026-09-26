@@ -510,6 +510,7 @@ export const te: Record<string, string> = {
   "searchRegEspacenetDesc": "ప్రపంచవ్యాప్త పేటెంట్ పత్రాలు",
   "searchRegAyushDesc": "ప్రచురించిన ఆయుర్వేద పరిశోధన",
   "searchRegTkdlDesc": "సాంప్రదాయ గ్రంథాల నుండి క్రోడీకరించిన ఫార్ములేషన్లు",
+  "dossierCompleteCaption": "ప్రతి అధ్యాయం పూర్తయింది. మీ కేసు పంచుకోవడానికి సిద్ధంగా ఉంది.",
   "dossierStatusHeading": "స్థితి",
   "dossierDone": "పూర్తయింది",
   "dossierNeedsInput": "ఇన్‌పుట్ అవసరం",
