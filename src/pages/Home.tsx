@@ -60,6 +60,12 @@ const TRUST_FACTS = [
   { titleKey: "homeTrust2Title", bodyKey: "homeTrust2Body" },
 ];
 
+const LANGUAGE_SHOWCASE = [
+  { nameKey: "langNameEn", taglineKey: "homeLangTaglineEn" },
+  { nameKey: "langNameHi", taglineKey: "homeLangTaglineHi" },
+  { nameKey: "langNameTe", taglineKey: "homeLangTaglineTe" },
+];
+
 /** #/ (B2, B3). The four-destination home: hero with a real live answer, three example
  * cases, how a case works, and why to trust it. Replaces the retired WebGL Overview. */
 export default function Home() {
@@ -251,6 +257,24 @@ export default function Home() {
                   {t("homeTrustCta")} <CaretRight size={13} />
                 </span>
               </Link>
+            </motion.div>
+          ))}
+        </Reveal>
+      </section>
+
+      {/* One system, three scripts */}
+      <section className="mx-auto max-w-[var(--w-shell)] px-4 pb-14 sm:px-6">
+        <h2 className="text-h2 text-ink">{t("homeLangHeading")}</h2>
+        <p className="mt-2 max-w-[52ch] text-body text-ink-2">{t("homeLangBody")}</p>
+        <Reveal className="mt-6 grid gap-4 sm:grid-cols-3">
+          {LANGUAGE_SHOWCASE.map((l) => (
+            <motion.div
+              key={l.nameKey}
+              variants={fadeUp}
+              className="rounded-container border border-line bg-surface p-6 text-center"
+            >
+              <span className="text-h2 text-ink">{t(l.nameKey)}</span>
+              <p className="mt-2 text-small text-ink-3">{t(l.taglineKey)}</p>
             </motion.div>
           ))}
         </Reveal>
