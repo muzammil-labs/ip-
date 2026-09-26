@@ -119,6 +119,8 @@ Plus: **Sahayak** (Ask) is a panel available on every page (right drawer on desk
 | `MOTION_INTENSITY` | **4** | Motion only to show state change and evidence; nothing decorative on a loop. |
 | `VISUAL_DENSITY` | **5** | A working tool with evidence rows, but with room to read. |
 
+**Phase 9 amendment (`docs/plan/UI-POLISH-PLAN.md` section 0, A1): two zones, not one set of dials.** The **showcase zone** (Home, How it works, and the Dossier completion moment) runs `VARIANCE 6 / MOTION 6 / DENSITY 4`, for the "premium and memorable" finals bar the dials above alone could not reach. The **work zone** (the seven chapter screens, Ask, Library tables) stays exactly as specified above, unchanged. Wow effects live only in the showcase zone and at chapter completion, never while someone is filling a form.
+
 **Concept.** Light mode is a clean legal record: bright paper, deep ink, and a single neem-green accent. Colour is used for meaning, not decoration. The distinctive elements are ones only this product has: clause chips styled like margin notes, an evidence spine that fills with seals, and duotone botanical plates for the plant in each case.
 
 ### C2. Colour tokens
@@ -169,6 +171,8 @@ One accent (**neem**). Three semantic colours with strict jobs (**haldi** = chan
 - No gradients on UI surfaces. The only gradient allowed is the duotone treatment inside botanical plates.
 - Shadows are tinted with the ink hue (`rgba(11, 26, 19, …)`), never pure black.
 
+**Phase 9 amendment (UI-POLISH-PLAN.md section 0, A2).** Also allowed, showcase zone only: (a) one soft radial glow per showcase hero (the `--neem-wash` blur behind the Home hero illustration), (b) the scrim already inside `Plate`, (c) the `--neem-deep` closing-CTA band may carry a subtle radial highlight. Still banned everywhere: gradient buttons, gradient text, gradient borders.
+
 ### C3. Typography
 
 Keep the **Anek** family: an Indian foundry family with matching Latin, Devanagari and Telugu, which is the correct choice for a trilingual product. Fragment Mono for citations and clause IDs. **Self-host** all fonts (woff2, subset) instead of the Google Fonts `<link>` so the app works offline and at the venue.
@@ -206,10 +210,13 @@ Exactly three named motions, all in `src/ui/motion.ts`, all disabled under `pref
 
 Page change: 160ms opacity plus 4px rise on the main column only. **No** curtain wipe, **no** sticky-stack, **no** horizontal pan, **no** magnetic buttons, **no** infinite loops. Hover: colour change plus `translateY(-1px)` on interactive cards; `:active` scale 0.98 on buttons.
 
+**Phase 9 amendment (UI-POLISH-PLAN.md section 0, A3 and A4).** Two more named motions in `src/ui/motion.ts`, same reduced-motion discipline: **`sprout`** (scale 0→1 with a small counter-rotation settling to 0, spring `{stiffness: 300, damping: 20}`; a leaf appearing on the chapter rail's `VineRail` or falling in `LeafFall`) and, already present from Phase 1, **`fadeUp`**/**`staggerContainer`** (an element rising into place on entrance or scroll-into-view, and its stagger wrapper). The theme-switch reveal (`TopBar`'s `ThemeToggle`) is a circular `clip-path` Web Animation on `::view-transition-new(root)`, not a Motion variant, since it animates a browser view-transition snapshot rather than a React-rendered element; it is still disabled under reduced motion and in browsers without `document.startViewTransition` (an instant switch instead). **One slow ambient loop is allowed**, and only one: the Home hero's `BotanicalMark` sways ±1.5° over 7s (`repeat: Infinity, repeatType: "mirror"`), pauses off-screen (`useInView`), and is off under reduced motion (`Plate`'s `living` prop, set only on that one instance). Nothing else loops.
+
 ### C6. Iconography and imagery
 
 - **Icons:** `@phosphor-icons/react` only (already installed), weight `regular` at 20px, `fill` for the active state, stroke never mixed. No hand-drawn SVG icons.
 - **Seal mark:** one simple geometric mark (concentric circles with the § glyph) used as logo, chapter numbers, evidence seals and the dossier stamp. This is the only custom SVG allowed; it is a geometric mark, not an illustration.
+- **Phase 9 amendment (UI-POLISH-PLAN.md section 0, A5).** Also allowed, all decorative (`aria-hidden`, `pointer-events-none`, `currentColor`): `BotanicalMark` (the Plate placeholder illustration, also used as the Home hero's living sprig and the closing-CTA corner ornament), `VineRail` (the chapter rail's wavy progress stem with leaf markers), the shared `Leaf` path used by both `VineRail` and `LeafFall` (the chapter-completion leaf fall), and `KolamPattern` (a static kolam/rangoli dot-grid texture, radially masked to the edges of the Home hero and the closing CTA band). Icons are still Phosphor only.
 - **Botanical plates:** 6 to 8 real plant images for the demo cases (Ashwagandha, Amla, Tulsi, Turmeric, Brahmi, Guduchi, Shatavari, Neem). Source from Wikimedia Commons (for example `Category:Withania_somnifera`, which includes Biodiversity Heritage Library scans) and **check the licence on each file page**; use only public domain or CC BY / CC BY-SA with attribution in `public/plates/CREDITS.md`. Process to a neem duotone on white (Appendix D gives the exact CSS filter approach). If a licensed image cannot be found for a plant, show no image; do not draw one.
 - **Decision (final): real, licence-checked botanical plates only; no AI-generated plant images.** An AIIA judge will notice wrong leaf shape or fruit on a generated plant, and a botanical error undermines a product whose pitch is accuracy. The cloud session cannot reach Wikimedia (network policy), so either allow `commons.wikimedia.org` and `upload.wikimedia.org` in the environment's network settings, or a team member downloads the chosen files and commits them to `public/plates/src/` with `CREDITS.md`. Until the plates exist, `Plate` renders its EmptyState variant (a seal outline and the botanical name) so nothing looks broken.
 - **No fake screenshots.** The Home hero shows a real, working, interactive answer card component, not a mock.
