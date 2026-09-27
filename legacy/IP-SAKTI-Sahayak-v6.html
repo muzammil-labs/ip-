@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IP-SAKTI Sahayak — cited IP & regulatory guidance for Ayurveda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,300..750&family=Anek+Devanagari:wdth,wght@75..125,400..700&family=Anek+Telugu:wdth,wght@75..125,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F6FA; --surface:#FFFFFF; --sunk:#EEF0F7; --line:#E1E4EF;
+  --ink:#12162E; --ink-2:#454B6B; --ink-3:#767CA0;
+  --neem:#1D7A4C; --neem-soft:#E1F4E8;
+  --turmeric:#AD6E08; --turmeric-soft:#FAF0D9;
+  --kumkum:#C23A31; --kumkum-soft:#FBE4E1;
+  --indigo-soft:#E8EBFC;
+  --accent:#3652E0; --accent-2:#5A3EE0; --accent-soft:#E9ECFE;
+  --focus:#3652E0;
+  --shadow-color:16,20,45;
+  --shadow-xs:0 1px 2px rgba(var(--shadow-color),.05);
+  --shadow-sm:0 2px 6px rgba(var(--shadow-color),.06), 0 1px 2px rgba(var(--shadow-color),.05);
+  --shadow-md:0 12px 28px -8px rgba(var(--shadow-color),.14), 0 2px 8px rgba(var(--shadow-color),.06);
+  --shadow-lg:0 28px 60px -12px rgba(var(--shadow-color),.22), 0 4px 12px rgba(var(--shadow-color),.06);
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --font:"Anek Latin","Anek Devanagari","Anek Telugu","Noto Sans","Noto Sans Devanagari","Noto Sans Telugu",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C0F20; --surface:#141833; --sunk:#0A0D1C; --line:#262C4E;
+    --ink:#EEF0FA; --ink-2:#B7BCDA; --ink-3:#8A8FB5;
+    --neem:#5FCB8C; --neem-soft:#132C20; --turmeric:#E8AE45; --turmeric-soft:#332711;
+    --kumkum:#F08880; --kumkum-soft:#361C1C; --indigo-soft:#20264A;
+    --accent:#7C93FF; --accent-2:#A98CFF; --accent-soft:#1E244A;
+    --focus:#8FA8FF; --shadow-color:0,0,0; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C0F20; --surface:#141833; --sunk:#0A0D1C; --line:#262C4E;
+  --ink:#EEF0FA; --ink-2:#B7BCDA; --ink-3:#8A8FB5;
+  --neem:#5FCB8C; --neem-soft:#132C20; --turmeric:#E8AE45; --turmeric-soft:#332711;
+  --kumkum:#F08880; --kumkum-soft:#361C1C; --indigo-soft:#20264A;
+  --accent:#7C93FF; --accent-2:#A98CFF; --accent-soft:#1E244A;
+  --focus:#8FA8FF; --shadow-color:0,0,0; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background-color .35s var(--ease),color .35s var(--ease)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent);text-decoration-thickness:1.5px;text-underline-offset:2px}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+img,svg{max-width:100%}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+::selection{background:var(--accent);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;border:3px solid var(--paper);background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-3);background-clip:padding-box}
+
+/* ---------- scroll progress ---------- */
+.scroll-progress{position:fixed;top:0;left:0;width:100%;height:3px;z-index:60;pointer-events:none;background:transparent}
+.scroll-progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .1s linear;box-shadow:0 0 10px 0 rgba(54,82,224,.5)}
+
+/* ---------- motion primitives ---------- */
+@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
+@keyframes shimmerCaret{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.screen.on{animation:screenIn .5s var(--ease)}
+.screen.on>*{animation:riseIn .55s var(--ease) backwards}
+.screen.on>*:nth-child(1){animation-delay:.01s}
+.screen.on>*:nth-child(2){animation-delay:.07s}
+.screen.on>*:nth-child(3){animation-delay:.13s}
+.screen.on>*:nth-child(4){animation-delay:.19s}
+.screen.on>*:nth-child(5){animation-delay:.25s}
+.screen.on>*:nth-child(n+6){animation-delay:.30s}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:252px 1fr;min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 16px 18px;border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:18px;transition:background-color .35s var(--ease),border-color .35s var(--ease)}
+.brand{display:flex;gap:11px;align-items:center;padding:2px 6px 4px}
+.brand-mark{width:38px;height:38px;flex:none;filter:drop-shadow(0 3px 8px rgba(var(--shadow-color),.18))}
+.brand b{display:block;white-space:nowrap;font-size:19px;font-stretch:115%;letter-spacing:-.01em;line-height:1}
+.brand small{color:var(--ink-3);font-size:13px}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav button{all:unset;cursor:pointer;position:relative;display:flex;gap:10px;align-items:center;padding:10px 11px;border-radius:var(--r-sm);color:var(--ink-2);font-size:15px;transition:background-color .18s var(--ease),color .18s var(--ease),transform .15s var(--ease)}
+.nav button svg{width:18px;height:18px;flex:none;opacity:.78;transition:opacity .18s var(--ease)}
+.nav button:hover{background:var(--sunk);color:var(--ink)}
+.nav button:hover svg{opacity:1}
+.nav button:active{transform:scale(.97)}
+.nav button[aria-current="page"]{background:var(--ink);color:var(--paper);box-shadow:var(--shadow-sm)}
+.nav button[aria-current="page"] svg{opacity:1}
+.nav button:focus-visible{outline:2px solid var(--focus)}
+.rail-group{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.field-label{font-size:12.5px;font-weight:600;color:var(--ink-3);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.03em}
+.select{width:100%;padding:8px 10px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--paper);transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+.select:hover{border-color:var(--ink-3)}
+.select:focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.rail-foot{margin-top:auto;font-size:12.5px;color:var(--ink-3);line-height:1.45}
+.proto{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:var(--r-sm);padding:2px 9px;font-size:12px;font-weight:650;letter-spacing:.02em}
+
+main{min-width:0;display:flex;flex-direction:column}
+.screen{display:none;padding:36px clamp(18px,4vw,56px) 116px;max-width:1280px;width:100%}
+.screen.on{display:block}
+.disclaimer{position:sticky;bottom:0;margin-top:auto;background:var(--ink);color:var(--paper);font-size:13.5px;padding:10px clamp(18px,4vw,56px);display:flex;gap:10px;align-items:center;z-index:5;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 24px rgba(var(--shadow-color),.10)}
+.disclaimer svg{width:16px;height:16px;flex:none;color:var(--turmeric)}
+
+h1,h2,h3{font-stretch:112%;letter-spacing:-.015em;line-height:1.1;margin:0}
+h1{font-size:clamp(30px,3.6vw,44px);font-weight:640}
+h2{font-size:25px;font-weight:640;letter-spacing:-.01em}
+h3{font-size:18px;font-weight:620}
+.lede{color:var(--ink-2);font-size:17.5px;max-width:64ch;margin:11px 0 0}
+.muted{color:var(--ink-3)}
+.sect{margin-top:40px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:var(--r-sm);cursor:pointer;font-weight:560;font-size:15px;transition:transform .15s var(--ease),box-shadow .2s var(--ease),background-color .2s var(--ease),filter .2s var(--ease);box-shadow:var(--shadow-xs)}
+.btn:hover{transform:translateY(-1.5px);box-shadow:var(--shadow-md)}
+.btn:active{transform:translateY(0) scale(.98);box-shadow:var(--shadow-xs)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn.ghost:hover{background:var(--sunk);border-color:var(--ink-3);filter:none;box-shadow:none}
+.btn.small{padding:7px 13px;font-size:14px}
+.btn svg{width:17px;height:17px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-pill);padding:7px 13px;font-size:14px;cursor:pointer;text-align:left;transition:border-color .18s var(--ease),transform .15s var(--ease),background-color .18s var(--ease),box-shadow .18s var(--ease)}
+.chip:hover{border-color:var(--accent);color:var(--accent);box-shadow:var(--shadow-xs);transform:translateY(-1px)}
+.chip:active{transform:translateY(0) scale(.97)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* evidence state marks */
+.st{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:12px;font-weight:700;flex:none;line-height:1}
+.st.V{background:var(--neem-soft);color:var(--neem)}
+.st.U{background:var(--turmeric-soft);color:var(--turmeric)}
+.st.C{background:var(--kumkum-soft);color:var(--kumkum)}
+.st.R{background:var(--sunk);color:var(--ink-3);border:1px dashed var(--ink-3)}
+.stlabel{font-size:13px;padding:3px 10px;border-radius:var(--r-pill);display:inline-flex;gap:6px;align-items:center;font-weight:600}
+.stlabel.V{background:var(--neem-soft);color:var(--neem)}
+.stlabel.U{background:var(--turmeric-soft);color:var(--ink)}
+.stlabel.C{background:var(--kumkum-soft);color:var(--kumkum)}
+.stlabel.R{background:var(--sunk);color:var(--ink-2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+
+/* ---------- overview ---------- */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:44px;align-items:start;isolation:isolate}
+.hero::before{content:"";position:absolute;top:-60px;left:-80px;width:520px;height:420px;background:radial-gradient(closest-side,var(--accent-soft),transparent 72%);opacity:.7;z-index:-1;pointer-events:none}
+.hero h1{font-size:clamp(40px,5.4vw,72px);font-stretch:122%;font-weight:660;letter-spacing:-.03em;line-height:.98}
+.hero h1 .clause{display:block;font-stretch:80%;font-weight:420;color:var(--ink-2);letter-spacing:-.01em;margin-top:2px}
+.hero .lede{font-size:18.5px}
+
+/* evidence-graph hero visual */
+.hero-graphic{position:absolute;top:50%;right:-70px;transform:translateY(calc(-50% + var(--py,0px)));width:540px;height:400px;z-index:-1;pointer-events:none;opacity:.9}
+.hero-graphic .hg-ring{fill:none;stroke:var(--ink-3);stroke-width:1.1;opacity:.35}
+.hero-graphic .hg-link{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:4 7;opacity:.75;animation:hgFlow 5s linear infinite}
+.hero-graphic .hg-link:nth-of-type(2){animation-delay:-1.25s}
+.hero-graphic .hg-link:nth-of-type(3){animation-delay:-2.5s}
+.hero-graphic .hg-link:nth-of-type(4){animation-delay:-3.75s}
+@keyframes hgFlow{to{stroke-dashoffset:-33}}
+.hero-graphic .hg-core-c{fill:var(--ink)}
+.hero-graphic .hg-core-t{fill:var(--paper);font-size:11px;font-weight:700;letter-spacing:.02em;font-family:var(--font)}
+.hero-graphic .hg-node{transform-box:fill-box;transform-origin:center;animation:hgPulse 3.6s ease-in-out infinite}
+.hero-graphic .hg-node:nth-of-type(2){animation-delay:-.9s}
+.hero-graphic .hg-node:nth-of-type(3){animation-delay:-1.8s}
+.hero-graphic .hg-node:nth-of-type(4){animation-delay:-2.7s}
+@keyframes hgPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.hero-graphic .hg-node circle{fill:var(--surface);stroke-width:2.2;filter:drop-shadow(0 4px 10px rgba(var(--shadow-color),.14))}
+.hero-graphic .hg-label{font-size:11px;fill:var(--ink-2);font-family:var(--font);text-anchor:middle}
+.demo-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);animation:popIn .6s var(--ease) .1s backwards}
+.demo-q{padding:17px 19px;border-bottom:1px solid var(--line);font-size:17px;min-height:62px;background:linear-gradient(180deg,var(--sunk),transparent)}
+.demo-q .caret{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(2) infinite}
+.demo-cols{display:grid;grid-template-columns:1fr 1fr}
+.demo-col{padding:15px 19px 19px;font-size:15px;opacity:0;transform:translateY(6px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.demo-col.show{opacity:1;transform:none}
+.demo-col+.demo-col{border-left:1px solid var(--line)}
+.demo-col h4{margin:0 0 9px;font-size:12.5px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+.demo-col p{margin:0 0 9px}
+.demo-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 19px;border-top:1px solid var(--line);background:var(--sunk)}
+.demo-dots{display:flex;gap:7px}
+.demo-dots button{all:unset;cursor:pointer;width:7px;height:7px;border-radius:50%;background:var(--line);transition:background-color .2s var(--ease),transform .2s var(--ease)}
+.demo-dots button[aria-selected="true"]{background:var(--accent);transform:scale(1.35)}
+.demo-next{all:unset;cursor:pointer;font-size:13.5px;color:var(--ink-2);display:inline-flex;gap:5px;align-items:center;transition:color .18s var(--ease),transform .15s var(--ease)}
+.demo-next:hover{color:var(--accent)}
+.demo-next:active{transform:translateX(2px)}
+.demo-next svg{width:14px;height:14px}
+
+/* IP pathway snapshot meters */
+.snapshot{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px 24px;padding:19px 22px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.meter-h{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink-2);margin-bottom:7px}
+.meter-h b{font-weight:700}
+.meter-track{height:7px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter-track i{display:block;height:100%;border-radius:99px;width:0;transition:width .9s var(--ease) .1s}
+.diff{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.diff>div{padding:20px 21px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}
+.diff>div:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);border-color:var(--accent)}
+.diff h3{font-size:17px;margin-bottom:7px}
+.diff h3::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:2px}
+.diff p{margin:0;color:var(--ink-2);font-size:15px}
+.tour-list{counter-reset:t;list-style:none;padding:0;margin:16px 0 0;display:grid;gap:9px;max-width:760px}
+.tour-list li{counter-increment:t;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .2s var(--ease)}
+.tour-list li:hover{border-color:var(--accent);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.tour-list li::before{content:counter(t);font-stretch:125%;font-weight:700;font-size:20px;color:var(--accent)}
+.tour-list li p{margin:0;font-size:15px}
+.tour-list li small{color:var(--ink-3)}
+
+/* ---------- ask ---------- */
+.askbar{display:flex;gap:8px;background:var(--surface);border:1.5px solid var(--ink);border-radius:var(--r-md);padding:6px;align-items:center;transition:box-shadow .2s var(--ease),border-color .2s var(--ease)}
+.askbar:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.askbar input{flex:1;min-width:0;border:0;background:transparent;padding:11px 10px;font-size:17px}
+.askbar input:focus{outline:none}
+.iconbtn{border:0;background:transparent;width:40px;height:40px;border-radius:var(--r-sm);display:grid;place-items:center;cursor:pointer;color:var(--ink-2);transition:background-color .18s var(--ease),color .18s var(--ease),transform .15s var(--ease)}
+.iconbtn:hover{background:var(--sunk);color:var(--ink)}
+.iconbtn:active{transform:scale(.94)}
+.iconbtn svg{width:20px;height:20px}
+.iconbtn.rec{background:var(--kumkum);color:#fff;animation:pulseRec 1.1s ease-in-out infinite}
+@keyframes pulseRec{0%,100%{box-shadow:0 0 0 0 rgba(194,58,49,.45)}50%{box-shadow:0 0 0 7px rgba(194,58,49,0)}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:3px;background:var(--surface);gap:2px}
+.seg button{border:0;background:transparent;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--ink-2);transition:background-color .18s var(--ease),color .18s var(--ease)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:var(--shadow-xs)}
+.ask-controls{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:16px 0 6px;align-items:center}
+.suggest{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.answer{margin-top:24px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-md);animation:riseIn .5s var(--ease)}
+.ans-head{padding:20px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:16px}
+.ans-q{font-size:19.5px;font-weight:580;font-stretch:105%;margin:0 0 9px;letter-spacing:-.01em}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13.5px;color:var(--ink-2)}
+.tag{border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 9px;background:var(--sunk)}
+.conf{min-width:230px}
+.conf-title{font-size:13px;font-weight:650;color:var(--ink-3);margin-bottom:7px;display:flex;justify-content:space-between;gap:8px}
+.conf-row{display:grid;grid-template-columns:92px 1fr 70px;gap:8px;align-items:center;font-size:13px;margin:4px 0}
+.bars{display:flex;gap:3px}
+.bars i{height:8px;flex:1;border-radius:2px;background:var(--sunk);transition:background-color .3s var(--ease)}
+.bars[data-l="3"] i{background:var(--neem)}
+.bars[data-l="2"] i:nth-child(-n+2){background:var(--turmeric)}
+.bars[data-l="1"] i:nth-child(1){background:var(--kumkum)}
+.conf details{font-size:13px;color:var(--ink-2);margin-top:6px}
+.conf summary{cursor:pointer;color:var(--ink-3)}
+.conf summary:hover{color:var(--accent)}
+.juris{display:grid;grid-template-columns:1fr 1fr}
+.juris.single{grid-template-columns:1fr}
+.jcol{padding:20px 24px 22px;min-width:0}
+.juris:not(.single) .jcol+.jcol{border-left:1px solid var(--line)}
+.jcol-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:13px}
+.jcol-h h3{font-size:17px}
+.jcol-h small{color:var(--ink-3);font-size:13px}
+.plain{font-size:16.5px;margin:0 0 14px;padding:10px 14px;border-radius:var(--r-sm);background:var(--sunk);border-left:3px solid var(--accent)}
+.pts{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+.pts li{display:grid;grid-template-columns:22px 1fr;gap:9px;font-size:15.5px}
+.cite{display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 5px;border-radius:6px;background:var(--indigo-soft);color:var(--accent);font-size:12px;font-weight:700;border:0;cursor:pointer;vertical-align:1px;margin-left:4px;transition:background-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+.cite:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+.cite.hl{background:var(--ink);color:var(--paper)}
+.flux{font-size:11.5px;background:var(--turmeric);color:#1d1400;border-radius:5px;padding:2px 7px;margin-left:6px;font-weight:700;letter-spacing:.01em}
+.ans-foot{border-top:1px solid var(--line);padding:17px 22px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;background:var(--sunk)}
+.gaps h4{margin:0 0 7px;font-size:15px;font-weight:650}
+.gaps ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:15px}
+.gaps li{margin:3px 0}
+.abstain{padding:24px;display:grid;grid-template-columns:auto 1fr;gap:16px}
+.abstain .big{width:46px;height:46px;border-radius:50%;background:var(--sunk);border:1.5px dashed var(--ink-3);display:grid;place-items:center;font-weight:700;color:var(--ink-2)}
+.notice{margin:14px 22px 0;padding:11px 13px;border-radius:var(--r-sm);background:var(--turmeric-soft);font-size:14px;color:var(--ink)}
+.gloss{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+.gloss span{font-size:13px;border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 9px;background:var(--sunk)}
+.gloss span b{font-weight:650}
+.history{margin-top:28px}
+.history ol{padding-left:20px;color:var(--ink-2);font-size:14.5px}
+.history button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:3px;color:var(--accent)}
+.history button:hover{color:var(--ink)}
+
+/* ---------- classify ---------- */
+.cls{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:28px;margin-top:26px;align-items:start}
+.qcard{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);padding:17px 19px;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+.qcard:hover{box-shadow:var(--shadow-xs)}
+.qcard+.qcard{margin-top:13px}
+.qcard.done{background:transparent}
+.qcard h3{font-size:16px;font-stretch:105%;margin-bottom:4px}
+.qcard p.why{margin:0 0 11px;font-size:13.5px;color:var(--ink-3)}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:var(--r-sm);padding:10px 13px;cursor:pointer;font-size:15px;transition:border-color .16s var(--ease),background-color .16s var(--ease),transform .12s var(--ease)}
+.opt:hover{border-color:var(--accent);color:var(--accent)}
+.opt:active{transform:scale(.99)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.qcount{font-size:13.5px;color:var(--ink-3);margin:0 0 11px}
+.result{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-md);animation:riseIn .45s var(--ease)}
+.result-h{padding:20px 22px;background:linear-gradient(135deg,var(--ink),#232a52);color:var(--paper)}
+.result-h small{opacity:.75;font-size:13.5px}
+.result-h h2{font-size:30px;font-stretch:120%;margin-top:5px}
+.result-h p{margin:7px 0 0;opacity:.85;font-size:15px;max-width:70ch}
+.rtable{width:100%;border-collapse:collapse}
+.rtable th,.rtable td{text-align:left;vertical-align:top;padding:13px 22px;border-top:1px solid var(--line);font-size:15px}
+.rtable th{width:190px;color:var(--ink-2);font-weight:600}
+.rtable tr.changed td,.rtable tr.changed th{background:var(--turmeric-soft);animation:popIn .4s var(--ease)}
+.was{display:block;font-size:13px;color:var(--ink-3);text-decoration:line-through;margin-top:4px}
+.whatif{padding:17px 22px;border-top:1px solid var(--line);background:var(--sunk)}
+.whatif h3{font-size:16px;margin-bottom:9px}
+.delta{margin-top:11px;font-size:14.5px;padding:11px 13px;border-radius:var(--r-sm);background:var(--turmeric-soft);animation:riseIn .4s var(--ease)}
+.empty{border:1.5px dashed var(--line);border-radius:var(--r-lg);padding:44px 24px;color:var(--ink-3);text-align:center}
+.steps{margin:0;padding-left:20px;font-size:15px}
+.steps li{margin:6px 0}
+
+/* ---------- prior art / claims ---------- */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:24px;align-items:start}
+.panel{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);padding:19px 21px;transition:box-shadow .2s var(--ease)}
+.panel h3{margin-bottom:9px}
+textarea.box,input.box{width:100%;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);padding:12px 14px;font-size:16px;resize:vertical;transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+textarea.box:focus-visible,input.box:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.srcrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.srcrow:first-of-type{border-top:0}
+.srcrow p{margin:2px 0 0;font-size:14px;color:var(--ink-2)}
+.access{font-size:12.5px;border-radius:var(--r-pill);padding:3px 10px;white-space:nowrap;font-weight:650}
+.access.free{background:var(--neem-soft);color:var(--neem)}
+.access.paid{background:var(--turmeric-soft);color:var(--ink)}
+.scan{white-space:pre-wrap;line-height:1.85;font-size:16px;min-height:120px}
+mark.bad{background:var(--kumkum-soft);color:var(--kumkum);border-bottom:2px solid var(--kumkum);padding:0 2px;border-radius:3px;cursor:pointer;transition:filter .15s var(--ease)}
+mark.warn{background:var(--turmeric-soft);color:var(--ink);border-bottom:2px solid var(--turmeric);padding:0 2px;border-radius:3px;cursor:pointer;transition:filter .15s var(--ease)}
+mark.bad:hover,mark.warn:hover{filter:brightness(.94)}
+.findings{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.findings li{border-left:3px solid var(--kumkum);padding:5px 0 5px 13px;font-size:15px}
+.findings li.w{border-color:var(--turmeric)}
+.findings small{color:var(--ink-3);display:block}
+
+/* ---------- sources / trust ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);margin-top:16px}
+table.data{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5px}
+table.data th{font-weight:650;color:var(--ink-3);text-align:left;padding:11px 15px;border-bottom:1px solid var(--line);background:var(--sunk);font-size:13px;text-transform:uppercase;letter-spacing:.02em}
+table.data td{padding:11px 15px;border-bottom:1px solid var(--line);vertical-align:top}
+table.data tr:last-child td{border-bottom:0}
+table.data tr.clickable{cursor:pointer;transition:background-color .15s var(--ease)}
+table.data tr.clickable:hover td{background:var(--sunk)}
+.tier{font-weight:700;font-stretch:120%;color:var(--accent)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.timeline{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));overflow-x:auto;background:linear-gradient(var(--line),var(--line)) 0 8px/100% 2px no-repeat}
+.timeline li{padding:27px 14px 4px 0;position:relative;font-size:14.5px}
+.timeline li::before{content:"";position:absolute;top:1px;left:0;width:15px;height:15px;border-radius:50%;background:var(--paper);border:3px solid var(--ink-3);transition:border-color .2s var(--ease)}
+.timeline li.now::before{background:var(--turmeric);border-color:var(--turmeric)}
+.timeline b{display:block;font-stretch:115%}
+.ledger{font-size:14px}
+.pipeline{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface);counter-reset:p}
+.pipeline li{padding:15px 17px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);counter-increment:p;font-size:14px;color:var(--ink-2);transition:background-color .18s var(--ease)}
+.pipeline li:hover{background:var(--sunk)}
+.pipeline li::before{content:counter(p);display:block;font-stretch:125%;font-weight:700;font-size:22px;color:var(--accent)}
+.pipeline li b{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+.log{max-height:320px;overflow:auto;font-size:13.5px}
+.log td:first-child{white-space:nowrap;color:var(--ink-3)}
+
+/* ---------- blueprint ---------- */
+.arch{display:grid;gap:7px;margin-top:16px}
+.layer{display:grid;grid-template-columns:170px 1fr;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);overflow:hidden;transition:box-shadow .2s var(--ease)}
+.layer:hover{box-shadow:var(--shadow-xs)}
+.layer>b{padding:13px 14px;background:var(--ink);color:var(--paper);font-stretch:110%;font-weight:600;font-size:15px}
+.layer>div{padding:11px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.layer span{font-size:13.5px;border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 10px;background:var(--sunk)}
+.stage{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin-top:16px;background:var(--surface)}
+.stage>div{padding:18px 19px}
+.stage>div+div{border-left:1px solid var(--line)}
+.stage h3::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+.stage ul{margin:9px 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-2)}
+.cov td:nth-child(3) button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:3px;color:var(--accent);transition:color .15s var(--ease)}
+.cov td:nth-child(3) button:hover{color:var(--ink)}
+
+/* ---------- drawer / modal / toast ---------- */
+.scrim{position:fixed;inset:0;background:rgba(8,10,24,.46);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .25s var(--ease);z-index:30}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(520px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:31;transform:translateX(102%);transition:transform .32s var(--ease);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);box-shadow:var(--shadow-lg)}
+.drawer.on{transform:none}
+.drawer-h{padding:19px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:start}
+.drawer-b{padding:19px 21px 40px;overflow-y:auto}
+.excerpt{margin:15px 0;padding:15px 17px;border-left:3px solid var(--accent);background:var(--sunk);font-size:16px;line-height:1.6;border-radius:0 var(--r-sm) var(--r-sm) 0}
+.excerpt small{display:block;color:var(--ink-3);font-size:12.5px;margin-bottom:7px;text-transform:uppercase;letter-spacing:.02em;font-weight:650}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:7px 12px;font-size:14px}
+.kv dt{color:var(--ink-3)}
+.kv dd{margin:0}
+.supports{margin-top:17px;padding:13px 15px;border-radius:var(--r-sm);background:var(--neem-soft);font-size:14.5px}
+.supports.C{background:var(--kumkum-soft)}
+.modal{position:fixed;inset:0;display:none;place-items:center;z-index:40;padding:16px}
+.modal.on{display:grid}
+.modal.on .modal-card{animation:popIn .28s var(--ease)}
+.modal-card{background:var(--surface);border-radius:var(--r-lg);max-width:520px;width:100%;padding:24px;border:1px solid var(--line);box-shadow:var(--shadow-lg);max-height:90vh;overflow:auto}
+.modal-card h2{font-size:22px;margin-bottom:9px}
+.modal-card label{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;margin:11px 0}
+.toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:var(--r-md);opacity:0;transition:.3s var(--ease);z-index:50;font-size:14.5px;max-width:90vw;box-shadow:var(--shadow-lg)}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.tourbar{position:fixed;left:calc(252px + 20px);bottom:58px;z-index:45;width:min(360px,calc(100vw - 36px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 17px;display:none;box-shadow:var(--shadow-lg)}
+.tourbar.on{display:block;animation:riseIn .3s var(--ease)}
+.tourbar p{margin:5px 0 11px;font-size:14.5px}
+.tourbar .row{justify-content:space-between}
+
+@media (max-width:1000px){
+  .hero,.cls,.two{grid-template-columns:1fr}
+  .hero::before,.hero-graphic{display:none}
+  .stage{grid-template-columns:1fr}.stage>div+div{border-left:0;border-top:1px solid var(--line)}
+}
+@media (max-width:820px){
+  .app{grid-template-columns:1fr}
+  .rail{position:sticky;top:0;height:auto;z-index:10;flex-direction:row;align-items:center;overflow-x:auto;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:12px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .brand small,.rail-foot,.rail-group .field-label,#personaWrap,#themeBtn{display:none}
+  .rail-group{flex-direction:row;border-top:0;padding-top:0;flex:none}
+  .rail-group .select{width:auto;padding:6px 8px}
+  .tourbar{left:18px}
+  .nav{flex-direction:row}
+  .nav button span{white-space:nowrap}
+  .juris{grid-template-columns:1fr}
+  .juris:not(.single) .jcol+.jcol{border-left:0;border-top:1px solid var(--line)}
+  .ans-head,.ans-foot{grid-template-columns:1fr}
+  .demo-cols{grid-template-columns:1fr}.demo-col+.demo-col{border-left:0;border-top:1px solid var(--line)}
+  .layer{grid-template-columns:1fr}
+  .rtable th{width:130px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"><i></i></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-ask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h6"/></symbol>
+  <symbol id="i-cls" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M12 9l-6 5M12 9l6 5M6 14v5M18 14v5"/><circle cx="12" cy="3" r="1"/></symbol>
+  <symbol id="i-tk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c0-8 5-13 14-15-1 9-6 14-14 15z"/><path d="M5 20l7-7"/></symbol>
+  <symbol id="i-claim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h3l6 4V5L7 9z"/><path d="M17 9a4 4 0 0 1 0 6"/></symbol>
+  <symbol id="i-src" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></symbol>
+  <symbol id="i-trust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-bp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="5" rx="1"/><rect x="3" y="11" width="18" height="4" rx="1"/><rect x="3" y="17" width="18" height="3" rx="1"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2-7z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14A8 8 0 1 1 10 4a7 7 0 0 0 10 10z"/></symbol>
+ </defs>
+</svg>
+
+<div class="app">
+<aside class="rail" aria-label="Main">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--ink)"/><path d="M12 29c0-10 6-16 16-18-1 10-7 16-16 18z" fill="none" stroke="var(--turmeric)" stroke-width="2.4"/><path d="M12 29l9-9" stroke="var(--paper)" stroke-width="2.4" stroke-linecap="round"/><circle cx="28" cy="29" r="2.6" fill="var(--paper)"/></svg>
+    <div><b>IP-SAKTI</b><small data-i18n="tagline">Sahayak for Ayurveda</small></div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+  <div class="rail-group">
+    <div><label class="field-label" for="lang" data-i18n="lang">Language</label>
+      <select id="lang" class="select">
+        <option value="en">English</option><option value="hi">हिन्दी</option><option value="te">తెలుగు</option>
+      </select></div>
+    <div id="personaWrap"><label class="field-label" for="persona" data-i18n="persona">I am a</label>
+      <select id="persona" class="select">
+        <option value="startup">Startup or MSME</option>
+        <option value="vaidya">Practitioner (vaidya)</option>
+        <option value="research">Researcher</option>
+        <option value="farmer">Cultivator or collector</option>
+      </select></div>
+    <button class="btn ghost small" id="themeBtn" type="button"><svg><use href="#i-moon"/></svg><span>Switch theme</span></button>
+  </div>
+  <div class="rail-foot"><span class="proto">Prototype</span><p style="margin:6px 0 0">Answers in this demo are scripted from a hand-checked corpus snapshot (September 2026). The live build retrieves them.</p></div>
+</aside>
+
+<main id="main">
+
+<!-- ================= OVERVIEW ================= -->
+<section class="screen on" id="s-overview" aria-labelledby="h-ov">
+  <div class="hero">
+    <svg class="hero-graphic" viewBox="0 0 540 400" aria-hidden="true" focusable="false">
+      <g class="hg-ring"><circle class="hg-ring" cx="380" cy="200" r="150"/><circle class="hg-ring" cx="380" cy="200" r="102"/></g>
+      <path class="hg-link" d="M380 200 L380 62"/>
+      <path class="hg-link" d="M380 200 L508 160"/>
+      <path class="hg-link" d="M380 200 L508 250"/>
+      <path class="hg-link" d="M380 200 L380 348"/>
+      <g class="hg-core"><circle class="hg-core-c" cx="380" cy="200" r="32"/><text class="hg-core-t" x="380" y="196" text-anchor="middle">IP-SAKTI</text><text class="hg-core-t" x="380" y="209" text-anchor="middle" font-size="8.5" font-weight="500" opacity=".8">core</text></g>
+      <g class="hg-node" transform="translate(380,62)"><circle r="17" stroke="var(--accent)"/><text class="hg-label" y="-26">Patents Act</text></g>
+      <g class="hg-node" transform="translate(508,160)"><circle r="17" stroke="var(--neem)"/><text class="hg-label" y="-26">TKDL</text></g>
+      <g class="hg-node" transform="translate(508,250)"><circle r="17" stroke="var(--turmeric)"/><text class="hg-label" y="34">ABS / NBA</text></g>
+      <g class="hg-node" transform="translate(380,348)"><circle r="17" stroke="var(--kumkum)"/><text class="hg-label" y="34">Treaties</text></g>
+    </svg>
+    <div>
+      <h1 id="h-ov" data-i18n-html="ovH1">Every answer<span class="clause">has a clause behind it.</span></h1>
+      <p class="lede" data-i18n="ovLede">IP-SAKTI Sahayak tells an Ayurveda innovator what their product legally is, what they can protect, what they owe under biodiversity law, and what they may claim — with the exact section, rule or treaty article under every sentence. India and international answers are never mixed. When the evidence runs out, it says so and hands you to a human.</p>
+      <div class="row" style="margin-top:22px">
+        <button class="btn" type="button" data-go="ask" data-load="q1">Try the assistant</button>
+        <button class="btn ghost" type="button" id="startTour">Take the 3-minute walkthrough</button>
+      </div>
+    </div>
+    <div class="demo-card" aria-live="polite">
+      <div class="demo-q" id="demoQ"></div>
+      <div class="demo-cols">
+        <div class="demo-col" id="demoIn"></div>
+        <div class="demo-col" id="demoIntl"></div>
+      </div>
+      <div class="demo-foot">
+        <div class="demo-dots" id="demoDots" role="tablist" aria-label="Example questions"></div>
+        <button class="demo-next" type="button" id="demoNext">Next example <svg><use href="#i-send"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>What makes it different</h2>
+    <div class="diff" style="margin-top:14px">
+      <div><h3>It classifies before it advises</h3><p>Three to five questions decide whether your product is a classical drug, proprietary medicine, new drug, phytopharmaceutical, Ayurveda Aahara or cosmetic. Every IP and ABS answer depends on that.</p></div>
+      <div><h3>Two answers, never one blend</h3><p>India and international law sit in separate columns with separate citations, so a PCT rule is never mistaken for an Indian one.</p></div>
+      <div><h3>Confidence you can audit</h3><p>Confidence is computed from source authority, coverage and agreement between sources, not from the model's opinion of itself. Disputes are shown, not smoothed over.</p></div>
+      <div><h3>It knows when the law moved</h3><p>Every source carries a version and status. Rule 170 was omitted, stayed, then un-stayed in just over a year; answers built on stale text are flagged.</p></div>
+      <div><h3>It stops and hands over</h3><p>Out-of-scope or unanswerable questions are declined with the missing facts listed, and a one-tap route to a human IP facilitator.</p></div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>Walkthrough for evaluators</h2>
+    <p class="lede">Eight steps, each one clickable, covering every requirement in problem statement 26045.</p>
+    <ol class="tour-list" id="tourList"></ol>
+  </div>
+</section>
+
+<!-- ================= ASK ================= -->
+<section class="screen" id="s-ask" aria-labelledby="h-ask">
+  <h1 id="h-ask" data-i18n="askTitle">Ask about your Ayurvedic product</h1>
+  <p class="lede" data-i18n="askLede">Type or speak in English, Hindi or Telugu. Every sentence in the answer links to the law it rests on.</p>
+  <form class="askbar" id="askForm" style="margin-top:20px" autocomplete="off">
+    <label class="sr" for="askInput">Your question</label>
+    <input id="askInput" placeholder="e.g. Can I patent an Ashwagandha extract made with a new process?">
+    <button class="iconbtn" type="button" id="micBtn" aria-label="Speak your question"><svg><use href="#i-mic"/></svg></button>
+    <button class="btn" type="submit"><svg><use href="#i-send"/></svg><span data-i18n="askBtn">Ask</span></button>
+  </form>
+  <div class="suggest" id="suggest" aria-label="Suggested questions"></div>
+  <div class="ask-controls">
+    <div class="row"><span class="field-label" style="margin:0">Jurisdiction</span>
+      <div class="seg" role="group" aria-label="Jurisdiction" id="jurisSeg">
+        <button type="button" data-j="in" aria-pressed="false">India</button>
+        <button type="button" data-j="both" aria-pressed="true">Both, side by side</button>
+        <button type="button" data-j="intl" aria-pressed="false">International</button>
+      </div></div>
+    <div class="row"><span class="field-label" style="margin:0">Detail</span>
+      <div class="seg" role="group" aria-label="Detail level" id="detailSeg">
+        <button type="button" data-d="plain" aria-pressed="false">Plain</button>
+        <button type="button" data-d="expert" aria-pressed="true">With clauses</button>
+      </div></div>
+  </div>
+  <div class="legend"><span><i class="st V">✓</i>Verified</span><span><i class="st U">~</i>Uncertain</span><span><i class="st C">≠</i>Sources conflict</span><span><i class="st R">?</i>Unresolved</span></div>
+  <div id="answerHost"></div>
+  <div class="history" id="historyHost"></div>
+</section>
+
+<!-- ================= CLASSIFY ================= -->
+<section class="screen" id="s-classify" aria-labelledby="h-cls">
+  <h1 id="h-cls" data-i18n="clsH1">What is your product, legally?</h1>
+  <p class="lede" data-i18n="clsLede">Answer a few questions. The category decides your licensing route, the evidence you need, what you can patent and what you owe under biodiversity law. Change any answer later to see exactly what shifts.</p>
+  <div class="row" style="margin-top:14px"><span class="muted" style="font-size:14px">Try a preset:</span>
+    <button class="chip" type="button" data-preset="ashwa">Ashwagandha extract, new process</button>
+    <button class="chip" type="button" data-preset="chyawan">Chyawanprash to a classical text</button>
+    <button class="chip" type="button" data-preset="tea">Tulsi herbal drink</button>
+    <button class="btn ghost small" type="button" id="clsReset">Start over</button>
+  </div>
+  <div class="cls">
+    <div id="qHost"></div>
+    <div id="resultHost"><div class="empty">Your product's category and what it means will appear here after the first two answers.</div></div>
+  </div>
+</section>
+
+<!-- ================= PRIOR ART & TK ================= -->
+<section class="screen" id="s-tk" aria-labelledby="h-tk">
+  <h1 id="h-tk" data-i18n="tkH1">Prior art and traditional knowledge</h1>
+  <p class="lede" data-i18n="tkLede">Before claiming something is new, check whether it is already documented. IP-SAKTI points you to the right record and opens paid sources only after you allow it, with every permission logged.</p>
+  <div class="two">
+    <div class="panel">
+      <h3>What are you checking?</h3>
+      <label class="sr" for="tkInput">Herb, formulation or process</label>
+      <input id="tkInput" class="box" value="Withania somnifera root, supercritical CO₂ extraction">
+      <div class="row" style="margin-top:10px"><button class="btn small" type="button" id="tkGo">Show where to search</button></div>
+      <div id="tkHost" style="margin-top:14px"></div>
+    </div>
+    <div class="panel">
+      <h3>Why this matters under Indian law</h3>
+      <ul class="pts" style="margin-top:8px">
+        <li><i class="st V">✓</i><span>An invention that is, in effect, traditional knowledge is not patentable <button class="cite" data-src="pa-3p" type="button">3(p)</button></span></li>
+        <li><i class="st V">✓</i><span>Anyone may oppose a patent anticipated by knowledge available in any local or indigenous community <button class="cite" data-src="pa-25" type="button">25(1)(k)</button></span></li>
+        <li><i class="st V">✓</i><span>Your specification must disclose the source and geographical origin of biological material <button class="cite" data-src="pa-10" type="button">10(4)</button></span></li>
+        <li><i class="st V">✓</i><span>TKDL, the main record of codified Ayurvedic knowledge, is opened to users beyond patent offices through paid subscription <button class="cite" data-src="tkdl" type="button">TKDL</button></span></li>
+      </ul>
+      <h3 style="margin-top:20px">Permission ledger</h3>
+      <p class="muted" style="font-size:14px;margin:4px 0 8px">Paid sources are never queried without an entry here.</p>
+      <div id="ledgerHost" class="ledger"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLAIM CHECK ================= -->
+<section class="screen" id="s-claims" aria-labelledby="h-cl">
+  <h1 id="h-cl" data-i18n="claimH1">Check your label or advertisement</h1>
+  <p class="lede" data-i18n="claimLede">Paste the text you plan to print or post. Claims that the law prohibits are marked with the provision that prohibits them, and a safer rewording is suggested.</p>
+  <div class="row" style="margin-top:14px"><span class="muted" style="font-size:14px">Product sold as</span>
+    <div class="seg" role="group" aria-label="Product category" id="claimCat">
+      <button type="button" data-c="drug" aria-pressed="true">Ayurvedic drug</button>
+      <button type="button" data-c="aahara" aria-pressed="false">Ayurveda Aahara</button>
+      <button type="button" data-c="cosmetic" aria-pressed="false">Cosmetic</button>
+    </div></div>
+  <div class="two">
+    <div class="panel">
+      <label for="claimInput"><h3>Your text</h3></label>
+      <textarea id="claimInput" class="box" rows="7">Madhu-Shakti churna — 100% herbal miracle formula that permanently cures diabetes in 30 days. Also helps reduce obesity and high blood pressure. No side effects, clinically proven. Doctor recommended!</textarea>
+      <div class="row" style="margin-top:10px"><button class="btn small" type="button" id="claimGo">Check this text</button><button class="btn ghost small" type="button" id="claimSafe">Load a compliant example</button></div>
+    </div>
+    <div class="panel">
+      <h3>What the law says about it</h3>
+      <div id="claimOut" class="scan muted">Results appear here.</div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:22px" id="claimFindingsWrap" hidden>
+    <h3>Findings</h3><ul class="findings" id="claimFindings" style="margin-top:10px"></ul>
+  </div>
+</section>
+
+<!-- ================= SOURCES ================= -->
+<section class="screen" id="s-sources" aria-labelledby="h-src">
+  <h1 id="h-src" data-i18n="srcH1">The corpus behind every answer</h1>
+  <p class="lede" data-i18n="srcLede">Each source has an authority tier, jurisdiction, version and legal status. Answers may only cite what is here, and the model cannot promote a news story above the statute.</p>
+  <div class="sect">
+    <h2>When the law moves: Rule 170 of the Drugs Rules</h2>
+    <p class="lede" style="font-size:16px">A system that indexed 2024 news would still say Ayurvedic ads need prior approval. IP-SAKTI tracks each step and re-checks answers that relied on an older state.</p>
+    <ol class="timeline" id="r170"></ol>
+  </div>
+  <div class="sect">
+    <h2>Source register</h2>
+    <div class="filters">
+      <select class="select" style="width:auto" id="fJur" aria-label="Filter by jurisdiction"><option value="">All jurisdictions</option><option>India</option><option>International</option><option>Export market</option></select>
+      <select class="select" style="width:auto" id="fTier" aria-label="Filter by tier"><option value="">All tiers</option><option value="0">Tier 0, primary law</option><option value="1">Tier 1, official guidance</option><option value="3">Tier 3, commentary</option></select>
+      <select class="select" style="width:auto" id="fReg" aria-label="Filter by regime"><option value="">All regimes</option></select>
+    </div>
+    <div class="tablewrap"><table class="data" id="srcTable"><thead><tr><th>Tier</th><th>Source</th><th>Jurisdiction</th><th>Regime</th><th>Status</th><th>Version</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ================= TRUST ================= -->
+<section class="screen" id="s-trust" aria-labelledby="h-tr">
+  <h1 id="h-tr" data-i18n="trustH1">How IP-SAKTI earns trust</h1>
+  <p class="lede" data-i18n="trustLede">Guardrails are part of the pipeline, not a disclaimer at the end. This page shows each check, how quality will be measured, and the live audit trail of this session.</p>
+  <div class="sect"><h2>Every answer passes these checks in order</h2>
+    <ol class="pipeline">
+      <li><b>Scope gate</b>Medical dosing, litigation strategy and non-Ayurveda questions are declined.</li>
+      <li><b>Classify</b>Product category fixed before any IP or ABS reasoning.</li>
+      <li><b>Retrieve</b>Hybrid search filtered by jurisdiction, status and date.</li>
+      <li><b>Draft</b>Model writes only from the retrieved evidence pack.</li>
+      <li><b>Verify citations</b>Each sentence is re-checked against its cited passage; unsupported sentences are cut.</li>
+      <li><b>Conflict and status</b>Disagreeing sources and superseded law are surfaced.</li>
+      <li><b>Abstain or escalate</b>Too little evidence means no answer, plus the missing facts.</li>
+    </ol>
+  </div>
+  <div class="sect two" style="margin-top:34px">
+    <div class="panel"><h3>How quality will be measured</h3>
+      <p class="muted" style="font-size:14px;margin:4px 0 10px">AyurIP-Bench: 150 questions written with AIIA and IP faculty, each with gold citations. Values below are targets for the build, not measured results.</p>
+      <table class="data" style="min-width:0"><thead><tr><th>Metric</th><th>How it's scored</th><th>Target</th></tr></thead><tbody>
+        <tr><td>Citation correctness</td><td>Cited passage actually supports the sentence (human-graded)</td><td>≥ 95%</td></tr>
+        <tr><td>Answer accuracy</td><td>Agreement with gold answer, per jurisdiction</td><td>≥ 85%</td></tr>
+        <tr><td>Safe abstention</td><td>Declines on the 30 out-of-scope or unanswerable items</td><td>≥ 90%</td></tr>
+        <tr><td>Classification</td><td>Correct category on 40 product scenarios</td><td>≥ 90%</td></tr>
+        <tr><td>Hindi and Telugu quality</td><td>Legal-term fidelity via glossary + native reviewer</td><td>≥ 4 / 5</td></tr>
+        <tr><td>Jurisdiction leakage</td><td>International rule cited in India column or vice versa</td><td>0</td></tr>
+      </tbody></table></div>
+    <div class="panel"><h3>Privacy under the DPDP Act, 2023</h3>
+      <ul class="pts" style="margin-top:8px">
+        <li><i class="st V">✓</i><span>Formulation details are treated as confidential: kept in the session, stored only if you save a report <button class="cite" data-src="dpdp" type="button">DPDP</button></span></li>
+        <li><i class="st V">✓</i><span>Audit entries record what happened, never the formula itself</span></li>
+        <li><i class="st V">✓</i><span>Escalation shares only what you tick, with purpose stated</span></li>
+        <li><i class="st V">✓</i><span>Paid-source queries need a logged, revocable permission</span></li>
+      </ul>
+      <button class="btn small" type="button" style="margin-top:14px" data-escalate>Talk to a human IP facilitator</button>
+    </div>
+  </div>
+  <div class="sect"><h2>Audit trail for this session</h2>
+    <div class="tablewrap log"><table class="data" id="auditTable" style="min-width:560px"><thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ================= BLUEPRINT ================= -->
+<section class="screen" id="s-blueprint" aria-labelledby="h-bp">
+  <h1 id="h-bp" data-i18n="bpH1">How it's built, and how it scales</h1>
+  <p class="lede" data-i18n="bpLede">A citation-grounded retrieval core first, then the graph and agent layers, then paid connectors and voice — the staging the problem statement asks for.</p>
+  <div class="sect"><h2>Architecture</h2>
+    <div class="arch">
+      <div class="layer"><b>Channels</b><div><span>Web app (this)</span><span>WhatsApp bot for cultivators</span><span>Voice via Bhashini ASR/TTS</span><span>REST API for Ayush portals</span></div></div>
+      <div class="layer"><b>Language</b><div><span>Bhashini translation</span><span>IndicTrans2 fallback</span><span>Locked legal glossary (hi, te, ta, mr, bn…)</span><span>Back-translation check</span></div></div>
+      <div class="layer"><b>Orchestration</b><div><span>Scope gate</span><span>Classifier (rules + LLM)</span><span>IP agent</span><span>ABS/TK agent</span><span>Regulatory agent</span><span>Jurisdiction router</span><span>Citation verifier</span></div></div>
+      <div class="layer"><b>Knowledge</b><div><span>Hybrid index: dense + BM25 over clause-level chunks</span><span>Knowledge graph: section ↔ amends ↔ cites ↔ applies-to-category</span><span>Version store with effective dates</span></div></div>
+      <div class="layer"><b>Sources</b><div><span>India Code</span><span>IP India (InPASS, TM, GI, designs)</span><span>NBA</span><span>FSSAI</span><span>Ayush / PCIM&H</span><span>WIPO Lex, Patentscope</span><span>TKDL (paid, permissioned)</span></div></div>
+      <div class="layer"><b>Trust</b><div><span>Audit log</span><span>DPDP consent</span><span>Human facilitator queue</span><span>Nightly regression on AyurIP-Bench</span><span>Gazette watcher</span></div></div>
+    </div>
+  </div>
+  <div class="sect"><h2>Staged delivery</h2>
+    <div class="stage">
+      <div><h3>Stage 1: cited core</h3><ul><li>~40 statutes, rules and treaties, clause-chunked</li><li>Classification flow and jurisdiction split</li><li>Citation verifier, abstention, disclaimer</li><li>English + Hindi</li></ul></div>
+      <div><h3>Stage 2: graph and agents</h3><ul><li>Amendment graph drives "law changed" alerts</li><li>Specialist agents for IP, ABS, regulation</li><li>Claim checker and prior-art pointer</li><li>Telugu, Tamil, Marathi, Bengali</li></ul></div>
+      <div><h3>Stage 3: connectors and voice</h3><ul><li>Permissioned TKDL and paid databases</li><li>Voice-first WhatsApp for cultivators</li><li>Facilitator dashboard for AIIA</li><li>Export-market packs (EU, US, ASEAN)</li></ul></div>
+    </div>
+  </div>
+  <div class="sect"><h2>Problem statement coverage</h2>
+    <div class="tablewrap"><table class="data cov" id="covTable"><thead><tr><th>Requirement in PS 26045</th><th>How IP-SAKTI meets it</th><th>See it</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<div class="disclaimer" role="note"><svg><use href="#i-info"/></svg><span id="discText">Information, not legal advice. Verify with the cited source or a registered IP professional before acting.</span></div>
+</main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Source" aria-hidden="true">
+  <div class="drawer-h"><div id="drawerTitle"></div><button class="iconbtn" type="button" id="drawerClose" aria-label="Close source"><svg><use href="#i-x"/></svg></button></div>
+  <div class="drawer-b" id="drawerBody"></div>
+</aside>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card" id="modalCard"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="tourbar" id="tourbar" aria-live="polite"></div>
+<script>
+"use strict";
+/* =====================================================================
+   DEMO CORPUS — hand-checked snapshot, September 2026.
+   "excerpt" = verbatim text; "summary" = paraphrase (labelled in UI).
+   In the live build these records come from GET /sources.
+   ===================================================================== */
+const SOURCES = {
+ "pa-3p":{t:"Patents Act, 1970 — Section 3(p)",tier:0,jur:"India",reg:"Patents",status:"In force",ver:"As amended; Patents (Amendment) Rules, 2024",by:"Government of India (India Code / IP India)",
+   excerpt:"an invention which in effect, is traditional knowledge or which is an aggregation or duplication of known properties of traditionally known component or components.",
+   note:"Listed among \"what are not inventions\" under Section 3.",url:"https://www.indiacode.nic.in/"},
+ "pa-2":{t:"Patents Act, 1970 — Section 2(1)(j), 2(1)(ja)",tier:0,jur:"India",reg:"Patents",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"An invention is a new product or process involving an inventive step and capable of industrial application. Inventive step means a technical advance or economic significance, or both, that makes the invention not obvious to a person skilled in the art.",url:"https://www.indiacode.nic.in/"},
+ "pa-3d":{t:"Patents Act, 1970 — Section 3(d)",tier:0,jur:"India",reg:"Patents",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"The mere discovery of a new form of a known substance is not an invention unless it results in enhancement of the known efficacy of that substance. Derivatives, mixtures and similar forms are treated as the same substance unless they differ significantly in efficacy.",url:"https://www.indiacode.nic.in/"},
+ "pa-10":{t:"Patents Act, 1970 — Section 10(4)(d)(ii)(D)",tier:0,jur:"India",reg:"Patents",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"Where biological material is used in an invention, the complete specification must disclose its source and geographical origin.",url:"https://www.indiacode.nic.in/"},
+ "pa-25":{t:"Patents Act, 1970 — Section 25(1)(j), (k)",tier:0,jur:"India",reg:"Patents",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"Grounds for pre-grant opposition include (j) failure to disclose, or wrongly mentioning, the source or geographical origin of biological material, and (k) that the invention is anticipated by knowledge, oral or otherwise, available within any local or indigenous community in India or elsewhere.",url:"https://www.indiacode.nic.in/"},
+ "tk-guide":{t:"IP India — Guidelines for processing patent applications relating to traditional knowledge and biological material",tier:1,jur:"India",reg:"Patents",status:"Current guidance",ver:"2012",by:"Office of the CGPDTM",
+   summary:"Examiners search TKDL and other sources for traditional-knowledge prior art. Value addition over traditional knowledge can be patentable where it meets novelty, inventive step and industrial applicability.",url:"https://ipindia.gov.in/"},
+ "bda-6":{t:"Biological Diversity Act, 2002 — Section 6(1A), 6(1B) (as amended 2023)",tier:0,jur:"India",reg:"Biodiversity / ABS",status:"In force from 1 Apr 2024",ver:"Biological Diversity (Amendment) Act, 2023",by:"Government of India / NBA",
+   summary:"Indian persons and entities that are not foreign-controlled, applying for IPR in or outside India on an invention based on Indian biological resources or associated traditional knowledge, must register with the National Biodiversity Authority before the IPR is granted, and obtain NBA approval before commercialising it. Foreign persons and foreign-controlled entities need prior approval.",url:"https://nbaindia.org/"},
+ "bda-7":{t:"Biological Diversity Act, 2002 — Section 7 (as amended 2023)",tier:0,jur:"India",reg:"Biodiversity / ABS",status:"In force from 1 Apr 2024",ver:"Biological Diversity (Amendment) Act, 2023",by:"Government of India / NBA",
+   summary:"Indian entities give prior intimation to the State Biodiversity Board before accessing biological resources for commercial use. Exempt: codified traditional knowledge, cultivated medicinal plants and their products, local people and communities including growers and cultivators, vaids and hakims, and registered AYUSH practitioners practising for sustenance and livelihood.",url:"https://nbaindia.org/"},
+ "cm-a":{t:"Commentary: Lexology, \"Important changes emanating from the BD (Amendment) Act, 2023\"",tier:3,jur:"India",reg:"Biodiversity / ABS",status:"Commentary",ver:"2023",by:"Law-firm article",
+   summary:"Reads the new Section 40 exemption for cultivated medicinal plants as not extending to activities under Section 6(1) and 6(2), i.e. IPR-related duties still apply.",url:"https://www.lexology.com/library/detail.aspx?g=fabfb5fd-598b-465f-9f9b-2f7dd4dbb498"},
+ "cm-b":{t:"Commentary: Lexplosion, \"BD (Amendment) Act, 2023 effective from 1 April 2024\"",tier:3,jur:"India",reg:"Biodiversity / ABS",status:"Commentary",ver:"2025",by:"Compliance-firm article",
+   summary:"States that the IPR registration provision does not apply to codified traditional knowledge or cultivated medicinal plants, the latter only with a certificate of origin from the Biodiversity Management Committee.",url:"https://lexplosion.in/the-biological-diversity-amendment-act-2023-to-be-effective-from-1st-april-2024/"},
+ "dca-3a":{t:"Drugs and Cosmetics Act, 1940 — Section 3(a) and First Schedule",tier:0,jur:"India",reg:"Drug regulation",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"Defines an Ayurvedic, Siddha or Unani drug, including medicines manufactured exclusively in accordance with the formulae described in the authoritative books listed in the First Schedule.",url:"https://www.indiacode.nic.in/"},
+ "dca-3h":{t:"Drugs and Cosmetics Act, 1940 — Section 3(h)",tier:0,jur:"India",reg:"Drug regulation",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"A patent or proprietary Ayurvedic medicine is a formulation containing only ingredients mentioned in the formulae of the First Schedule books, but not itself a formulation included in those books, and not administered by parenteral route.",url:"https://www.indiacode.nic.in/"},
+ "dr-158b":{t:"Drugs Rules, 1945 — Rule 158B",tier:0,jur:"India",reg:"Drug regulation",status:"In force",ver:"As amended",by:"Ministry of Ayush",
+   summary:"Sets what a licensing authority requires to license an ASU drug by category: textual reference for classical formulations; textual rationale and published literature for proprietary medicines; safety and effectiveness data for new formulations, new indications and new routes.",url:"https://ayush.gov.in/"},
+ "dr-2eb":{t:"Drugs Rules, 1945 — Rule 2(eb), phytopharmaceutical drug",tier:0,jur:"India",reg:"Drug regulation",status:"In force",ver:"Inserted 2015",by:"CDSCO",
+   summary:"A phytopharmaceutical drug is a purified and standardised fraction, with at least four defined bio-active or phytochemical compounds, of an extract of a medicinal plant or its part, for diagnosis, treatment, mitigation or prevention of disease. Parenteral use is excluded. Approval goes through the new-drug pathway.",url:"https://cdsco.gov.in/"},
+ "dr-170":{t:"Drugs Rules, 1945 — Rule 170 (advertisement of ASU drugs)",tier:0,jur:"India",reg:"Advertising",status:"Omitted",ver:"Drugs (Fourth Amendment) Rules, 2024; SC stay vacated Aug 2025",by:"Ministry of Ayush; Supreme Court of India",
+   summary:"Required prior approval from the State licensing authority before advertising ASU drugs. Omitted by notification of 1 July 2024. The Supreme Court stayed the omission on 27 August 2024, and vacated that stay in August 2025 while disposing of the IMA petition, keeping all contentions open.",url:"https://www.livelaw.in/top-stories/supreme-court-vacates-stay-on-ayush-ministrys-notification-that-permitted-advertisements-of-ayurvedic-unani-siddha-drugs-300536",flux:true},
+ "dmr-3":{t:"Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954 — Section 3 and Schedule",tier:0,jur:"India",reg:"Advertising",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"Prohibits advertisements referring to any drug in terms that suggest or are calculated to lead to its use for the diagnosis, cure, mitigation, treatment or prevention of any disease or condition listed in the Schedule — which includes diabetes, obesity, cancer, heart diseases, high or low blood pressure, epilepsy, paralysis, cataract, glaucoma, leucoderma and sexual impotence.",url:"https://www.indiacode.nic.in/"},
+ "dmr-4":{t:"Drugs and Magic Remedies Act, 1954 — Section 4",tier:0,jur:"India",reg:"Advertising",status:"In force",ver:"As amended",by:"Government of India",
+   summary:"Prohibits misleading advertisements relating to drugs, including those that give a false impression of the drug's true character or make false claims.",url:"https://www.indiacode.nic.in/"},
+ "ccpa":{t:"CCPA — Guidelines for Prevention of Misleading Advertisements, 2022",tier:0,jur:"India",reg:"Advertising",status:"In force",ver:"2022",by:"Central Consumer Protection Authority",
+   summary:"Claims must be substantiated; advertisements must not exaggerate the accuracy, scientific validity or practical usefulness of a product, and endorsers must have used or be able to substantiate it.",url:"https://consumeraffairs.nic.in/"},
+ "fssai-aa":{t:"FSS (Ayurveda Aahara) Regulations, 2022",tier:0,jur:"India",reg:"Food",status:"In force",ver:"2022, with later orders",by:"FSSAI",
+   summary:"Covers food prepared from recipes or ingredients in the authoritative Ayurveda books listed in the regulations. Products need FSSAI approval, carry the Ayurveda Aahara logo, and may not claim to treat or cure disease.",url:"https://fssai.gov.in/"},
+ "cos-2020":{t:"Cosmetics Rules, 2020",tier:0,jur:"India",reg:"Cosmetics",status:"In force",ver:"2020",by:"CDSCO / Ministry of Health",
+   summary:"Governs manufacture, import and labelling of cosmetics. A product making therapeutic claims is regulated as a drug, not a cosmetic.",url:"https://cdsco.gov.in/"},
+ "tm-1999":{t:"Trade Marks Act, 1999",tier:0,jur:"India",reg:"Trade marks",status:"In force",ver:"As amended",by:"Government of India",summary:"Registration of brand names, logos and trade dress for goods and services.",url:"https://ipindia.gov.in/"},
+ "des-2000":{t:"Designs Act, 2000",tier:0,jur:"India",reg:"Designs",status:"In force",ver:"As amended",by:"Government of India",summary:"Protects the new or original shape, configuration or ornamentation of an article, such as a distinctive container.",url:"https://ipindia.gov.in/"},
+ "cr-1957":{t:"Copyright Act, 1957",tier:0,jur:"India",reg:"Copyright",status:"In force",ver:"As amended",by:"Government of India",summary:"Protects original literary and artistic works, including label artwork, product literature and software.",url:"https://copyright.gov.in/"},
+ "gi-1999":{t:"Geographical Indications of Goods (Registration and Protection) Act, 1999",tier:0,jur:"India",reg:"GI",status:"In force",ver:"As amended",by:"Government of India",summary:"Producer associations can register goods whose quality or reputation is due to their geographical origin.",url:"https://ipindia.gov.in/"},
+ "ppvfr":{t:"Protection of Plant Varieties and Farmers' Rights Act, 2001",tier:0,jur:"India",reg:"Plant varieties",status:"In force",ver:"As amended",by:"PPV&FR Authority",summary:"Allows registration of new, extant and farmers' varieties and sets out farmers' rights, including to save, use and sell farm produce.",url:"https://plantauthority.gov.in/"},
+ "tkdl":{t:"Traditional Knowledge Digital Library (CSIR and Ministry of Ayush)",tier:1,jur:"India",reg:"Traditional knowledge",status:"Paid access, phased",ver:"Cabinet decision, 2022",by:"CSIR",
+   summary:"Prior-art database of codified Indian traditional knowledge, historically shared with patent offices under non-disclosure agreements. The Cabinet approved widening access to other users through a paid subscription model, opened in phases.",url:"https://www.pmindia.gov.in/en/news_updates/cabinet-approves-widening-access-of-the-traditional-knowledge-digital-library-tkdl-database-to-users-besides-patent-offices/",paid:true},
+ "sipp":{t:"Scheme for Facilitating Start-ups Intellectual Property Protection (SIPP)",tier:1,jur:"India",reg:"Facilitation",status:"Active scheme",ver:"Current",by:"DPIIT / CGPDTM",summary:"Empanelled facilitators help recognised start-ups file patents, trade marks and designs, with facilitation fees borne by the government.",url:"https://ipindia.gov.in/"},
+ "dpdp":{t:"Digital Personal Data Protection Act, 2023",tier:0,jur:"India",reg:"Data protection",status:"Enacted",ver:"2023; DPDP Rules, 2025",by:"MeitY",summary:"Requires notice, purpose-limited consent and security safeguards for personal data, and gives data principals rights to access, correct and erase.",url:"https://www.meity.gov.in/"},
+ "pct":{t:"Patent Cooperation Treaty (PCT)",tier:0,jur:"International",reg:"Patents",status:"In force; India a member",ver:"Current",by:"WIPO",
+   summary:"One international application has effect in all PCT contracting states. After the international phase, the applicant enters the national phase in each chosen country, usually at 30 or 31 months from priority, where grant is decided under national law.",url:"https://www.wipo.int/pct/"},
+ "trips":{t:"TRIPS Agreement — Article 27",tier:0,jur:"International",reg:"Patents",status:"In force",ver:"1995",by:"WTO",summary:"Patents must be available for inventions in all fields of technology that are new, involve an inventive step and are capable of industrial application, with permitted exclusions.",url:"https://www.wto.org/"},
+ "gratk":{t:"WIPO Treaty on IP, Genetic Resources and Associated Traditional Knowledge (GRATK)",tier:0,jur:"International",reg:"Traditional knowledge",status:"Adopted, not yet in force",ver:"Adopted 24 May 2024",by:"WIPO",
+   summary:"Article 3 requires patent applicants to disclose the country of origin or source of genetic resources and associated traditional knowledge the claimed invention is based on. Under Article 17 it enters into force three months after 15 eligible parties ratify or accede. It is non-retroactive.",url:"https://www.wipo.int/wipolex/en/text/593055"},
+ "gratk-count":{t:"GRATK ratification count as reported by secondary sources",tier:3,jur:"International",reg:"Traditional knowledge",status:"Commentary",ver:"2025–2026",by:"AIPPI, Anand and Anand, Wikipedia",
+   summary:"Secondary sources report different numbers of ratifications (two in some, four in others). The WIPO treaty-status page is the controlling record.",url:"https://www.aippi.org/news/wipo-treaty-on-intellectual-property-genetic-resources-and-associated-traditional-knowledge-and-the-patent-cooperation-treaty/"},
+ "nagoya":{t:"Nagoya Protocol on Access and Benefit-sharing (CBD)",tier:0,jur:"International",reg:"Biodiversity / ABS",status:"In force; India a party",ver:"In force 12 Oct 2014",by:"CBD Secretariat",summary:"Access to genetic resources requires prior informed consent of the providing country and mutually agreed terms on benefit sharing. India implements it through the Biological Diversity Act.",url:"https://www.cbd.int/abs/"},
+ "budapest":{t:"Budapest Treaty on the deposit of micro-organisms",tier:0,jur:"International",reg:"Patents",status:"In force; India a member",ver:"Current",by:"WIPO",summary:"One deposit of a micro-organism with an International Depositary Authority satisfies deposit requirements in all member states' patent procedures.",url:"https://www.wipo.int/budapest/"},
+ "madrid":{t:"Madrid Protocol",tier:0,jur:"International",reg:"Trade marks",status:"In force; India a member",ver:"India joined 2013",by:"WIPO",summary:"One international trade-mark application, based on a home registration or application, designating multiple member countries.",url:"https://www.wipo.int/madrid/"},
+ "hague":{t:"Hague System for international designs",tier:0,jur:"International",reg:"Designs",status:"Check India's status",ver:"Current",by:"WIPO",summary:"One international design application for multiple members. India's participation must be verified on the WIPO Hague members list before relying on this route.",url:"https://www.wipo.int/hague/"},
+ "eu-thmpd":{t:"EU Directive 2004/24/EC — traditional herbal medicinal products",tier:0,jur:"Export market",reg:"Market access",status:"In force",ver:"2004",by:"European Union",summary:"Simplified registration for herbal medicines with at least 30 years of traditional use, including 15 in the EU, for indications suitable without medical supervision.",url:"https://eur-lex.europa.eu/"},
+ "us-dshea":{t:"US — Dietary Supplement Health and Education Act; 21 CFR 101.93",tier:0,jur:"Export market",reg:"Market access",status:"In force",ver:"1994, as amended",by:"US FDA",summary:"Supplements may carry structure/function claims with a disclaimer but may not claim to diagnose, treat, cure or prevent disease; such claims make the product an unapproved drug.",url:"https://www.fda.gov/"}
+};
+const TIER_NAME = {0:"Primary law or official record",1:"Official guidance",2:"Peer-reviewed",3:"Commentary or news"};
+
+/* ---- scripted answers (live build: POST /ask returns this same shape) ---- */
+const ANSWERS = [
+{id:"q1", persona:["startup","research"], lang:"en",
+ q:"Can I patent an Ashwagandha root extract made with a new supercritical CO₂ extraction process?",
+ keys:["patent","ashwagandha","extract","extraction","process","withania","co2","supercritical"],
+ cls:"New ASU drug (to confirm in Classify)",
+ in:{plain:"The herb and its classical uses are traditional knowledge and can't be patented. Your new extraction process might be, if it is genuinely new and not obvious. Before the patent is granted, register with the National Biodiversity Authority.",
+  pts:[
+   {s:"V",t:"Using Ashwagandha as described in classical texts is, in effect, traditional knowledge and falls outside what can be patented.",c:["pa-3p","tk-guide"]},
+   {s:"V",t:"A new extraction process can still be an invention if it is novel, involves an inventive step (a technical advance not obvious to an expert) and is industrially applicable.",c:["pa-2","tk-guide"]},
+   {s:"V",t:"If the result is only a new form of a known extract, you will need data showing enhanced therapeutic efficacy over the known form.",c:["pa-3d"]},
+   {s:"V",t:"Your specification must name the source and geographical origin of the plant material; omitting it is a ground for opposition.",c:["pa-10","pa-25"]},
+   {s:"V",t:"As an Indian entity that is not foreign-controlled, register with the NBA before grant, and get NBA approval before commercialising the patent.",c:["bda-6"]},
+   {s:"C",t:"Whether that registration still applies when the roots come from cultivated plants is read differently by commentators. The Act's text and the BD Rules, 2024 control; confirm before filing.",c:["bda-6","cm-a","cm-b"]}
+  ]},
+ intl:{plain:"File once under the PCT to keep your date in member countries; each office then decides under its own law. The WIPO disclosure treaty for genetic resources is adopted but not yet in force.",
+  pts:[
+   {s:"V",t:"A single PCT application preserves your filing date across PCT states; national offices then decide patentability under their own law.",c:["pct"]},
+   {s:"V",t:"Every WTO member must offer patents for new, inventive, industrially applicable inventions, subject to permitted exclusions, so the process claim is the viable route abroad too.",c:["trips"]},
+   {s:"V",t:"The WIPO GRATK Treaty would require disclosing the origin of the genetic resource in patent applications, but it is not yet in force.",c:["gratk"]},
+   {s:"V",t:"Sending Indian plant material to a foreign partner needs prior informed consent and agreed benefit-sharing terms under the Nagoya Protocol, applied in India through the BD Act.",c:["nagoya","bda-6"]},
+   {s:"V",t:"A Budapest Treaty deposit is needed only if the invention relies on a micro-organism, which a plant-extraction process usually does not.",c:["budapest"]}
+  ]},
+ gaps:["Prior-art search on supercritical CO₂ extraction of Withania somnifera (patent databases and TKDL, which needs your permission)","Whether the roots are cultivated or wild-collected — this changes your biodiversity duties","Comparative efficacy data against a conventional extract, needed if Section 3(d) is raised"],
+ esc:false},
+
+{id:"q2", persona:["vaidya","startup"], lang:"en",
+ q:"I make Chyawanprash exactly as written in a classical text. What can I protect?",
+ keys:["chyawanprash","classical","text","protect","brand","trademark","classical formulation"],
+ cls:"Classical ASU drug",
+ in:{plain:"The recipe belongs to everyone, so it can't be patented. Protect your brand name, pack design, label artwork and in-house know-how instead.",
+  pts:[
+   {s:"V",t:"A medicine made exactly to a formula in a First Schedule authoritative book is a classical Ayurvedic drug, and the formula itself is traditional knowledge.",c:["dca-3a","pa-3p"]},
+   {s:"V",t:"Licensing rests on the textual reference rather than new clinical trials.",c:["dr-158b"]},
+   {s:"V",t:"Register your brand name and logo as trade marks, your distinctive container as a design, and your label artwork is protected by copyright.",c:["tm-1999","des-2000","cr-1957"]},
+   {s:"U",t:"Manufacturing know-how can be kept as a trade secret, but India has no dedicated trade-secret statute; protection relies on contracts and confidentiality obligations.",c:[]},
+   {s:"V",t:"Using codified traditional knowledge from the First Schedule books is exempt from prior intimation to the State Biodiversity Board.",c:["bda-7"]}
+  ]},
+ intl:{plain:"Register the brand abroad through Madrid. Each export market classifies classical Ayurvedic products differently, so check market rules before shipping.",
+  pts:[
+   {s:"V",t:"Extend your trade mark to other countries with one Madrid Protocol application.",c:["madrid"]},
+   {s:"V",t:"In the EU, a classical product may qualify as a traditional herbal medicinal product only with 30 years of documented use, 15 of them in the EU.",c:["eu-thmpd"]},
+   {s:"U",t:"For design protection abroad, the Hague route depends on India's membership, which must be verified first; otherwise file nationally.",c:["hague"]}
+  ]},
+ gaps:["The exact book, chapter and verse of the formula you follow","Whether you changed any ingredient, quantity or method from the text — even one change can move you to proprietary medicine"],
+ esc:false},
+
+{id:"q3", persona:["startup","vaidya"], lang:"en",
+ q:"Can my advertisement say my churna cures diabetes?",
+ keys:["advert","advertisement","ad","cure","cures","diabetes","claim","label","marketing"],
+ cls:"Ayurvedic drug (claim review)",
+ in:{plain:"No. Diabetes is on the list of conditions that no drug may be advertised to treat. Also note the prior-approval rule for Ayurvedic ads has changed twice since 2024.",
+  pts:[
+   {s:"V",t:"An advertisement suggesting a drug cures or treats diabetes is prohibited; diabetes is in the Schedule to the Drugs and Magic Remedies Act.",c:["dmr-3"]},
+   {s:"V",t:"Words like \"guaranteed\", \"miracle\" or \"no side effects\" without proof can make the advertisement misleading.",c:["dmr-4","ccpa"]},
+   {s:"V",t:"Rule 170, which required State approval before advertising ASU drugs, was omitted in July 2024; the Supreme Court stayed that omission, then vacated the stay in August 2025. It currently stands omitted, with contentions left open.",c:["dr-170"],flux:true},
+   {s:"V",t:"If the product is sold as Ayurveda Aahara instead, no disease claim of any kind is allowed.",c:["fssai-aa"]}
+  ]},
+ intl:{plain:"Export markets restrict disease claims too — for example, US supplements cannot claim to cure disease.",
+  pts:[
+   {s:"V",t:"In the US, a supplement claiming to treat or cure disease is treated as an unapproved drug.",c:["us-dshea"]},
+   {s:"V",t:"In the EU, traditional herbal registrations are limited to conditions that don't need medical supervision, which excludes diabetes treatment claims.",c:["eu-thmpd"]}
+  ]},
+ gaps:["The exact wording and medium of the advertisement — try Claim check","Whether you sell it as a drug, Ayurveda Aahara or cosmetic"],
+ esc:false},
+
+{id:"q4", persona:["farmer"], lang:"hi",
+ q:"मैं अश्वगंधा की खेती करता हूँ और एक कंपनी को बेचता हूँ। क्या मुझे कोई अनुमति या पंजीकरण चाहिए?",
+ keys:["खेती","किसान","अश्वगंधा","बेचता","अनुमति","farmer","grow","cultivat","sell","permission"],
+ cls:"कच्चा माल (औषधीय पौधा)",
+ in:{plain:"आम तौर पर नहीं। खेती करने वाले किसान को राज्य जैव विविधता बोर्ड को पहले सूचना नहीं देनी होती। खरीदने वाली कंपनी को आपके क्षेत्र की जैव विविधता प्रबंधन समिति से उत्पत्ति प्रमाणपत्र की ज़रूरत पड़ सकती है।",
+  pts:[
+   {s:"V",t:"उत्पादक, खेती करने वाले और स्थानीय समुदाय राज्य जैव विविधता बोर्ड को पूर्व सूचना देने से छूट में हैं।",c:["bda-7"]},
+   {s:"U",t:"खरीदने वाली कंपनी को खेती किए गए औषधीय पौधों की छूट के लिए जैव विविधता प्रबंधन समिति (BMC) से उत्पत्ति प्रमाणपत्र चाहिए हो सकता है; प्रक्रिया नियमों में तय होती है।",c:["bda-7","cm-b"]},
+   {s:"V",t:"अगर आपने कोई अलग किस्म विकसित या संरक्षित की है, तो उसे PPV&FR अधिनियम, 2001 के तहत कृषक किस्म के रूप में पंजीकृत कराया जा सकता है।",c:["ppvfr"]},
+   {s:"V",t:"अगर आपके क्षेत्र की उपज अपनी गुणवत्ता के लिए जानी जाती है, तो उत्पादक संघ भौगोलिक संकेत (GI) के लिए आवेदन कर सकता है।",c:["gi-1999"]}
+  ]},
+ intl:{plain:"अगर आप खुद विदेश नहीं बेचते, तो अंतरराष्ट्रीय नियम आप पर सीधे लागू नहीं होते।",
+  pts:[
+   {s:"U",t:"विदेश को निर्यात करने वाली कंपनी पर नागोया प्रोटोकॉल के दायित्व आते हैं, भारत में ये जैव विविधता अधिनियम से लागू होते हैं।",c:["nagoya"]}
+  ]},
+ gaps:["आपका ज़िला और राज्य","पौधा खेत में उगाया गया है या जंगल से इकट्ठा किया गया"],
+ gloss:[["पेटेंट","Patent"],["पारंपरिक ज्ञान","Traditional knowledge"],["भौगोलिक संकेत","Geographical indication"],["जैव विविधता प्रबंधन समिति","Biodiversity Management Committee"],["कृषक किस्म","Farmers' variety"]],
+ esc:false},
+
+{id:"q5", persona:["research","vaidya"], lang:"en",
+ q:"What does the WIPO GRATK treaty mean for an Indian herbal company?",
+ keys:["gratk","wipo","treaty","genetic","disclosure"],
+ cls:"Not needed for this question",
+ in:{plain:"Nothing changes at home yet: Indian patent law already requires you to disclose where your biological material came from.",
+  pts:[
+   {s:"V",t:"Indian law already requires disclosure of the source and geographical origin of biological material in patent specifications.",c:["pa-10"]},
+   {s:"U",t:"Commentary reports that India did not sign the treaty; confirm on the WIPO treaty page before relying on this.",c:["gratk-count"]}
+  ]},
+ intl:{plain:"When filing in countries that ratify GRATK, you'll have to disclose the origin of genetic resources and associated traditional knowledge. It is not yet in force.",
+  pts:[
+   {s:"V",t:"Article 3 requires patent applicants to disclose the origin or source of genetic resources and associated traditional knowledge.",c:["gratk"]},
+   {s:"V",t:"It enters into force three months after 15 ratifications or accessions, and does not apply to applications filed before that.",c:["gratk"]},
+   {s:"C",t:"Secondary sources disagree on how many countries have ratified so far; the WIPO treaty-status record is the only authority for the count.",c:["gratk-count","gratk"]}
+  ]},
+ gaps:["Current ratification count from WIPO's official treaty-status page (not yet re-crawled in this snapshot)"],
+ esc:false},
+
+{id:"q6", persona:["vaidya","farmer","startup","research"], lang:"en",
+ q:"How much Ashwagandha should I take daily for anxiety?",
+ keys:["dose","dosage","how much","take daily","anxiety","treat","mg"],
+ abstain:{why:"This asks for clinical dosing advice. IP-SAKTI answers intellectual-property and regulatory questions only, and a wrong dose can cause harm.",
+  next:["Consult a registered Ayurveda practitioner","If you are a manufacturer, ask instead: \"What dosage information must my label carry?\""]}},
+
+{id:"q7", persona:["startup","research"], lang:"en",
+ q:"Will my patent application for a herbal formulation be granted?",
+ keys:["granted","grant","will my patent","chance","approve","success"],
+ abstain:{why:"No source can predict a grant. It depends on the examiner's prior-art search, your claims and your responses to objections.",
+  next:["Run a prior-art search first (Prior art and TK)","Talk to a registered patent agent; recognised start-ups can use a SIPP facilitator at no facilitation cost"],
+  cite:"sipp"},
+ esc:true}
+];
+
+const SUGGEST = {
+  startup:["q1","q3","q2","q7"], vaidya:["q2","q3","q6"], research:["q1","q5","q7"], farmer:["q4","q6"]
+};
+/* =====================================================================
+   APP
+   ===================================================================== */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const STATE_NAME = {V:"Verified",U:"Uncertain",C:"Sources conflict",R:"Unresolved"};
+const STATE_MARK = {V:"✓",U:"~",C:"≠",R:"?"};
+const S = {lang:"en", persona:"startup", juris:"both", detail:"expert", current:null, history:[], ledger:[], audit:[], cls:{}, prevRows:null, claimCat:"drug"};
+
+/* ---------- i18n (chrome only; answers carry their own language) ---------- */
+const I18N = {
+ en:{overview:"Overview",ask:"Ask",classify:"Classify",tk:"Prior art & TK",claims:"Claim check",sources:"Sources",trust:"Trust",blueprint:"Blueprint",
+     lang:"Language",persona:"I am a",tagline:"Sahayak for Ayurveda",askTitle:"Ask about your Ayurvedic product",askLede:"Type or speak in English, Hindi or Telugu. Every sentence in the answer links to the law it rests on.",askBtn:"Ask",
+     disc:"Information, not legal advice. Verify with the cited source or a registered IP professional before acting.",
+     ovH1:'Every answer<span class="clause">has a clause behind it.</span>',
+     ovLede:"IP-SAKTI Sahayak tells an Ayurveda innovator what their product legally is, what they can protect, what they owe under biodiversity law, and what they may claim — with the exact section, rule or treaty article under every sentence. India and international answers are never mixed. When the evidence runs out, it says so and hands you to a human.",
+     clsH1:"What is your product, legally?",
+     clsLede:"Answer a few questions. The category decides your licensing route, the evidence you need, what you can patent and what you owe under biodiversity law. Change any answer later to see exactly what shifts.",
+     tkH1:"Prior art and traditional knowledge",
+     tkLede:"Before claiming something is new, check whether it is already documented. IP-SAKTI points you to the right record and opens paid sources only after you allow it, with every permission logged.",
+     claimH1:"Check your label or advertisement",
+     claimLede:"Paste the text you plan to print or post. Claims that the law prohibits are marked with the provision that prohibits them, and a safer rewording is suggested.",
+     srcH1:"The corpus behind every answer",
+     srcLede:"Each source has an authority tier, jurisdiction, version and legal status. Answers may only cite what is here, and the model cannot promote a news story above the statute.",
+     trustH1:"How IP-SAKTI earns trust",
+     trustLede:"Guardrails are part of the pipeline, not a disclaimer at the end. This page shows each check, how quality will be measured, and the live audit trail of this session.",
+     bpH1:"How it's built, and how it scales",
+     bpLede:"A citation-grounded retrieval core first, then the graph and agent layers, then paid connectors and voice — the staging the problem statement asks for."},
+ hi:{overview:"अवलोकन",ask:"पूछें",classify:"वर्गीकरण",tk:"पूर्व कला व पारंपरिक ज्ञान",claims:"दावा जाँच",sources:"स्रोत",trust:"भरोसा",blueprint:"ब्लूप्रिंट",
+     lang:"भाषा",persona:"मैं हूँ",tagline:"आयुर्वेद के लिए सहायक",askTitle:"अपने आयुर्वेदिक उत्पाद के बारे में पूछें",askLede:"हिन्दी, अंग्रेज़ी या तेलुगु में लिखें या बोलें। उत्तर का हर वाक्य उस कानून से जुड़ा है जिस पर वह आधारित है।",askBtn:"पूछें",
+     disc:"यह जानकारी है, कानूनी सलाह नहीं। कार्रवाई से पहले उद्धृत स्रोत या पंजीकृत आईपी पेशेवर से पुष्टि करें।",
+     ovH1:'हर उत्तर के पीछे<span class="clause">एक कानूनी धारा होती है।</span>',
+     ovLede:"IP-SAKTI Sahayak किसी भी आयुर्वेद इनोवेटर को बताता है कि उनका उत्पाद कानूनन क्या है, वे क्या सुरक्षित कर सकते हैं, जैव विविधता कानून के तहत उन पर क्या दायित्व है, और वे क्या दावा कर सकते हैं — हर वाक्य के नीचे सटीक धारा, नियम या संधि अनुच्छेद के साथ। भारत और अंतरराष्ट्रीय उत्तर कभी मिश्रित नहीं होते। जब प्रमाण समाप्त हो जाते हैं, तो यह स्पष्ट रूप से कहता है और आपको किसी व्यक्ति से जोड़ देता है।",
+     clsH1:"आपका उत्पाद, कानूनन क्या है?",
+     clsLede:"कुछ प्रश्नों के उत्तर दें। यह श्रेणी आपके लाइसेंसिंग मार्ग, आवश्यक प्रमाण, आप क्या पेटेंट करा सकते हैं और जैव विविधता कानून के तहत आपका दायित्व तय करती है। कोई भी उत्तर बाद में बदलकर देखें कि क्या बदलता है।",
+     tkH1:"पूर्व कला और पारंपरिक ज्ञान",
+     tkLede:"किसी चीज़ को नया बताने से पहले जाँच लें कि क्या यह पहले से दर्ज है। IP-SAKTI आपको सही रिकॉर्ड तक पहुँचाता है और आपकी अनुमति के बाद ही सशुल्क स्रोत खोलता है, हर अनुमति दर्ज की जाती है।",
+     claimH1:"अपना लेबल या विज्ञापन जाँचें",
+     claimLede:"वह पाठ चिपकाएँ जिसे आप छापने या पोस्ट करने की योजना बना रहे हैं। कानून द्वारा वर्जित दावों को उस प्रावधान के साथ चिह्नित किया जाता है जो उन्हें रोकता है, और एक सुरक्षित विकल्प सुझाया जाता है।",
+     srcH1:"हर उत्तर के पीछे का स्रोत-संग्रह",
+     srcLede:"हर स्रोत की एक प्राधिकार श्रेणी, क्षेत्राधिकार, संस्करण और कानूनी स्थिति होती है। उत्तर केवल यहाँ मौजूद स्रोतों का हवाला दे सकते हैं, और मॉडल किसी समाचार को अधिनियम से ऊपर नहीं रख सकता।",
+     trustH1:"IP-SAKTI भरोसा कैसे अर्जित करता है",
+     trustLede:"सुरक्षा-उपाय अंत की टिप्पणी नहीं, बल्कि पूरी प्रक्रिया का हिस्सा हैं। यह पृष्ठ हर जाँच, गुणवत्ता कैसे मापी जाएगी, और इस सत्र का लाइव ऑडिट ट्रेल दिखाता है।",
+     bpH1:"यह कैसे बना है, और कैसे बढ़ेगा",
+     bpLede:"पहले उद्धरण-आधारित पुनर्प्राप्ति कोर, फिर ग्राफ़ और एजेंट परतें, फिर सशुल्क कनेक्टर और आवाज़ — जैसा समस्या-वक्तव्य चरणबद्ध निर्माण माँगता है।"},
+ te:{overview:"అవలోకనం",ask:"అడగండి",classify:"వర్గీకరణ",tk:"పూర్వ కళ & సాంప్రదాయ జ్ఞానం",claims:"ప్రకటన తనిఖీ",sources:"మూలాలు",trust:"విశ్వసనీయత",blueprint:"బ్లూప్రింట్",
+     lang:"భాష",persona:"నేను",tagline:"ఆయుర్వేదం కోసం సహాయకుడు",askTitle:"మీ ఆయుర్వేద ఉత్పత్తి గురించి అడగండి",askLede:"తెలుగు, హిందీ లేదా ఆంగ్లంలో టైప్ చేయండి లేదా మాట్లాడండి. సమాధానంలోని ప్రతి వాక్యం దాని ఆధారమైన చట్టానికి అనుసంధానమై ఉంటుంది.",askBtn:"అడగండి",
+     disc:"ఇది సమాచారం మాత్రమే, న్యాయ సలహా కాదు. చర్య తీసుకునే ముందు ఉదహరించిన మూలాన్ని లేదా నమోదైన IP నిపుణుడిని సంప్రదించండి.",
+     ovH1:'ప్రతి సమాధానం వెనుక<span class="clause">ఒక చట్ట నిబంధన ఉంటుంది.</span>',
+     ovLede:"IP-SAKTI Sahayak ఒక ఆయుర్వేద ఇన్నోవేటర్‌కు వారి ఉత్పత్తి చట్టపరంగా ఏమిటో, వారు దేనిని రక్షించుకోవచ్చో, జీవవైవిధ్య చట్టం కింద వారికి ఉన్న బాధ్యత ఏమిటో, మరియు వారు ఏమి క్లెయిమ్ చేయవచ్చో చెబుతుంది — ప్రతి వాక్యం కింద ఖచ్చితమైన సెక్షన్, నియమం లేదా ఒప్పంద అధికరణతో సహా. భారత్ మరియు అంతర్జాతీయ సమాధానాలు ఎప్పుడూ కలవవు. ఆధారాలు అయిపోయినప్పుడు, అది స్పష్టంగా చెప్పి మిమ్మల్ని ఒక వ్యక్తికి అప్పగిస్తుంది.",
+     clsH1:"మీ ఉత్పత్తి, చట్టపరంగా ఏమిటి?",
+     clsLede:"కొన్ని ప్రశ్నలకు సమాధానం ఇవ్వండి. ఈ వర్గం మీ లైసెన్సింగ్ మార్గాన్ని, అవసరమైన ఆధారాలను, మీరు పేటెంట్ చేయగలిగినదాన్ని మరియు జీవవైవిధ్య చట్టం కింద మీ బాధ్యతను నిర్ణయిస్తుంది. ఏ సమాధానాన్నైనా తర్వాత మార్చి ఏమి మారుతుందో చూడండి.",
+     tkH1:"పూర్వ కళ మరియు సాంప్రదాయ జ్ఞానం",
+     tkLede:"ఏదైనా కొత్తదని చెప్పే ముందు అది ఇప్పటికే నమోదైందో లేదో తనిఖీ చేయండి. IP-SAKTI మిమ్మల్ని సరైన రికార్డుకు చూపిస్తుంది మరియు మీ అనుమతి తర్వాతే చెల్లింపు మూలాలను తెరుస్తుంది, ప్రతి అనుమతి నమోదు చేయబడుతుంది.",
+     claimH1:"మీ లేబుల్ లేదా ప్రకటనను తనిఖీ చేయండి",
+     claimLede:"మీరు ముద్రించాలని లేదా పోస్ట్ చేయాలని అనుకుంటున్న వచనాన్ని అతికించండి. చట్టం నిషేధించిన క్లెయిమ్‌లను వాటిని నిషేధించే నిబంధనతో గుర్తించి, సురక్షితమైన పదజాలం సూచించబడుతుంది.",
+     srcH1:"ప్రతి సమాధానం వెనుక ఉన్న మూలాధారం",
+     srcLede:"ప్రతి మూలానికి ఒక అధికార శ్రేణి, న్యాయపరిధి, వెర్షన్ మరియు చట్టపరమైన స్థితి ఉంటుంది. సమాధానాలు ఇక్కడ ఉన్నవాటిని మాత్రమే ఉదహరించగలవు, మరియు మోడల్ ఒక వార్తా కథనాన్ని శాసనం కంటే పైకి చూపదు.",
+     trustH1:"IP-SAKTI విశ్వసనీయతను ఎలా సంపాదిస్తుంది",
+     trustLede:"భద్రతా చర్యలు చివర్లో ఒక గమనిక కాదు, అవి మొత్తం ప్రక్రియలో భాగం. ఈ పేజీ ప్రతి తనిఖీని, నాణ్యత ఎలా కొలవబడుతుందో, మరియు ఈ సెషన్ యొక్క లైవ్ ఆడిట్ ట్రయిల్‌ను చూపిస్తుంది.",
+     bpH1:"ఇది ఎలా నిర్మించబడింది, ఎలా విస్తరిస్తుంది",
+     bpLede:"మొదట ఉదాహరణ-ఆధారిత రిట్రీవల్ కోర్, తర్వాత గ్రాఫ్ మరియు ఏజెంట్ పొరలు, తర్వాత చెల్లింపు కనెక్టర్లు మరియు వాయిస్ — సమస్య-ప్రకటన కోరుతున్న దశలవారీ నిర్మాణం."}
+};
+const NAV = [["overview","i-home"],["ask","i-ask"],["classify","i-cls"],["tk","i-tk"],["claims","i-claim"],["sources","i-src"],["trust","i-trust"],["blueprint","i-bp"]];
+function t(k){return (I18N[S.lang]&&I18N[S.lang][k])||I18N.en[k]||k}
+
+function renderNav(active){
+  $("#nav").innerHTML = NAV.map(([k,ic]) => `<button type="button" data-go="${k}" ${k===active?'aria-current="page"':''}><svg><use href="#${ic}"/></svg><span>${esc(t(k))}</span></button>`).join("");
+}
+function applyLang(){
+  document.documentElement.lang = S.lang;
+  $$("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+  $$("[data-i18n-html]").forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
+  $("#discText").textContent = t("disc");
+  renderNav(currentScreen());
+  if (S.current) renderAnswer(S.current);
+}
+function currentScreen(){const on=$(".screen.on");return on?on.id.replace("s-",""):"overview"}
+function go(k){
+  $$(".screen").forEach(s => s.classList.toggle("on", s.id==="s-"+k));
+  renderNav(k); window.scrollTo({top:0,behavior:"instant"in window?"instant":"auto"});
+  $("#main").focus?.();
+}
+
+/* ---------- audit ---------- */
+function logEvent(ev, detail=""){
+  const d=new Date(); const time=d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  S.audit.unshift({time,ev,detail});
+  const tb=$("#auditTable tbody"); if(tb) tb.innerHTML = S.audit.map(a=>`<tr><td>${a.time}</td><td>${esc(a.ev)}</td><td>${esc(a.detail)}</td></tr>`).join("");
+}
+function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("on"),2800)}
+
+/* ---------- confidence: derived, never self-reported ---------- */
+function bestTier(cites){return cites.length?Math.min(...cites.map(c=>SOURCES[c]?.tier??4)):4}
+function computeConfidence(a){
+  const pts=[...(a.in?.pts||[]),...(a.intl?.pts||[])];
+  const n=pts.length||1;
+  const strong=pts.filter(p=>bestTier(p.c)<=1).length;
+  const ver=pts.filter(p=>p.s==="V").length;
+  const conf=pts.filter(p=>p.s==="C").length;
+  const lvl=x=>x>=.8?3:x>=.5?2:1;
+  const auth=lvl(strong/n), cov=lvl(ver/n), agr=conf===0?3:(conf===1&&pts.length>=4)?2:1;
+  const overall=Math.min(auth,cov,agr);
+  return {auth,cov,agr,overall,strong,ver,conf,n:pts.length};
+}
+const LVL = {3:"Strong",2:"Partial",1:"Weak"};
+function bars(l){return `<span class="bars" data-l="${l}" aria-hidden="true"><i></i><i></i><i></i></span>`}
+
+/* ---------- answers ---------- */
+function matchQuestion(q){
+  const n=q.toLowerCase();
+  let best=null,score=0;
+  for(const a of ANSWERS){
+    let s=0; for(const k of a.keys) if(n.includes(k.toLowerCase())) s++;
+    if(n.trim()===a.q.toLowerCase()) s+=10;
+    if(s>score){score=s;best=a}
+  }
+  if(best && (score>=2 || (best.abstain && score>=1))) return best;
+  return null;
+}
+function unknownAnswer(q){
+  return {id:"unk",q,lang:/[\u0900-\u097F]/.test(q)?"hi":/[\u0C00-\u0C7F]/.test(q)?"te":"en",
+    abstain:{why:"No source in the corpus answers this with enough support, so IP-SAKTI won't guess. In the live build the question would go through full retrieval first; this demo only holds the scripted set.",
+      next:["Frame it around your product, a right (patent, trade mark, GI, design) or a duty (licence, biodiversity, advertising)","Or send it to a human IP facilitator"]},esc:true};
+}
+function ask(q, opts={}){
+  q=(q||"").trim(); if(!q) return;
+  const a = matchQuestion(q) || unknownAnswer(q);
+  S.current=a; S.history=[a.q,...S.history.filter(x=>x!==a.q)].slice(0,6);
+  $("#askInput").value=a.id==="unk"?q:a.q;
+  logEvent(a.abstain?"Answer withheld (abstained)":"Answer served", a.id==="unk"?"Unmatched question — content not stored":`Question ${a.id}, ${a.lang.toUpperCase()}`);
+  renderAnswer(a); renderHistory();
+  if(!opts.silent) $("#answerHost").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function citeNumbering(a){
+  const map={};let i=1;
+  for(const side of ["in","intl"]) for(const p of (a[side]?.pts||[])) for(const c of p.c) if(!map[c]) map[c]=i++;
+  if(a.abstain?.cite && !map[a.abstain.cite]) map[a.abstain.cite]=i++;
+  return map;
+}
+function renderCol(a, side, nums){
+  const d=a[side]; if(!d) return "";
+  const L={en:[["India","Indian statutes, rules and registries"],["International","Treaties and export markets"]],hi:[["भारत","भारतीय अधिनियम, नियम और रजिस्ट्री"],["अंतरराष्ट्रीय","संधियाँ और निर्यात बाज़ार"]],te:[["భారతదేశం","భారత చట్టాలు, నియమాలు, రిజిస్ట్రీలు"],["అంతర్జాతీయం","ఒప్పందాలు, ఎగుమతి మార్కెట్లు"]]}[S.lang]||[];
+  const [title,sub] = L[side==="in"?0:1];
+  const pts = S.detail==="expert" ? `<ul class="pts">${d.pts.map((p,ix)=>`<li><i class="st ${p.s}" title="${STATE_NAME[p.s]}" aria-label="${STATE_NAME[p.s]}">${STATE_MARK[p.s]}</i><span>${esc(p.t)}${p.flux?'<span class="flux">Law changed</span>':''}${p.c.map(c=>`<button type="button" class="cite" data-src="${c}" data-side="${side}" data-ix="${ix}" aria-label="Source ${nums[c]}: ${esc(SOURCES[c].t)}">${nums[c]}</button>`).join("")}${!p.c.length?' <span class="muted" style="font-size:13px">(no statute to cite)</span>':''}</span></li>`).join("")}</ul>` : "";
+  return `<div class="jcol"><div class="jcol-h"><h3>${title}</h3><small>${sub}</small></div><p class="plain">${esc(d.plain)}</p>${pts}</div>`;
+}
+function renderAnswer(a){
+  const host=$("#answerHost");
+  const nums=citeNumbering(a);
+  let notice="";
+  if(S.lang!==a.lang && a.lang==="en" && S.lang!=="en"){
+    notice=`<div class="notice">${S.lang==="hi"?"यह उत्तर डेमो में अंग्रेज़ी में है।":"ఈ సమాధానం డెమోలో ఆంగ్లంలో ఉంది."} In the live build it is translated through Bhashini with legal terms locked to an approved glossary, then back-translated to check meaning before display.</div>`;
+  }
+  if(a.abstain){
+    host.innerHTML = `<article class="answer"><div class="ans-head"><div><p class="ans-q">${esc(a.q)}</p><div class="meta-row"><span class="stlabel R"><i class="st R">?</i>Not answered</span><span class="tag">Corpus: September 2026 snapshot</span></div></div></div>${notice}
+      <div class="abstain"><div class="big" aria-hidden="true">?</div><div><h3>IP-SAKTI is not answering this</h3><p style="margin:6px 0 10px">${esc(a.abstain.why)}</p>
+      <h4 style="margin:0 0 6px;font-size:15px">What you can do</h4><ul style="margin:0;padding-left:18px">${a.abstain.next.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>
+      ${a.abstain.cite?`<p style="margin:10px 0 0;font-size:14px">About the facilitation scheme <button class="cite" type="button" data-src="${a.abstain.cite}">${nums[a.abstain.cite]}</button></p>`:""}
+      <div class="row" style="margin-top:14px"><button class="btn small" type="button" data-escalate>Ask a human IP facilitator</button></div></div></div></article>`;
+    return;
+  }
+  const cf=computeConfidence(a);
+  const overallLabel={3:"High confidence",2:"Moderate confidence",1:"Low confidence — read the flagged lines"}[cf.overall];
+  const single = S.juris!=="both";
+  const cols = S.juris==="in"?renderCol(a,"in",nums):S.juris==="intl"?renderCol(a,"intl",nums):renderCol(a,"in",nums)+renderCol(a,"intl",nums);
+  const gloss = a.gloss ? `<div class="gloss" aria-label="Locked glossary terms">${a.gloss.map(([h,e])=>`<span><b>${esc(h)}</b> = ${esc(e)}</span>`).join("")}</div>` : "";
+  host.innerHTML = `<article class="answer">
+    <div class="ans-head"><div><p class="ans-q">${esc(a.q)}</p>
+      <div class="meta-row"><span class="tag">Treated as: ${esc(a.cls)}</span><span class="tag">Answer language: ${{en:"English",hi:"हिन्दी",te:"తెలుగు"}[a.lang]}</span><span class="tag">Corpus: September 2026 snapshot</span></div>${gloss}</div>
+      <div class="conf"><div class="conf-title"><span>${overallLabel}</span></div>
+        <div class="conf-row"><span>Source authority</span>${bars(cf.auth)}<span>${LVL[cf.auth]}</span></div>
+        <div class="conf-row"><span>Coverage</span>${bars(cf.cov)}<span>${LVL[cf.cov]}</span></div>
+        <div class="conf-row"><span>Agreement</span>${bars(cf.agr)}<span>${cf.agr===3?"Consistent":cf.conf===1?"1 dispute":cf.conf+" disputes"}</span></div>
+        <details><summary>How this is worked out</summary><p style="margin:6px 0 0">${cf.strong} of ${cf.n} sentences rest on primary law or official guidance; ${cf.ver} of ${cf.n} are fully verified; ${cf.conf} ${cf.conf===1?"sentence has":"sentences have"} disagreeing sources. The lowest of the three sets the overall level. The model never scores itself.</p></details>
+      </div></div>
+    ${notice}
+    <div class="juris ${single?"single":""}">${cols}</div>
+    <div class="ans-foot"><div class="gaps"><h4>${{en:"What's still missing",hi:"अभी क्या जानकारी चाहिए",te:"ఇంకా ఏమి కావాలి"}[S.lang]}</h4><ul>${a.gaps.map(g=>`<li>${esc(g)}</li>`).join("")}</ul></div>
+      <div class="row" style="justify-content:flex-end">
+        <button class="btn ghost small" type="button" id="speakBtn"><svg><use href="#i-speak"/></svg>Read aloud</button>
+        <button class="btn ghost small" type="button" data-go="classify">Classify my product</button>
+        <button class="btn small" type="button" data-escalate><svg><use href="#i-person"/></svg>Ask a human</button>
+      </div></div>
+  </article>`;
+}
+function renderHistory(){
+  const h=$("#historyHost");
+  if(S.history.length<2){h.innerHTML="";return}
+  h.innerHTML=`<h3>Earlier in this session</h3><ol>${S.history.slice(1).map(q=>`<li><button type="button" data-ask="${esc(q)}">${esc(q)}</button></li>`).join("")}</ol>`;
+}
+function renderSuggest(){
+  const ids=SUGGEST[S.persona]||SUGGEST.startup;
+  $("#suggest").innerHTML = ids.map(id=>{const a=ANSWERS.find(x=>x.id===id);return `<button class="chip" type="button" data-ask="${esc(a.q)}">${esc(a.q)}</button>`}).join("");
+}
+
+/* ---------- source drawer ---------- */
+function openDrawer(titleHtml, bodyHtml){
+  $("#drawerTitle").innerHTML=titleHtml; $("#drawerBody").innerHTML=bodyHtml;
+  $("#drawer").classList.add("on"); $("#drawer").setAttribute("aria-hidden","false"); $("#scrim").classList.add("on");
+  $("#drawerClose").focus();
+}
+function closeDrawer(){ $("#drawer").classList.remove("on"); $("#drawer").setAttribute("aria-hidden","true"); $("#scrim").classList.remove("on"); $$(".cite.hl").forEach(c=>c.classList.remove("hl")); }
+function sourceBlock(id){
+  const s=SOURCES[id];
+  const text = s.excerpt ? `<div class="excerpt"><small>Exact text</small>“${esc(s.excerpt)}”</div>` : `<div class="excerpt"><small>Summary in plain words — open the official text to rely on it</small>${esc(s.summary)}</div>`;
+  return `${text}<dl class="kv"><dt>Authority</dt><dd>Tier ${s.tier} — ${TIER_NAME[s.tier]}</dd><dt>Issued by</dt><dd>${esc(s.by)}</dd><dt>Jurisdiction</dt><dd>${esc(s.jur)}</dd><dt>Status</dt><dd>${esc(s.status)}${s.flux?' <span class="flux">Law changed</span>':''}</dd><dt>Version</dt><dd>${esc(s.ver)}</dd><dt>Access</dt><dd>${s.paid?"Paid subscription — used only with your logged permission":"Free, official"}</dd></dl>
+  ${s.note?`<p class="muted" style="font-size:14px">${esc(s.note)}</p>`:""}
+  <p style="margin-top:12px"><a href="${s.url}" target="_blank" rel="noopener">Open the official record</a></p>`;
+}
+function openSource(id, point){
+  const s=SOURCES[id]; if(!s) return;
+  if(point && point.s==="C"){
+    const blocks = point.c.map(c=>`<h3 style="margin-top:20px">${esc(SOURCES[c].t)}</h3>${sourceBlock(c)}`).join("");
+    openDrawer(`<span class="stlabel C"><i class="st C">≠</i>Sources conflict</span><h2 style="margin-top:8px;font-size:20px">How the disagreement is handled</h2>`,
+      `<div class="supports C"><b>The sentence:</b> ${esc(point.t)}</div>
+       <p style="font-size:15px;margin-top:14px">Primary law outranks commentary. Where the primary text does not settle the point, IP-SAKTI shows every reading, lowers the agreement score and recommends human review rather than choosing one.</p>${blocks}`);
+    logEvent("Conflict opened", id); return;
+  }
+  openDrawer(`<span class="muted" style="font-size:13px">Tier ${s.tier} · ${esc(s.jur)}</span><h2 style="margin-top:6px;font-size:20px">${esc(s.t)}</h2>`,
+    `${point?`<div class="supports"><b>Supports this sentence:</b> ${esc(point.t)}</div>`:""}${sourceBlock(id)}`);
+  logEvent("Source opened", s.t);
+}
+
+/* ---------- classify ---------- */
+const CQ = [
+ {k:"use",q:"What is the product mainly for?",why:"This separates drugs from food and cosmetics.",o:[["med","Treating or preventing a disease or disorder"],["food","Everyday food or drink with a wellness role"],["cos","Skin, hair or personal care, with no health claim"]]},
+ {k:"text",q:"Is the formula and method exactly as written in a First Schedule authoritative book?",why:"Classical versus proprietary depends only on this.",show:c=>c.use==="med",o:[["exact","Yes, exactly as in the book"],["ingr","The ingredients are from the books, but the formula is mine"],["new","No: new ingredient, new route, or an isolated extract"]]},
+ {k:"frac",q:"Is it a purified, standardised plant fraction with at least four defined marker compounds?",why:"That is the legal test for a phytopharmaceutical.",show:c=>c.use==="med"&&c.text==="new",o:[["yes","Yes"],["no","No, a whole extract or a new combination"]]},
+ {k:"src",q:"Where does the biological material come from?",why:"Decides your biodiversity (ABS) duties.",o:[["cult","Cultivated plants"],["wild","Collected from the wild"],["imp","Imported from another country"],["mic","A micro-organism"]]},
+ {k:"ent",q:"Who is commercialising it?",why:"Indian, foreign-controlled and practitioner routes differ.",o:[["in","An Indian company or person, not foreign-controlled"],["fr","A foreign or foreign-controlled company"],["prac","A registered AYUSH practitioner"],["grow","A grower or local community"]]}
+];
+const CAT = {
+ classical:{name:"Classical Ayurvedic drug",sum:"Made exactly to a formula in a First Schedule book. Easiest to license, hardest to patent.",
+   rows:{route:["ASU drug manufacturing licence from the State Licensing Authority",["dca-3a","dr-158b"]],evidence:["Textual reference to the book, chapter and verse",["dr-158b"]],patent:["The formula is not patentable: it is traditional knowledge. A genuinely new manufacturing process may be.",["pa-3p","pa-2"]],other:["Trade mark for the brand, design for the pack, copyright for label art, trade secret for know-how",["tm-1999","des-2000","cr-1957"]],tk:["High: the formula is codified traditional knowledge and part of the TKDL record",["tkdl"]],claims:["Only indications in the text; never a Schedule disease in advertising",["dmr-3"]]}},
+ pp:{name:"Patent or proprietary Ayurvedic medicine",sum:"Your own formula built only from ingredients in the First Schedule books.",
+   rows:{route:["ASU drug licence as a patent or proprietary medicine",["dca-3h","dr-158b"]],evidence:["Textual rationale, published literature, and safety data where the rule requires it",["dr-158b"]],patent:["Limited: combinations of known ingredients face the aggregation bar. Data showing a real technical effect helps.",["pa-3p","pa-2"]],other:["The brand is your strongest asset: trade mark first, then design and copyright",["tm-1999","des-2000","cr-1957"]],tk:["Medium: every ingredient is documented traditional knowledge",["tkdl"]],claims:["Claims must be substantiated; never a Schedule disease",["dmr-3","ccpa"]]}},
+ newasu:{name:"New Ayurvedic drug",sum:"New ingredient, indication or route. Real patent potential, but you must prove safety and effectiveness.",
+   rows:{route:["Licence after safety and effectiveness evidence",["dr-158b"]],evidence:["Pre-clinical safety and clinical effectiveness studies",["dr-158b"]],patent:["Genuine potential for new process or composition claims; efficacy data if it's a new form of a known extract",["pa-2","pa-3d"]],other:["Trade mark, design, copyright",["tm-1999","des-2000"]],tk:["Low to medium: search TKDL to show what is different",["tkdl","pa-25"]],claims:["Only what your studies support",["ccpa","dmr-3"]]}},
+ phyto:{name:"Phytopharmaceutical drug",sum:"A purified, standardised plant fraction. Approved like a new drug; strongest patent position.",
+   rows:{route:["New-drug approval through CDSCO",["dr-2eb"]],evidence:["Chemistry and standardisation to at least four markers, pre-clinical and clinical data",["dr-2eb"]],patent:["Strongest: fraction, process and use claims; expect efficacy scrutiny under Section 3(d)",["pa-2","pa-3d"]],other:["Trade mark, design",["tm-1999"]],tk:["Low for the fraction, though the plant's use may be traditional knowledge",["pa-25"]],claims:["As approved in the licence",["dmr-3"]]}},
+ aahara:{name:"Ayurveda Aahara (food)",sum:"Food made from recipes or ingredients in the listed Ayurveda books. No disease claims.",
+   rows:{route:["FSSAI approval under the Ayurveda Aahara Regulations, 2022",["fssai-aa"]],evidence:["Book reference for the recipe or ingredients; food-safety compliance",["fssai-aa"]],patent:["Low for recipes; a new processing method may qualify",["pa-3p","pa-2"]],other:["Trade mark and design lead; use the Ayurveda Aahara logo as prescribed",["tm-1999","fssai-aa"]],tk:["High where the recipe is textual",["pa-3p"]],claims:["No claim to treat or cure any disease",["fssai-aa"]]}},
+ cosmetic:{name:"Cosmetic",sum:"Cleansing, beautifying or personal care with no therapeutic claim.",
+   rows:{route:["Cosmetics Rules, 2020",["cos-2020"]],evidence:["Safety and labelling compliance",["cos-2020"]],patent:["Possible for a new formulation or process",["pa-2"]],other:["Trade mark and design lead",["tm-1999","des-2000"]],tk:["Varies with the ingredients",["pa-3p"]],claims:["Any therapeutic claim makes it a drug",["cos-2020"]]}}
+};
+const ROWNAME = {route:"Licensing route",evidence:"Evidence before sale",patent:"Patent potential",other:"Other IP to use",tk:"Traditional-knowledge exposure",claims:"What you may claim",abs:"Biodiversity (ABS) duties"};
+function categoryOf(c){
+  if(c.use==="food") return "aahara"; if(c.use==="cos") return "cosmetic";
+  if(c.use==="med"){ if(c.text==="exact") return "classical"; if(c.text==="ingr") return "pp"; if(c.text==="new"&&c.frac) return c.frac==="yes"?"phyto":"newasu"; }
+  return null;
+}
+function absOf(c,cat){
+  if(!c.src||!c.ent) return ["Answer the last two questions to see your duties.",[]];
+  if(c.src==="imp") return ["BD Act access duties attach to resources from India. For imported material, follow the source country's access law under the Nagoya Protocol and keep your import papers.",["nagoya"]];
+  let t,cs;
+  if(c.ent==="fr"){t="Prior NBA approval is needed before accessing the resource and before applying for any IPR.";cs=["bda-6"]}
+  else if(c.ent==="grow"){t="Growers and local communities are exempt from prior intimation to the State Biodiversity Board.";cs=["bda-7"]}
+  else if(c.ent==="prac"){t="Registered practitioners practising for their livelihood are exempt from SBB intimation; manufacturing for wider sale may still need it.";cs=["bda-7"]}
+  else if(c.src==="cult"){t="Cultivated medicinal plants are exempt from SBB intimation; keep a certificate of origin from the Biodiversity Management Committee. Register with the NBA before any IPR is granted.";cs=["bda-7","bda-6"]}
+  else {t="Give prior intimation to the State Biodiversity Board before commercial use; benefit sharing may apply. Register with the NBA before any IPR is granted.";cs=["bda-7","bda-6"]}
+  if(cat==="classical" && c.ent!=="fr") t="Codified traditional knowledge from the First Schedule books is itself exempt. "+t;
+  if(c.src==="mic"){t+=" If a patent claims the strain, deposit it under the Budapest Treaty.";cs=[...cs,"budapest"]}
+  return [t,cs];
+}
+function renderQuestions(){
+  const c=S.cls; let shown=0; let html="";
+  for(const q of CQ){
+    if(q.show && !q.show(c)) continue;
+    const prevAnswered = CQ.filter(x=>(!x.show||x.show(c))).slice(0,CQ.filter(x=>(!x.show||x.show(c))).indexOf(q)).every(x=>c[x.k]);
+    if(!prevAnswered) break;
+    shown++;
+    html+=`<div class="qcard ${c[q.k]?"done":""}"><h3>${esc(q.q)}</h3><p class="why">${esc(q.why)}</p><div class="opts" role="group" aria-label="${esc(q.q)}">${q.o.map(([v,l])=>`<button type="button" class="opt" data-q="${q.k}" data-v="${v}" aria-pressed="${c[q.k]===v}">${esc(l)}</button>`).join("")}</div></div>`;
+  }
+  const total=CQ.filter(x=>!x.show||x.show(c)).length;
+  $("#qHost").innerHTML=`<p class="qcount">${Object.keys(c).filter(k=>c[k]).length} of ${total} questions answered for this path</p>`+html;
+}
+const SNAPSHOT = {
+ classical:{patent:1,brand:3,tk:3,speed:3},
+ pp:{patent:2,brand:3,tk:2,speed:2},
+ newasu:{patent:3,brand:2,tk:2,speed:1},
+ phyto:{patent:3,brand:2,tk:1,speed:1},
+ aahara:{patent:1,brand:2,tk:3,speed:3},
+ cosmetic:{patent:2,brand:2,tk:1,speed:3}
+};
+const SNAPLABEL = {patent:["Patent potential","good"],brand:["Brand & design IP","good"],tk:["Traditional-knowledge exposure","risk"],speed:["Route to market","good"]};
+const SNAPWORD = {1:"Low",2:"Medium",3:"High"};
+function meterColor(level,polarity){
+  if(polarity==="risk") return level===3?"var(--kumkum)":level===2?"var(--turmeric)":"var(--neem)";
+  return level===3?"var(--neem)":level===2?"var(--turmeric)":"var(--kumkum)";
+}
+function snapshotHTML(cat){
+  const s=SNAPSHOT[cat]; if(!s) return "";
+  return `<div class="snapshot">${Object.entries(s).map(([k,lvl])=>{
+    const [label,pol]=SNAPLABEL[k], col=meterColor(lvl,pol);
+    return `<div class="meter"><div class="meter-h"><span>${label}</span><b style="color:${col}">${SNAPWORD[lvl]}</b></div><div class="meter-track"><i data-w="${lvl*33+1}%" style="background:${col}"></i></div></div>`;
+  }).join("")}</div>`;
+}
+function renderResult(changedKey){
+  const c=S.cls, cat=categoryOf(c);
+  if(!cat){$("#resultHost").innerHTML=`<div class="empty">Your product's category and what it means will appear here after the first two answers.</div>`;S.prevRows=null;return}
+  const def=CAT[cat];
+  const rows={...Object.fromEntries(Object.entries(def.rows)), abs:absOf(c,cat)};
+  const prev=S.prevRows; const changed=[];
+  const tr=Object.keys(ROWNAME).map(k=>{
+    const [txt,cs]=rows[k]; const was = prev && prev.rows[k] && prev.rows[k][0]!==txt ? prev.rows[k][0] : null;
+    if(was) changed.push(ROWNAME[k]);
+    return `<tr class="${was?"changed":""}"><th scope="row">${ROWNAME[k]}</th><td>${esc(txt)}${cs.map(s=>`<button type="button" class="cite" data-src="${s}" aria-label="${esc(SOURCES[s].t)}">${esc(shortCite(s))}</button>`).join("")}${was?`<span class="was">Before: ${esc(was)}</span>`:""}</td></tr>`;
+  }).join("");
+  const catChanged = prev && prev.cat!==cat;
+  const delta = (prev && changedKey) ? `<div class="delta" role="status"><b>What changed:</b> ${catChanged?`category moved from ${esc(CAT[prev.cat].name)} to ${esc(def.name)}; `:""}${changed.length?`${changed.length} ${changed.length===1?"area needs":"areas need"} re-checking — ${esc(changed.join(", "))}.`:"nothing else in the assessment moved."} Earlier evidence for unchanged rows still stands.</div>` : "";
+  const next = nextSteps(cat,c);
+  $("#resultHost").innerHTML=`<div class="result"><div class="result-h"><small>Your product is most likely a</small><h2>${esc(def.name)}</h2><p>${esc(def.sum)}</p></div>
+    ${snapshotHTML(cat)}
+    <table class="rtable">${tr}</table>
+    <div class="whatif"><h3>What if one thing changed?</h3><div class="row">
+      <button class="chip" type="button" data-whatif="src:wild">…the material were wild-collected</button>
+      <button class="chip" type="button" data-whatif="ent:fr">…a foreign-controlled company sold it</button>
+      <button class="chip" type="button" data-whatif="phyto">…it became a 4-marker purified fraction</button>
+      <button class="chip" type="button" data-whatif="use:food">…it were sold as a food</button></div>${delta}</div>
+    <div class="whatif" style="background:var(--surface)"><h3>Next steps, in order</h3><ol class="steps">${next.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      <div class="row" style="margin-top:12px"><button class="btn small" type="button" id="toReport">Save as a pathway report</button><button class="btn ghost small" type="button" data-go="tk">Search prior art</button></div></div></div>`;
+  S.prevRows={cat,rows};
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ $$(".meter-track i").forEach(el=>{ el.style.width = el.dataset.w; }); }));
+}
+function shortCite(id){
+  const m={"pa-3p":"PA 3(p)","pa-2":"PA 2(1)(j)","pa-3d":"PA 3(d)","pa-25":"PA 25","dca-3a":"D&C 3(a)","dca-3h":"D&C 3(h)","dr-158b":"R.158B","dr-2eb":"R.2(eb)","bda-6":"BDA 6","bda-7":"BDA 7","tm-1999":"TM Act","des-2000":"Designs","cr-1957":"Copyright","tkdl":"TKDL","dmr-3":"DMR 3","dmr-4":"DMR 4","dr-170":"R.170","ccpa":"CCPA","fssai-aa":"FSSAI AA","cos-2020":"Cos. Rules","nagoya":"Nagoya","budapest":"Budapest"};
+  return m[id]||"src";
+}
+function nextSteps(cat,c){
+  const s=[];
+  if(cat==="classical") s.push("Record the exact book reference for the formula");
+  if(["newasu","phyto","pp"].includes(cat)) s.push("Run a prior-art search, including TKDL, before disclosing anything publicly");
+  if(["newasu","phyto"].includes(cat)) s.push("Consider a provisional patent application to secure a filing date");
+  if(c.ent==="fr") s.push("Apply to the NBA for prior approval before access");
+  else if(c.src==="wild") s.push("File prior intimation with your State Biodiversity Board");
+  else if(c.src==="cult") s.push("Obtain a certificate of origin from the local Biodiversity Management Committee");
+  s.push("File your trade mark before launch");
+  s.push(cat==="aahara"?"Apply for FSSAI approval":cat==="cosmetic"?"Complete registration under the Cosmetics Rules":cat==="phyto"?"Plan the CDSCO new-drug submission":"Apply for the ASU manufacturing licence");
+  s.push("Check label and ad text in Claim check");
+  return s;
+}
+const PRESETS = {ashwa:{use:"med",text:"new",frac:"no",src:"cult",ent:"in"},chyawan:{use:"med",text:"exact",src:"cult",ent:"in"},tea:{use:"food",src:"cult",ent:"in"}};
+function setCls(obj, changedKey){ S.cls=obj; renderQuestions(); renderResult(changedKey); }
+function answerQ(k,v){
+  const c={...S.cls,[k]:v};
+  if(k==="use"&&v!=="med"){delete c.text;delete c.frac}
+  if(k==="text"&&v!=="new"){delete c.frac}
+  const had = !!S.prevRows;
+  setCls(c, had?k:null);
+  logEvent("Classification answer", `${k} changed — formulation text not stored`);
+}
+
+/* ---------- prior art ---------- */
+function tkSearch(){
+  const raw=$("#tkInput").value.trim()||"your product";
+  const parts=raw.split(",").map(x=>x.trim()).filter(Boolean);
+  let subj=parts[0]||raw; const extra=parts.slice(1).join(" ");
+  const n=raw.toLowerCase();
+  if(n.includes("withania")||n.includes("ashwagandha")) subj='"Withania somnifera" OR ashwagandha';
+  const q = extra?`(${subj}) AND (${extra.replace(/supercritical co₂|supercritical co2/i,'supercritical OR "carbon dioxide"')})`:`(${subj})`;
+  const list=[
+    ["IP India patent search (InPASS)","Indian applications and grants",false,"https://ipindia.gov.in/"],
+    ["WIPO Patentscope","PCT and national collections, many languages",false,"https://patentscope.wipo.int/"],
+    ["Espacenet","Worldwide patent documents",false,"https://worldwide.espacenet.com/"],
+    ["AYUSH Research Portal","Published Ayurveda research",false,"https://ayushportal.nic.in/"],
+    ["TKDL","Codified formulations from classical texts",true,"#"]
+  ];
+  $("#tkHost").innerHTML=`<p style="font-size:14px;margin:0 0 6px">Suggested query</p><div class="excerpt" style="margin:0 0 10px;font-size:15px">${esc(q)}</div>
+   <p class="muted" style="font-size:13.5px;margin:0 0 6px">Demo shows where and how to search. The live build runs these searches and returns matching records with their IDs.</p>
+   ${list.map(([n,d,paid,u])=>`<div class="srcrow"><div><b>${n}</b><p>${d}</p></div><div class="row"><span class="access ${paid?"paid":"free"}">${paid?"Paid":"Free"}</span>${paid?`<button class="btn small" type="button" id="tkdlReq">${S.ledger.some(l=>l.src==="TKDL"&&l.active)?"Permission granted":"Ask my permission"}</button>`:`<a class="btn ghost small" href="${u}" target="_blank" rel="noopener">Open</a>`}</div></div>`).join("")}`;
+  logEvent("Prior-art pointer generated","Query terms kept in session only");
+}
+function renderLedger(){
+  const h=$("#ledgerHost");
+  if(!S.ledger.length){h.innerHTML=`<p class="muted" style="margin:0">No permissions granted in this session.</p>`;return}
+  h.innerHTML=`<table class="data" style="min-width:0"><thead><tr><th>Source</th><th>Scope</th><th>Granted</th><th></th></tr></thead><tbody>${S.ledger.map((l,i)=>`<tr><td>${l.src}</td><td>${esc(l.scope)}</td><td>${l.time}</td><td>${l.active?`<button class="btn ghost small" type="button" data-revoke="${i}">Revoke</button>`:"Revoked"}</td></tr>`).join("")}</tbody></table>`;
+}
+function permissionModal(){
+  modal(`<h2 id="modalTitle">Allow IP-SAKTI to query TKDL?</h2>
+   <p style="font-size:15px">TKDL is a paid subscription. IP-SAKTI will use your organisation's credentials only for this search, and every query is recorded in your permission ledger.</p>
+   <dl class="kv" style="margin:12px 0"><dt>Scope</dt><dd>Prior-art search for: ${esc($("#tkInput").value)}</dd><dt>Duration</dt><dd>This session only</dd><dt>Shared with TKDL</dt><dd>Search terms only, never your formulation</dd></dl>
+   <label><input type="checkbox" id="permOk"> I allow this search and understand it is logged</label>
+   <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn ghost" type="button" data-close>Don't allow</button><button class="btn" type="button" id="permGrant">Allow and log</button></div>`);
+  $("#permGrant").onclick=()=>{ if(!$("#permOk").checked){toast("Tick the box to allow the search.");return}
+    const time=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    S.ledger.push({src:"TKDL",scope:"Prior-art search, this session",time,active:true});
+    logEvent("Paid-source permission granted","TKDL, session scope"); closeModal(); renderLedger(); tkSearch(); toast("Permission logged. In the live build the TKDL search runs now."); };
+}
+
+/* ---------- claim check ---------- */
+const DISEASES = ["diabetes","obesity","cancer","heart disease","heart diseases","high blood pressure","low blood pressure","hypertension","epilepsy","paralysis","cataract","glaucoma","leucoderma","impotence","sterility","tuberculosis","rheumatism","kidney stones"];
+const CLAIM_RULES = [
+ {re:new RegExp("\\b("+DISEASES.map(d=>d.replace(/ /g,"\\s+")).join("|")+")\\b","gi"),lvl:"bad",why:m=>`"${m}" is a condition in the Schedule to the Drugs and Magic Remedies Act; no drug may be advertised for it.`,cite:"dmr-3",fix:"Remove the disease. Describe only permitted traditional use, e.g. \"traditionally used to support healthy metabolism\", as your licence allows."},
+ {re:/\b(permanently\s+cures?|cures?|cured|permanent\s+cure)\b/gi,lvl:"bad",why:()=>"An absolute cure claim is prohibited for Schedule conditions and misleading elsewhere.",cite:"dmr-4",fix:"Replace with \"supports\" or \"helps maintain\" only where evidence exists."},
+ {re:/\b(miracle|magic(al)?|wonder)\b/gi,lvl:"bad",why:()=>"Magic-remedy language is the core target of the 1954 Act.",cite:"dmr-4",fix:"Delete it."},
+ {re:/\b(guaranteed?|100%\s+effective|in\s+\d+\s+days)\b/gi,lvl:"warn",why:()=>"Guaranteed results or fixed timelines need substantiation or are misleading.",cite:"ccpa",fix:"Drop the promise or cite the study that supports it."},
+ {re:/\bno\s+side[\s-]effects?\b/gi,lvl:"warn",why:()=>"\"No side effects\" is an absolute safety claim that must be proven.",cite:"ccpa",fix:"Say \"use as directed\" and list precautions."},
+ {re:/\bclinically\s+(proven|tested)\b/gi,lvl:"warn",why:()=>"Needs a published study you can produce on request.",cite:"ccpa",fix:"Reference the study, or remove."},
+ {re:/\bdoctor[\s-]recommended\b/gi,lvl:"warn",why:()=>"An endorsement must be genuine and substantiated.",cite:"ccpa",fix:"Name the basis, or remove."},
+ {re:/\b100%\s+(herbal|natural)\b/gi,lvl:"warn",why:()=>"Must be literally true, including excipients and preservatives.",cite:"ccpa",fix:"Use \"herbal formulation\" unless every ingredient qualifies."}
+];
+const CAT_RULES = {
+ aahara:{re:/\b(treats?|heals?|remedy|medicine|therapeutic|helps\s+reduce)\b/gi,lvl:"bad",why:()=>"Ayurveda Aahara products may not claim to treat or cure disease.",cite:"fssai-aa",fix:"Use food-appropriate wording, e.g. \"prepared per Ayurvedic tradition\"."},
+ cosmetic:{re:/\b(treats?|heals?|remedy|medicine|therapeutic|helps\s+reduce)\b/gi,lvl:"bad",why:()=>"A therapeutic claim makes this a drug, not a cosmetic.",cite:"cos-2020",fix:"Limit to cleansing, beautifying or appearance claims."}
+};
+function runClaims(){
+  const text=$("#claimInput").value; const found=[];
+  const rules=[...CLAIM_RULES, ...(CAT_RULES[S.claimCat]?[CAT_RULES[S.claimCat]]:[])];
+  for(const r of rules){ r.re.lastIndex=0; let m; while((m=r.re.exec(text))){ found.push({s:m.index,e:m.index+m[0].length,m:m[0],r}); } }
+  found.sort((a,b)=>a.s-b.s||b.e-a.e);
+  const kept=[]; let end=-1; for(const f of found){ if(f.s>=end){kept.push(f);end=f.e} }
+  let out="",pos=0;
+  kept.forEach((f,i)=>{ out+=esc(text.slice(pos,f.s))+`<mark class="${f.r.lvl}" data-f="${i}" tabindex="0">${esc(f.m)}</mark>`; pos=f.e; });
+  out+=esc(text.slice(pos));
+  $("#claimOut").classList.remove("muted"); $("#claimOut").innerHTML=out||"Nothing to check.";
+  const items=kept.map((f,i)=>`<li class="${f.r.lvl==="warn"?"w":""}" id="find-${i}"><b>${esc(f.m)}</b> — ${esc(f.r.why(f.m))} <button type="button" class="cite" data-src="${f.r.cite}">${esc(shortCite(f.r.cite))}</button><small>Safer: ${esc(f.r.fix)}</small></li>`);
+  if(S.claimCat==="drug") items.push(`<li class="w"><b>Prior approval of ads</b> — Rule 170 currently stands omitted, so no State pre-approval step applies; the Drugs and Magic Remedies Act and consumer-protection rules still do. <span class="flux">Law changed</span> <button type="button" class="cite" data-src="dr-170">R.170</button></li>`);
+  if(!kept.length) items.unshift(`<li style="border-color:var(--neem)"><b>No prohibited wording found.</b> <small>This check covers listed patterns; a human review is still wise before publishing.</small></li>`);
+  const bad=kept.filter(f=>f.r.lvl==="bad").length, warn=kept.length-bad;
+  $("#claimFindingsWrap h3").textContent = kept.length?`Findings: ${bad} prohibited, ${warn} need proof`:"Findings";
+  $("#claimFindings").innerHTML=items.join(""); $("#claimFindingsWrap").hidden=false;
+  logEvent("Claim check run",`${bad} prohibited, ${warn} to substantiate — text not stored`);
+}
+
+/* ---------- sources ---------- */
+function renderSources(){
+  const j=$("#fJur").value, tr=$("#fTier").value, rg=$("#fReg").value;
+  const rows=Object.entries(SOURCES).filter(([id,s])=>(!j||s.jur===j)&&(!tr||String(s.tier)===tr)&&(!rg||s.reg===rg));
+  $("#srcTable tbody").innerHTML=rows.map(([id,s])=>`<tr class="clickable" data-src="${id}" tabindex="0"><td><span class="tier">${s.tier}</span></td><td>${esc(s.t)}</td><td>${esc(s.jur)}</td><td>${esc(s.reg)}</td><td>${s.flux?'<span class="flux" style="margin:0">'+esc(s.status)+'</span>':esc(s.status)}</td><td>${esc(s.ver)}</td></tr>`).join("");
+}
+function initSources(){
+  const regs=[...new Set(Object.values(SOURCES).map(s=>s.reg))].sort();
+  $("#fReg").insertAdjacentHTML("beforeend",regs.map(r=>`<option>${esc(r)}</option>`).join(""));
+  ["#fJur","#fTier","#fReg"].forEach(s=>$(s).addEventListener("change",renderSources));
+  renderSources();
+  const tl=[["Aug 2023","Ministry asks States not to act under Rule 170 while it is reviewed."],["7 May 2024","Supreme Court directs adherence to Rule 170 and self-declarations by advertisers."],["1 Jul 2024","Drugs (Fourth Amendment) Rules, 2024 omit Rule 170."],["27 Aug 2024","Supreme Court stays the omission; pre-approval effectively returns."],["Aug 2025","Stay vacated and petition disposed; Rule 170 stands omitted, contentions open."]];
+  $("#r170").innerHTML=tl.map((x,i)=>`<li class="${i===tl.length-1?"now":""}"><b>${x[0]}</b>${esc(x[1])}${i===tl.length-1?' <button type="button" class="cite" data-src="dr-170">Source</button>':""}</li>`).join("");
+}
+
+/* ---------- coverage ---------- */
+const COVERAGE=[
+ ["Explicit jurisdiction switch, answer sets kept visibly separate","Two columns with separate citations and a leakage metric of zero","ask"],
+ ["Classify the formulation with minimum clarifying questions","Three to five adaptive questions across six legal categories","classify"],
+ ["Routing across patents, GI, trade marks, copyright, designs, trade secrets, plant varieties","Per-category IP rows, with each regime cited","classify"],
+ ["Access-and-Benefit-Sharing compliance helper","Duties computed from material source and who commercialises","classify"],
+ ["TKDL and prior-art pointer","Ready-made queries for five databases","tk"],
+ ["Paid subscriptions only with explicit, logged permission","Consent dialog, revocable ledger, audit entry","tk"],
+ ["Advertising, labelling, food and cosmetic regimes","Claim check against DMR Act, CCPA, FSSAI and Cosmetics Rules","claims"],
+ ["Cite the specific statute, rule, treaty article or record","Every sentence carries clause-level citations with version and status","ask"],
+ ["Confidence indicator","Three measured factors; the model never grades itself","ask"],
+ ["Safe abstention on out-of-scope or uncertain queries","Declines with reasons and missing facts","ask"],
+ ["Escalation to a human IP facilitator","Consent-scoped hand-off from any answer","trust"],
+ ["Keep the corpus current as law changes","Versioned register with status; Rule 170 timeline","sources"],
+ ["Multilingual delivery using Bhashini, and voice","Hindi and Telugu interface, glossary-locked terms, speech input and read-aloud","ask"],
+ ["Standing \"information, not legal advice\" disclaimer","Fixed on every screen in the chosen language","overview"],
+ ["Privacy, audit and security aligned to DPDP","Session audit trail, consent capture, no formula logging","trust"],
+ ["Evaluable on accuracy, citations, abstention and language quality","AyurIP-Bench with six scored metrics","trust"],
+ ["Knowledge graph and agentic orchestration, staged build","Three-stage plan and architecture","blueprint"]
+];
+function renderCoverage(){
+  $("#covTable tbody").innerHTML=COVERAGE.map(([r,h,s])=>`<tr><td>${esc(r)}</td><td>${esc(h)}</td><td><button type="button" data-go="${s}">${esc(I18N.en[s])}</button></td></tr>`).join("");
+}
+
+/* ---------- modal & escalation ---------- */
+function modal(html){ $("#modalCard").innerHTML=html; $("#modal").classList.add("on"); $("#scrim").classList.add("on"); $("#modalCard").querySelector("input,button")?.focus(); }
+function closeModal(){ $("#modal").classList.remove("on"); if(!$("#drawer").classList.contains("on")) $("#scrim").classList.remove("on"); }
+function escalate(){
+  const q=S.current?S.current.q:"";
+  modal(`<h2 id="modalTitle">Send this to a human IP facilitator</h2>
+   <p style="font-size:15px">A facilitator reviews your question with the sources IP-SAKTI found. Choose exactly what to share.</p>
+   <label><input type="checkbox" checked id="shQ"> My question${q?`: “${esc(q.slice(0,90))}${q.length>90?"…":""}”`:""}</label>
+   <label><input type="checkbox" checked id="shA"> The answer, citations and missing facts</label>
+   <label><input type="checkbox" id="shF"> My formulation details (confidential; shared only with the assigned facilitator)</label>
+   <p class="muted" style="font-size:13.5px;margin:10px 0 0">Purpose: review of your IP or regulatory question. You can ask for deletion at any time under the DPDP Act, 2023.</p>
+   <label><input type="checkbox" id="shOk"> I consent to sharing the ticked items for this purpose</label>
+   <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn" type="button" id="escSend">Send for review</button></div>`);
+  $("#escSend").onclick=()=>{ if(!$("#shOk").checked){toast("Tick the consent box to send.");return}
+    const shared=[$("#shQ").checked&&"question",$("#shA").checked&&"answer",$("#shF").checked&&"formulation"].filter(Boolean).join(", ")||"nothing";
+    logEvent("Escalated to facilitator",`Shared: ${shared}`); closeModal(); toast("Sent to the facilitator queue. In this demo no message leaves your browser."); };
+}
+
+/* ---------- voice ---------- */
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast("Speech input needs Chrome or Edge here. The live build uses Bhashini speech recognition.");return}
+  const r=new SR(); r.lang={en:"en-IN",hi:"hi-IN",te:"te-IN"}[S.lang]; r.interimResults=false;
+  const b=$("#micBtn"); b.classList.add("rec"); b.setAttribute("aria-label","Listening");
+  r.onresult=e=>{const txt=e.results[0][0].transcript; $("#askInput").value=txt; ask(txt)};
+  r.onerror=()=>toast("Couldn't hear that. Check microphone permission and try again.");
+  r.onend=()=>{b.classList.remove("rec");b.setAttribute("aria-label","Speak your question")};
+  r.start(); logEvent("Voice input used","Audio not stored");
+}
+function speak(){
+  const a=S.current; if(!a||!window.speechSynthesis){toast("Read-aloud isn't available in this browser.");return}
+  speechSynthesis.cancel();
+  const txt=a.abstain?a.abstain.why:[a.in?.plain,a.intl?.plain].filter(Boolean).join(" ");
+  const u=new SpeechSynthesisUtterance(txt); u.lang={en:"en-IN",hi:"hi-IN",te:"te-IN"}[a.lang]; speechSynthesis.speak(u);
+}
+
+/* ---------- tour ---------- */
+const TOUR=[
+ ["Ask the golden question","A startup asks about patenting an Ashwagandha extract. Note the two columns and clause chips.",()=>{go("ask");ask(ANSWERS[0].q,{silent:true})}],
+ ["Open the disputed line","Commentators read the 2023 amendment differently. IP-SAKTI shows both and lowers the agreement score.",()=>{go("ask");if(S.current?.id!=="q1")ask(ANSWERS[0].q,{silent:true});const p=ANSWERS[0].in.pts[5];openSource(p.c[0],p)}],
+ ["Switch to Hindi as a cultivator","The same system answers a grower in Hindi, with legal terms locked to a glossary.",()=>{closeDrawer();$("#lang").value="hi";$("#persona").value="farmer";S.lang="hi";S.persona="farmer";applyLang();renderSuggest();go("ask");ask(ANSWERS[3].q,{silent:true})}],
+ ["Classify, then change one answer","Classify the extract, then make the roots wild-collected. Only the affected rows change.",()=>{$("#lang").value="en";S.lang="en";applyLang();go("classify");S.prevRows=null;setCls({...PRESETS.ashwa});setTimeout(()=>{answerQ("src","wild");setTimeout(()=>$(".delta")?.scrollIntoView({behavior:"smooth",block:"center"}),100)},700)}],
+ ["Scan a risky advertisement","Prohibited claims are marked with the provision that bans them.",()=>{go("claims");runClaims()}],
+ ["See the law change","Rule 170 changed state three times. Answers relying on older text get flagged.",()=>{go("sources");$("#r170").scrollIntoView({behavior:"smooth",block:"center"})}],
+ ["Ask what it shouldn't answer","A dosing question is declined, with a route to the right help.",()=>{go("ask");ask(ANSWERS[5].q,{silent:true})}],
+ ["Check the audit trail","Everything you just did is logged, without storing formulation details.",()=>{go("trust")}]
+];
+let tourIx=-1;
+function renderTourList(){ $("#tourList").innerHTML=TOUR.map((s,i)=>`<li><div><p><b>${esc(s[0])}</b></p><small>${esc(s[1])}</small></div><span></span><button class="btn ghost small" type="button" data-tour="${i}">Show me</button></li>`).join(""); }
+function tourStep(i){
+  tourIx=i; const s=TOUR[i]; s[2]();
+  const tb=$("#tourbar"); tb.classList.add("on");
+  tb.innerHTML=`<small class="muted">Step ${i+1} of ${TOUR.length}</small><h3 style="margin-top:2px">${esc(s[0])}</h3><p>${esc(s[1])}</p><div class="row"><button class="btn ghost small" type="button" id="tourEnd">End walkthrough</button><div class="row">${i>0?`<button class="btn ghost small" type="button" id="tourPrev">Back</button>`:""}${i<TOUR.length-1?`<button class="btn small" type="button" id="tourNext">Next step</button>`:`<button class="btn small" type="button" id="tourEnd2">Finish</button>`}</div></div>`;
+  $("#tourNext")&&($("#tourNext").onclick=()=>{closeDrawer();tourStep(i+1)});
+  $("#tourPrev")&&($("#tourPrev").onclick=()=>{closeDrawer();tourStep(i-1)});
+  const end=()=>{tb.classList.remove("on");closeDrawer();tourIx=-1};
+  $("#tourEnd").onclick=end; $("#tourEnd2")&&($("#tourEnd2").onclick=end);
+}
+
+/* ---------- hero live-example carousel ---------- */
+const HERO_EXAMPLES = [
+ {q:"Can I patent an Ashwagandha root extract made with a new supercritical CO₂ extraction process?",
+  in:[["The herb and its classical use are traditional knowledge, so they can't be patented","pa-3p"],
+      ["A genuinely new, non-obvious extraction process can be","pa-2"],
+      ["Register with the NBA before your patent is granted","bda-6"]],
+  intl:[["One PCT filing keeps your date across member states; each office then applies its own law","pct"],
+        ["The WIPO GRATK disclosure treaty is adopted but not yet in force","gratk"]]},
+ {q:"I make Chyawanprash exactly as written in a classical text. What can I protect?",
+  in:[["The recipe belongs to everyone, so it can't be patented","pa-3p"],
+      ["Protect your brand name, pack design and label artwork instead","tm-1999"],
+      ["Manufacturing know-how can be kept as a trade secret, though India has no dedicated statute for it","dca-3a"]],
+  intl:[["Extend your trade mark abroad with one Madrid Protocol application","madrid"],
+        ["An EU herbal-medicine registration needs 30 years of documented use, 15 of them in the EU","eu-thmpd"]]},
+ {q:"Can my advertisement say my churna cures diabetes?",
+  in:[["No — diabetes is a condition no drug may be advertised to treat","dmr-3"],
+      ["“Miracle” or “no side effects” claims without proof can be misleading","ccpa"],
+      ["The prior-approval rule for ASU ads has changed twice since 2024","dr-170"]],
+  intl:[["US supplements cannot claim to cure disease either","us-dshea"],
+        ["EU traditional-use registrations exclude conditions needing medical supervision","eu-thmpd"]]}
+];
+let heroIx=0, heroTimer=null;
+function renderHeroCols(ex){
+  $("#demoIn").innerHTML = `<h4>India</h4>` + ex.in.map(([txt,c],i)=>`<p>${esc(txt)} <button class="cite" data-src="${c}" type="button">${i+1}</button></p>`).join("");
+  $("#demoIntl").innerHTML = `<h4>International</h4>` + ex.intl.map(([txt,c],i)=>`<p>${esc(txt)} <button class="cite" data-src="${c}" type="button">${ex.in.length+i+1}</button></p>`).join("");
+}
+function renderDemoDots(){
+  $("#demoDots").innerHTML = HERO_EXAMPLES.map((_,i)=>`<button type="button" role="tab" aria-selected="${i===heroIx}" aria-label="Example ${i+1} of ${HERO_EXAMPLES.length}" data-i="${i}"></button>`).join("");
+}
+function showHeroExample(ix, typed){
+  heroIx = (ix+HERO_EXAMPLES.length)%HERO_EXAMPLES.length;
+  const ex = HERO_EXAMPLES[heroIx], el=$("#demoQ");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  renderDemoDots();
+  $("#demoIn").classList.remove("show"); $("#demoIntl").classList.remove("show");
+  if(reduce || !typed){
+    el.textContent = ex.q; renderHeroCols(ex);
+    requestAnimationFrame(()=>{$("#demoIn").classList.add("show");$("#demoIntl").classList.add("show")});
+    return;
+  }
+  let ci=0; el.innerHTML='<span></span><i class="caret"></i>';
+  const span=el.firstChild;
+  const tick=()=>{ span.textContent=ex.q.slice(0,++ci); if(ci<ex.q.length) setTimeout(tick,16);
+    else { renderHeroCols(ex); setTimeout(()=>$("#demoIn").classList.add("show"),180); setTimeout(()=>$("#demoIntl").classList.add("show"),440); setTimeout(()=>el.querySelector(".caret")?.remove(),650); } };
+  setTimeout(tick,250);
+}
+function restartHeroTimer(){
+  clearInterval(heroTimer);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  heroTimer = setInterval(()=>showHeroExample(heroIx+1,true), 9000);
+}
+function heroDemo(){
+  showHeroExample(0,true);
+  restartHeroTimer();
+  $("#demoNext").addEventListener("click",()=>{showHeroExample(heroIx+1,true);restartHeroTimer()});
+  $("#demoDots").addEventListener("click",e=>{const b=e.target.closest("button[data-i]"); if(!b)return; showHeroExample(+b.dataset.i,true); restartHeroTimer();});
+  const dc=$(".demo-card");
+  dc.addEventListener("mouseenter",()=>clearInterval(heroTimer));
+  dc.addEventListener("mouseleave",restartHeroTimer);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]"); if(g){ go(g.dataset.go); if(g.dataset.load){ const a=ANSWERS.find(x=>x.id===g.dataset.load); ask(a.q,{silent:true}); } return; }
+  const c=e.target.closest(".cite"); if(c){ $$(".cite.hl").forEach(x=>x.classList.remove("hl")); c.classList.add("hl");
+    let point=null; if(c.dataset.side&&S.current){ point=S.current[c.dataset.side].pts[+c.dataset.ix]; } openSource(c.dataset.src,point); return; }
+  const tr=e.target.closest("tr[data-src]"); if(tr){ openSource(tr.dataset.src); return; }
+  const aq=e.target.closest("[data-ask]"); if(aq){ go("ask"); ask(aq.dataset.ask); return; }
+  if(e.target.closest("[data-escalate]")){ escalate(); return; }
+  if(e.target.closest("[data-close]")){ closeModal(); return; }
+  const o=e.target.closest(".opt"); if(o){ answerQ(o.dataset.q,o.dataset.v); return; }
+  const w=e.target.closest("[data-whatif]"); if(w){ const v=w.dataset.whatif;
+    if(v==="phyto"){ const c2={...S.cls,use:"med",text:"new",frac:"yes"}; setCls(c2,"frac"); }
+    else { const [k,val]=v.split(":"); answerQ(k,val); }
+    logEvent("What-if applied",v); return; }
+  const p=e.target.closest("[data-preset]"); if(p){ S.prevRows=null; setCls({...PRESETS[p.dataset.preset]}); logEvent("Classification preset",p.dataset.preset); return; }
+  const tt=e.target.closest("[data-tour]"); if(tt){ tourStep(+tt.dataset.tour); return; }
+  const rv=e.target.closest("[data-revoke]"); if(rv){ S.ledger[+rv.dataset.revoke].active=false; logEvent("Paid-source permission revoked","TKDL"); renderLedger(); tkSearch(); return; }
+  if(e.target.closest("#tkdlReq")){ if(S.ledger.some(l=>l.src==="TKDL"&&l.active)){toast("Already allowed for this session. Revoke it in the ledger.");return} permissionModal(); return; }
+  if(e.target.closest("#speakBtn")){ speak(); return; }
+  if(e.target.closest("#toReport")){ logEvent("Pathway report saved","Stored in session only"); toast("Report saved to this session. The live build exports a signed PDF with every citation."); return; }
+  const m=e.target.closest("mark[data-f]"); if(m){ const li=$("#find-"+m.dataset.f); li?.scrollIntoView({behavior:"smooth",block:"center"}); return; }
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){ closeDrawer(); closeModal(); }
+  if(e.key==="Enter"){ const tr=e.target.closest?.("tr[data-src]"); if(tr) openSource(tr.dataset.src); }
+});
+$("#scrim").addEventListener("click",()=>{closeDrawer();closeModal()});
+$("#drawerClose").addEventListener("click",closeDrawer);
+$("#askForm").addEventListener("submit",e=>{e.preventDefault();ask($("#askInput").value)});
+$("#micBtn").addEventListener("click",startVoice);
+$("#jurisSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.juris=b.dataset.j;$$("#jurisSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));if(S.current)renderAnswer(S.current);logEvent("Jurisdiction switched",b.textContent)});
+$("#detailSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.detail=b.dataset.d;$$("#detailSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));if(S.current)renderAnswer(S.current)});
+$("#claimCat").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.claimCat=b.dataset.c;$$("#claimCat button").forEach(x=>x.setAttribute("aria-pressed",x===b));runClaims()});
+$("#claimGo").addEventListener("click",runClaims);
+$("#claimSafe").addEventListener("click",()=>{$("#claimInput").value="Madhu-Shakti churna — an Ayurvedic formulation prepared as described in classical texts. Use as directed by your physician. Read the label for ingredients and precautions.";runClaims()});
+$("#tkGo").addEventListener("click",tkSearch);
+$("#clsReset").addEventListener("click",()=>{S.prevRows=null;setCls({})});
+$("#lang").addEventListener("change",e=>{S.lang=e.target.value;applyLang();logEvent("Language changed",e.target.value)});
+$("#persona").addEventListener("change",e=>{S.persona=e.target.value;renderSuggest();logEvent("Persona changed",e.target.value)});
+$("#startTour").addEventListener("click",()=>tourStep(0));
+$("#themeBtn").addEventListener("click",()=>{
+  const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark?"light":"dark"; try{localStorage.setItem("ips-theme",r.dataset.theme)}catch(_){}
+});
+
+/* ---------- scroll progress + reveal + parallax ---------- */
+const REDUCE_MOTION = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function initScrollFx(){
+  const bar = $("#scrollProgress > i");
+  const heroGfx = $(".hero-graphic");
+  let ticking = false;
+  function onScroll(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max>0 ? (doc.scrollTop/max)*100 : 0;
+    if(bar) bar.style.width = pct+"%";
+    if(heroGfx && !REDUCE_MOTION){
+      const py = Math.min(doc.scrollTop, 260) * 0.14;
+      heroGfx.style.setProperty("--py", py+"px");
+    }
+    ticking = false;
+  }
+  document.addEventListener("scroll", () => { if(!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+  onScroll();
+  if(REDUCE_MOTION) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en => { if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {threshold:.12, rootMargin:"0px 0px -8% 0px"});
+  $$(".panel, .layer, .stage>div, .pipeline li, table.data, .arch, .timeline").forEach(el=>{ el.classList.add("reveal"); io.observe(el); });
+}
+
+/* ---------- boot ---------- */
+try{const th=localStorage.getItem("ips-theme"); if(th) document.documentElement.dataset.theme=th;}catch(_){}
+renderNav("overview"); renderSuggest(); renderQuestions(); renderLedger(); initSources(); renderCoverage(); renderTourList(); heroDemo(); tkSearch(); initScrollFx();
+S.audit=[]; logEvent("Session started","No account, no personal data collected");
+</script>
+</body>
+</html>

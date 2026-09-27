@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: all internal navigation is client-side state, not routes,
+# but this keeps a direct load of any path (e.g. a shared deep link) from 404ing.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

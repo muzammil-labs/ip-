@@ -1,0 +1,218 @@
+openapi: 3.0.3
+info:
+  title: IP-SAKTI Sahayak API
+  version: "0.1.0"
+  description: >
+    The intended contract for the production backend (FINALS-STRATEGY.md §8). In this
+    frontend-only build every one of these calls is served by src/api/mock/handlers.ts
+    (MSW), which runs the matching in-browser engine from src/engines/ and returns the
+    same shape a real server would. Swapping the server later means pointing the client
+    at a real base URL; the UI does not change.
+servers:
+  - url: /v1
+paths:
+  /ask:
+    post:
+      summary: Answer a question in the context of a Case
+      description: Question plus Case context, asOf and language, two-column cited answer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [q]
+              properties:
+                q: { type: string }
+                caseId: { type: string }
+                asOf: { type: string, format: date }
+                lang: { type: string, enum: [en, hi, te] }
+      responses:
+        "200":
+          description: An Answer (or an abstain object when the question is out of scope)
+  /retrieve:
+    post:
+      summary: Ranked clause chunks for a query
+      description: Jurisdiction-separated ranked chunks. Not yet backed by a real engine; MiniSearch retrieval (Phase 5) will serve this.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [q]
+              properties:
+                q: { type: string }
+      responses:
+        "200":
+          description: Ranked source chunks
+  /classify:
+    post:
+      summary: Classify a Case
+      description: Case answers to category, reasoning and rows.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [answers]
+              properties:
+                answers:
+                  type: object
+                  description: ClassifyState (use/text/frac/src/ent)
+                prev:
+                  type: object
+                  nullable: true
+      responses:
+        "200":
+          description: A ClassifyResult, or null if not enough answers are given yet
+  /tk-proximity:
+    post:
+      summary: Nearest classical formulations for a formula
+      description: Overlap and legal reading against the classical corpus. Not yet backed by a real engine; built in Phase 6.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                formula:
+                  type: array
+                  items: { type: object }
+      responses:
+        "200":
+          description: Nearest formulations with overlap scores
+  /abs:
+    post:
+      summary: Biodiversity access and benefit-sharing duties for a Case
+      description: Duties, forms and a benefit-share estimate. Served today by classify.absOf inside /classify's rows; a dedicated endpoint and benefitShare estimate land in Phase 6.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [answers]
+              properties:
+                answers: { type: object }
+                category: { type: string }
+      responses:
+        "200":
+          description: ABS duties text and citations
+  /claims/check:
+    post:
+      summary: Scan text for prohibited or unsubstantiated advertising claims
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text, category]
+              properties:
+                text: { type: string }
+                category: { type: string, enum: [drug, aahara, cosmetic] }
+      responses:
+        "200":
+          description: A ClaimReport (segments, findings, counts)
+  /sources:
+    get:
+      summary: The versioned source register
+      parameters:
+        - name: asOf
+          in: query
+          schema: { type: string, format: date }
+          description: Legal time machine date; defaults to today.
+      responses:
+        "200":
+          description: Every source, as it read on asOf
+  /cases:
+    post:
+      summary: Create a Case
+      description: Not yet backed server-side; the Case lives in localStorage (UI-3.2) until a real backend exists.
+      responses:
+        "200":
+          description: The created Case
+  /cases/{id}:
+    patch:
+      summary: Update a Case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: The updated Case
+  /cases/{id}/dossier:
+    get:
+      summary: Render the Case as a dossier
+      description: Not yet backed by a real engine; the dossier engine and print route are built in Phase 4/6.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: A rendered dossier document
+  /escalations:
+    post:
+      summary: Hand off a Case to a human facilitator, consent-scoped
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [caseId, scope]
+              properties:
+                caseId: { type: string }
+                scope: { type: string }
+      responses:
+        "200":
+          description: The queued escalation
+  /consent:
+    post:
+      summary: Grant consent to use a paid source (for example TKDL)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [src, scope]
+              properties:
+                src: { type: string }
+                scope: { type: string }
+      responses:
+        "200":
+          description: The consent ledger entry
+    delete:
+      summary: Revoke a previously granted consent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [index]
+              properties:
+                index: { type: integer }
+      responses:
+        "200":
+          description: The updated ledger
+  /audit:
+    get:
+      summary: The append-only audit trail for the current Case
+      responses:
+        "200":
+          description: A list of audit entries
+  /health:
+    get:
+      summary: Corpus version and model status
+      responses:
+        "200":
+          description: Health and corpus version info
