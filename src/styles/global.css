@@ -1,0 +1,119 @@
+@import "tailwindcss";
+@import "./fonts.css";
+@import "./tokens.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-wash: var(--wash);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-neem: var(--neem);
+  --color-neem-strong: var(--neem-strong);
+  --color-neem-wash: var(--neem-wash);
+  --color-neem-deep: var(--neem-deep);
+  --color-on-neem-deep: var(--on-neem-deep);
+  --color-leaf: var(--leaf);
+  --color-leaf-2: var(--leaf-2);
+  --color-haldi: var(--haldi);
+  --color-haldi-wash: var(--haldi-wash);
+  --color-kumkum: var(--kumkum);
+  --color-kumkum-wash: var(--kumkum-wash);
+  --color-indigo: var(--indigo);
+  --color-indigo-wash: var(--indigo-wash);
+
+  --font-sans: var(--font);
+  --font-mono: var(--font-mono);
+
+  --radius-control: var(--r-control);
+  --radius-container: var(--r-container);
+  --radius-pill: var(--r-pill);
+
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+
+  --color-on-neem: var(--on-neem);
+}
+
+/* Type scale in a plain @theme block (not inline) so utilities read var(--text-h1) and the mobile override below works.
+   Utilities: text-display, text-h1, text-h2, text-h3, text-body-lg, text-body, text-small, text-mono */
+@theme {
+  --text-display: 3.5rem;   --text-display--line-height: 3.75rem;  --text-display--letter-spacing: -0.02em;
+  --text-h1: 2.5rem;        --text-h1--line-height: 2.875rem;      --text-h1--letter-spacing: -0.015em;
+  --text-h2: 1.75rem;       --text-h2--line-height: 2.125rem;      --text-h2--letter-spacing: -0.01em;
+  --text-h3: 1.25rem;       --text-h3--line-height: 1.6875rem;
+  --text-body-lg: 1.125rem; --text-body-lg--line-height: 1.8125rem;
+  --text-body: 1rem;        --text-body--line-height: 1.625rem;
+  --text-small: 0.875rem;   --text-small--line-height: 1.3125rem;
+  --text-mono: 0.84375rem;  --text-mono--line-height: 1.25rem;
+}
+
+/* Mobile type steps */
+@media (max-width: 767px) {
+  :root {
+    --text-display: 2.375rem; --text-display--line-height: 2.625rem;
+    --text-h1: 1.875rem;      --text-h1--line-height: 2.25rem;
+    --text-h2: 1.4375rem;     --text-h2--line-height: 1.8125rem;
+    --text-h3: 1.125rem;      --text-h3--line-height: 1.5625rem;
+  }
+}
+
+/* Presenter mode: every text utility shifts up one step in the same scale (no ad-hoc size),
+   so the base body text reads roughly 18px instead of 16px, legible from the back of a room. Placed
+   after the mobile block and matched on :root so it wins at any viewport width while presenter mode
+   is on (app/PresenterMode.tsx sets/clears this attribute). */
+:root[data-presenter="true"] {
+  --text-mono: 0.875rem;    --text-mono--line-height: 1.3125rem;
+  --text-small: 1rem;       --text-small--line-height: 1.625rem;
+  --text-body: 1.125rem;    --text-body--line-height: 1.8125rem;
+  --text-body-lg: 1.25rem;  --text-body-lg--line-height: 1.6875rem;
+  --text-h3: 1.75rem;       --text-h3--line-height: 2.125rem;
+  --text-h2: 2.5rem;        --text-h2--line-height: 2.875rem;  --text-h2--letter-spacing: -0.015em;
+  --text-h1: 3.5rem;        --text-h1--line-height: 3.75rem;   --text-h1--letter-spacing: -0.02em;
+}
+
+:lang(hi), :lang(te) { line-height: 1.75; }
+:lang(hi) h1, :lang(hi) h2, :lang(te) h1, :lang(te) h2 { letter-spacing: 0; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body { margin: 0; background: var(--canvas); color: var(--ink-2); font-family: var(--font); font-size: 1rem; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px; }
+::selection { background: var(--neem-wash); color: var(--neem-strong); }
+
+button {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* The theme toggle drives the reveal itself (a clip-path Web Animation on
+   ::view-transition-new(root), started from TopBar's ThemeToggle), so the browser's own
+   cross-fade default is turned off here; the two snapshots would otherwise cross-fade
+   underneath our circular reveal. */
+::view-transition-old(root), ::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Appendix D: botanical plate duotone. The source image stays untouched in public/plates/src/;
+   the treatment is applied through CSS so it follows the theme. */
+.plate { position: relative; border-radius: var(--r-container); overflow: hidden; background: var(--surface); }
+.plate img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15) brightness(1.05); mix-blend-mode: multiply; }
+.plate::after { content: ""; position: absolute; inset: 0; background: var(--neem); mix-blend-mode: screen; opacity: .18; pointer-events: none; }
+:root[data-theme="dark"] .plate img { filter: grayscale(1) invert(1) contrast(1.1); mix-blend-mode: screen; opacity: .85; }

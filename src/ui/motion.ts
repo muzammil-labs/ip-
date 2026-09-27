@@ -1,0 +1,55 @@
+import { useReducedMotion } from "motion/react";
+import type { Transition, Variants } from "motion/react";
+
+const EASE: Transition["ease"] = [0.16, 1, 0.3, 1];
+
+/** A line or bar draws in (scaleX or pathLength 0 to 1). 480ms, ease [0.16, 1, 0.3, 1]. */
+export const thread: Variants = {
+  hidden: { scaleX: 0 },
+  visible: { scaleX: 1, transition: { duration: 0.48, ease: EASE } },
+};
+
+/** Same draw-in as `thread`, but for an SVG line/path (pathLength 0 to 1) instead of a scaleX bar. */
+export const threadPath: Variants = {
+  hidden: { pathLength: 0 },
+  visible: { pathLength: 1, transition: { duration: 0.48, ease: EASE } },
+};
+
+/** A seal, cite chip or finding appearing when evidence is verified. Spring 420/28. */
+export const stamp: Variants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 420, damping: 28 } },
+};
+
+/** Background fades from haldi-wash to transparent. Rows that changed after a what-if or time-machine move. 1400ms linear. */
+export const shift: Variants = {
+  changed: {
+    backgroundColor: ["var(--haldi-wash)", "rgba(0,0,0,0)"],
+    transition: { duration: 1.4, ease: "linear" },
+  },
+  idle: { backgroundColor: "rgba(0,0,0,0)" },
+};
+
+/** An element rises into place on entrance or scroll-into-view. 520ms, ease [0.16, 1, 0.3, 1]. */
+export const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.52, ease: EASE } },
+};
+
+/** Parent wrapper for a group of `fadeUp` children that should reveal in sequence, not at once. */
+export const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
+};
+
+/** A leaf sprouting on the chapter rail's VineRail the moment a chapter's status flips to done.
+ * Scale 0 to 1 with a small counter-rotation settling to 0, spring 300/20. */
+export const sprout: Variants = {
+  hidden: { scale: 0, rotate: -30, opacity: 0 },
+  visible: { scale: 1, rotate: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 20 } },
+};
+
+/** True when motion should actually run: false under prefers-reduced-motion. */
+export function useMotionOK(): boolean {
+  return !useReducedMotion();
+}
