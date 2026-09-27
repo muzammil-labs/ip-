@@ -9,9 +9,9 @@ export interface ChangedClause {
   toStatus: string;
 }
 
-/** UI-6.9: the clauses a Case cites whose applicable version differs between the corpus as it stood
+/** The clauses a Case cites whose applicable version differs between the corpus as it stood
  * when the Case was saved (`Case.corpusVersion`) and the app's current corpus (`CORPUS_VERSION`).
- * Only sources with real version history (data/sources.ts's `versions[]`, from UI-6.2) can appear
+ * Only sources with real version history (data/sources.ts's `versions[]`) can appear
  * here; a source with no version history never "changed" as far as this Case can tell. */
 export function changedClausesSince(kase: Case): ChangedClause[] {
   if (kase.corpusVersion === CORPUS_VERSION) return [];

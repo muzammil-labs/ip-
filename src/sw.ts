@@ -4,7 +4,7 @@ import { precacheAndRoute } from "workbox-precaching";
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: Array<{ url: string; revision: string | null }> };
 
 /**
- * UI-5.2: the app's PWA service worker. Precaches the app shell, fonts and icons via
+ * The app's PWA service worker. Precaches the app shell, fonts and icons via
  * Workbox (injected manifest below) so the app works after a first load with no
  * network. importScripts pulls in MSW's own generated worker (public/mockServiceWorker.js)
  * into this SAME worker instance rather than registering a second service worker at the

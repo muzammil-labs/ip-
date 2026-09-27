@@ -5,7 +5,7 @@ import { fadeUp, useMotionOK } from "./motion";
 export interface SectionProps {
   title: string;
   lede?: string;
-  /** Anchor id for in-page navigation (e.g. How it works' section sidebar, UI-9.10). Optional: most
+  /** Anchor id for in-page navigation (e.g. How it works' section sidebar). Optional: most
    * pages have nothing to link to a Section directly. */
   id?: string;
   children?: ReactNode;

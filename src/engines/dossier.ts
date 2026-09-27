@@ -7,8 +7,8 @@ import type { Case } from "../state/case";
 
 /** Every source id cited anywhere in this Case's computed chapters (Classify's pathway rows,
  * Protect's IP rows, Owe's ABS duties, Say's claim findings), for the dossier's clause appendix
- * (MASTER-PLAN UI-6.4). Owe's benefit-share estimate isn't included: it has no reviewed citation
- * yet (docs/plan/QUESTIONS.md, Phase 6). */
+ * Owe's benefit-share estimate isn't included: it has no reviewed citation
+ * yet. */
 export function allCitedSources(kase: Case): string[] {
   const set = new Set<string>();
   const result = classify(kase);
@@ -25,9 +25,9 @@ export function allCitedSources(kase: Case): string[] {
   return [...set];
 }
 
-/** SHA-256 hex digest of the same shareable Case payload a share link encodes (UI-3.4's
+/** SHA-256 hex digest of the same shareable Case payload a share link encodes (
  * encodeCaseForShare, personal-activity fields excluded), so the dossier's QR code can be checked
- * against tampering (MASTER-PLAN UI-6.4: "a SHA-256 hash of the Case JSON"). */
+ * against tampering: a SHA-256 hash of the Case JSON. */
 export async function hashCase(kase: Case): Promise<string> {
   const payload = encodeCaseForShare(kase);
   const bytes = new TextEncoder().encode(payload);

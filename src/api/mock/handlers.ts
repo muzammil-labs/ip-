@@ -37,7 +37,7 @@ export const handlers = [
 
   http.get("/v1/sources", async () => {
     await delay();
-    // asOf filtering arrives with the legal time machine (Phase 6); today this returns the current register.
+    // asOf filtering arrives with the legal time machine; today this returns the current register.
     return HttpResponse.json(SOURCES);
   }),
 

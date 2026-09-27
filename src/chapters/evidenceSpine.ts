@@ -4,7 +4,7 @@ import { absDuties } from "../engines/absDuties";
 import { protectionRows } from "../data/protectionRows";
 import { claimsCheck } from "../engines/claims";
 
-/** Every unique clause id cited by the Case's current state, for the chapter rail's evidence spine (UI-4.11). */
+/** Every unique clause id cited by the Case's current state, for the chapter rail's evidence spine. */
 export function evidenceSpine(kase: Case): string[] {
   const ids = new Set<string>();
   const result = classify(kase);

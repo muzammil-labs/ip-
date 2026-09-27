@@ -4,7 +4,7 @@ export interface TrickPrompt {
   text: string;
 }
 
-/** UI-7.6: five preset adversarial prompts for the "Try to trick it" box (SPOTLIGHT.md item 8).
+/** Five preset adversarial prompts for the "Try to trick it" box (SPOTLIGHT.md item 8).
  * Each text is chosen to exercise a real, already-shipped guardrail, not a new one built for this
  * box: "dosing" and "grant" hit the two scripted abstain answers already in data/answers.ts (q6,
  * q7); "ignore" wraps the same grant-prediction text in a direct instruction-override attempt,

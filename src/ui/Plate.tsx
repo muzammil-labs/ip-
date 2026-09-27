@@ -15,14 +15,14 @@ export interface PlateProps {
   compact?: boolean;
   /** Varies the placeholder mark's orientation so neighbouring tiles in a grid don't repeat. */
   markVariant?: number;
-  /** UI-9.18: the Home hero's single sprig only, never example-card tiles (Section 0 amendment
+  /** The Home hero's single sprig only, never example-card tiles (Section 0 amendment
    * A3's "one slow ambient loop"). A gentle sway plus desktop pointer parallax. */
   living?: boolean;
 }
 
 const MARK_VARIANTS = ["", "-scale-x-100", "rotate-6", "-scale-x-100 -rotate-6"];
 
-/** UI-9.18: the sway and parallax wrapper for `living` plates. Pauses off-screen and under
+/** The sway and parallax wrapper for `living` plates. Pauses off-screen and under
  * reduced motion; parallax only responds to a real mouse (not touch), never via useState. */
 function LivingMark({ className }: { className: string }) {
   const ref = useRef<HTMLDivElement>(null);

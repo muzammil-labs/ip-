@@ -17,7 +17,7 @@ import { ANSWERS } from "../data/answers";
 import { SOURCES } from "../data/sources";
 import { CHAPTER_ORDER } from "../chapters/order";
 
-/** UI-9.20 (optional): a soft radial highlight that follows the pointer on example and
+/** A soft radial highlight that follows the pointer on example and
  * trust cards. --x/--y are set directly on the hovered element's own style (not React
  * state, so this never re-renders); skipped for touch, which has no hover to follow. */
 function handleCardSpotlight(e: React.PointerEvent<HTMLElement>) {
@@ -58,7 +58,7 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 
 const HERO_ANSWER = ANSWERS.find((a) => a.id === "q1")!;
 
-/** UI-9.19: counts 0 to `value` over 900ms on mount (the hero stats render inside the
+/** Counts 0 to `value` over 900ms on mount (the hero stats render inside the
  * hero's own on-mount stagger, not on scroll, so "first visible" is just "first render"
  * here). Reduced motion shows the value immediately. */
 function CountUpStat({ value, motionOK }: { value: number; motionOK: boolean }) {

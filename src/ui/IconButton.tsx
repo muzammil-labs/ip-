@@ -6,7 +6,7 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   variant?: "surface" | "ghost";
 }
 
-/** 40x40 icon-only button. label doubles as aria-label; pair with Tooltip (UI-2.17) at call sites that want a visible hint on hover. */
+/** 40x40 icon-only button. label doubles as aria-label; pair with Tooltip at call sites that want a visible hint on hover. */
 export default function IconButton({ label, icon, variant = "surface", className = "", ...rest }: IconButtonProps) {
   const tone =
     variant === "surface"

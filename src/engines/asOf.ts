@@ -2,7 +2,7 @@ import { SOURCES } from "../data/sources";
 import type { Source, SourceEvent, SourceVersion } from "../lib/types";
 
 /** Parses "YYYY", "YYYY-MM" or "YYYY-MM-DD" into a comparable timestamp. A missing month or day is
- * treated as the start of that period (MASTER-PLAN UI-6.2: dates may be shown without a day). */
+ * treated as the start of that period (dates may be shown without a day). */
 function parseDate(d: string): number {
   const [y, m = 1, day = 1] = d.split("-").map(Number);
   return new Date(y, m - 1, day).getTime();

@@ -74,7 +74,7 @@ export function farmerAshwaExample(): Case {
   });
 }
 
-/** UI-6.9: saved before the Biological Diversity (Amendment) Act, 2023's provisions took effect
+/** Saved before the Biological Diversity (Amendment) Act, 2023's provisions took effect
  * (1 Apr 2024), so the pre-amendment bda-6/bda-7 versions applied when this Case was made. Loading
  * it now, against the current corpus, demonstrates the law-changed banner and the Shift highlight
  * on the affected Owe/Protect rows. */

@@ -15,9 +15,9 @@ export interface ChapterProps {
   titleKey: string;
   purposeKey: string;
   status?: ChapterStatus;
-  /** UI-6.7: an optional control (e.g. the examiner's-view toggle) shown at the right of the header row. */
+  /** An optional control (e.g. the examiner's-view toggle) shown at the right of the header row. */
   headerAction?: ReactNode;
-  /** UI-9.9: widens the header and body to --w-shell instead of --w-main, for a chapter that needs
+  /** Widens the header and body to --w-shell instead of --w-main, for a chapter that needs
    * a second column (Describe's summary sidebar). Header and body share the same max-width so their
    * left edges always line up. */
   wide?: boolean;
@@ -29,7 +29,7 @@ export default function Chapter({ n, titleKey, purposeKey, status, headerAction,
   const t = useT();
   const motionOK = useMotionOK();
   const maxW = wide ? "max-w-[var(--w-shell)]" : "max-w-[var(--w-main)]";
-  // UI-9.12: the header and body boxes must be structurally identical (same mx-auto, max-w and
+  // The header and body boxes must be structurally identical (same mx-auto, max-w and
   // horizontal padding on the same element), not just the same max-w value. Padding on an ancestor
   // of one but not the other only cancels out when max-w actually constrains the box; next to the
   // chapter rail (narrower than --w-shell), it doesn't, and the two edges drift apart. So the

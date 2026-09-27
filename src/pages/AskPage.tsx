@@ -81,7 +81,7 @@ function AnswerColumn({ answer, side, detail }: { answer: Answer; side: "in" | "
   );
 }
 
-/** #/ask (B2): the full-page Sahayak, used for Kisan mode. The docked-panel version (available on every page) is UI-4.10. */
+/** #/ask: the full-page Sahayak, used for Kisan mode. A docked-panel version is available on every page. */
 export default function AskPage() {
   const app = useApp();
   const { persona, setPersona, juris, setJuris, detail, setDetail, current, history, logEvent, addLedger } = app;
@@ -135,7 +135,7 @@ export default function AskPage() {
 
   const confidence = useMemo(() => (current && !current.abstain ? computeConfidence(current) : null), [current]);
 
-  // UI-7.5 coverage tracker: mark the PS requirements this answer just demonstrated.
+  // Coverage tracker: mark the PS requirements this answer just demonstrated.
   useEffect(() => {
     if (!current) return;
     if (current.abstain) {

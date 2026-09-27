@@ -35,7 +35,7 @@ describe("computeBenefitShare: not applicable", () => {
   });
 });
 
-describe("computeBenefitShare: slabs (MASTER-PLAN UI-6.3 figures)", () => {
+describe("computeBenefitShare: slabs (BD (ABS) Regulations 2025 figures)", () => {
   const base = { src: "cult", ent: "in" } as const;
 
   it("is nil at or under ₹5 cr", () => {

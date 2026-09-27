@@ -9,10 +9,10 @@ interface ClauseDoc {
   jur: string;
 }
 
-/** UI-6.6 clause retrieval: one document per data/sources.ts entry. The demo corpus's entries are
+/** Clause retrieval: one document per data/sources.ts entry. The demo corpus's entries are
  * already short, single-clause summaries/excerpts (not long instrument text), so each source is
  * itself one chunk; a separate data/chunks.json splitting longer text was not needed at this scale.
- * See docs/plan/QUESTIONS.md (Phase 6) for the reasoning. */
+ * summaries rather than full statutory text; a production corpus would index full clause text. */
 const docs: ClauseDoc[] = Object.entries(SOURCES).map(([id, s]) => ({
   id,
   text: [s.t, s.act, s.section, s.excerpt, s.summary].filter(Boolean).join(" "),

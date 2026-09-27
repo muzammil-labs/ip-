@@ -64,7 +64,7 @@
   }
 }
 
-/* UI-7.2 presenter mode: every text utility shifts up one step in the same scale (no ad-hoc size),
+/* Presenter mode: every text utility shifts up one step in the same scale (no ad-hoc size),
    so the base body text reads roughly 18px instead of 16px, legible from the back of a room. Placed
    after the mobile block and matched on :root so it wins at any viewport width while presenter mode
    is on (app/PresenterMode.tsx sets/clears this attribute). */
@@ -102,7 +102,7 @@ button {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
 
-/* UI-9.15: the theme toggle drives the reveal itself (a clip-path Web Animation on
+/* The theme toggle drives the reveal itself (a clip-path Web Animation on
    ::view-transition-new(root), started from TopBar's ThemeToggle), so the browser's own
    cross-fade default is turned off here; the two snapshots would otherwise cross-fade
    underneath our circular reveal. */

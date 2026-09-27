@@ -16,7 +16,7 @@ function guardrailFor(a: Answer): Guardrail {
   return "answered";
 }
 
-/** UI-7.6: "Try to trick it." Five preset adversarial prompts plus free text, each run through the
+/** "Try to trick it." Five preset adversarial prompts plus free text, each run through the
  * real api.ask and shown with whichever guardrail actually fired, not a scripted claim about what
  * would happen. */
 export default function TrickBox() {

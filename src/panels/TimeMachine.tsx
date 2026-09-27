@@ -19,7 +19,7 @@ export interface TimeMachineProps {
   sourceIds: string[];
 }
 
-/** UI-6.2: a date slider from Jan 2018 to today, with event ticks for the given sources. Moving it sets
+/** A date slider from Jan 2018 to today, with event ticks for the given sources. Moving it sets
  * session.asOfDate (null = "today"); EvidenceRow-consuming screens re-derive each cited source's status
  * as of that date from engines/asOf.ts and Shift the rows that changed. */
 export default function TimeMachine({ sourceIds }: TimeMachineProps) {

@@ -76,7 +76,7 @@ function AnswerPane({ answer, side }: { answer: Answer; side: "in" | "intl" }) {
   );
 }
 
-/** UI-4.10: the Sahayak panel, available on every page (right drawer desktop, bottom sheet mobile). */
+/** The Sahayak panel, available on every page (right drawer desktop, bottom sheet mobile). */
 export default function Sahayak() {
   const { sahayakOpen, setSahayakOpen, lang } = useSession();
   const app = useApp();

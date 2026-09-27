@@ -1,6 +1,6 @@
 /**
- * UI-9.17: a static kolam/rangoli dot grid, the one cultural-signature texture allowed
- * (Section 0 amendment A5), used only around the edges of the Home hero and the closing
+ * A static kolam/rangoli dot grid, the one cultural-signature texture allowed
+ * used only around the edges of the Home hero and the closing
  * CTA band. A radial mask fades it out toward the centre so it never sits under text.
  * Decorative only: aria-hidden, pointer-events-none, currentColor.
  */

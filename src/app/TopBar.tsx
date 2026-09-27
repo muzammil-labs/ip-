@@ -46,7 +46,7 @@ function LangControl() {
   );
 }
 
-/** UI-9.15: the theme change reveals from the toggle button itself, growing a circular
+/** The theme change reveals from the toggle button itself, growing a circular
  * clip-path from its centre (the View Transitions API, not Motion, since it animates a
  * pseudo-element snapshot of the whole page). Falls back to an instant switch when the API
  * is unsupported (Firefox) or reduced motion is requested. */

@@ -23,12 +23,12 @@ const FOOTER_NAV: { href: string; labelKey: string }[] = [
 /**
  * The outer chrome for every page: header, main column and the footer disclaimer,
  * which is always visible and never covered. The chapter rail (C9) is Case-only and
- * does not exist yet (Phase 3), so every screen currently uses the plain shell.
+ * does not exist yet, so every screen currently uses the plain shell.
  *
  * Screens keep their own internal width classes for now (Overview's 1400px hero,
  * Ask's 1000px column, and so on); Shell does not additionally constrain width here.
- * Migrating every screen onto the --w-main / --w-shell system is Phase 4 work, done
- * screen by screen as each one is rebuilt to the new design (see docs/plan/QUESTIONS.md).
+ * Migrating every screen onto the --w-main / --w-shell system is ongoing work, done
+ * screen by screen as each one is rebuilt to the new design.
  */
 export default function Shell({ children }: { children: ReactNode }) {
   const t = useT();

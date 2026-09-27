@@ -8,7 +8,7 @@ import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { objectionsFor } from "../data/examinerRules";
 
-/** UI-6.7: "See this as a patent examiner would." Toggle + the FER-order objection list. Shared between
+/** "See this as a patent examiner would." Toggle + the FER-order objection list. Shared between
  * Chapter 3 (Protect) and the Dossier so the same view appears wherever a Case is reviewed. */
 export function useExaminerToggle() {
   const [open, setOpen] = useState(false);

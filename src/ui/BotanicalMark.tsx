@@ -2,8 +2,8 @@
  * A generic, hand-drawn line-art botanical motif (branch, leaves, a few berries): the one
  * decorative illustration in the app, used only inside Plate's placeholder while no real,
  * licence-checked photograph exists for a plant (public/plates/). Deliberately not a
- * species-accurate rendering of any specific plant (a claim this session has no botanical
- * authority to make); it reads as an illustrative mark, not an attempt at a photograph, so it
+ * species-accurate rendering of any specific plant (we're not botanists); it reads as an
+ * illustrative mark, not an attempt at a photograph, so it
  * does not fake the real photography Plate otherwise requires. Single color via currentColor,
  * so it follows whatever text color its container sets in both themes.
  */

@@ -39,7 +39,7 @@ export interface Case {
   persona: Persona;
   markets: Market[];
   turnoverCr?: number;
-  /** UI-6.3: whether the formula's source material is a high-value biological resource (e.g. red
+  /** Whether the formula's source material is a high-value biological resource (e.g. red
    * sanders, sandalwood, agarwood) under the BD (ABS) Regulations 2025. */
   highValueResource?: boolean;
   claims: ClaimItem[];

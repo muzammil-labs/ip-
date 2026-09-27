@@ -33,7 +33,7 @@ function timeNow() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
-/** State for the Ask feature (#/ask, UI-4.9), which predates the Case model. Persona,
+/** State for the Ask feature (#/ask), which predates the Case model. Persona,
  * jurisdiction, detail level and the current/history conversation state live here;
  * the Case's own audit and consent (state/case.tsx) are the real, displayed record. */
 export function AppProvider({ children }: { children: ReactNode }) {

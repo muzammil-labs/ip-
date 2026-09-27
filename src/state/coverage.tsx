@@ -26,7 +26,7 @@ interface CoverageApi {
 
 const CoverageContext = createContext<CoverageApi | null>(null);
 
-/** UI-7.5: which of data/coverage.ts's 17 PS requirements the demo has touched this session.
+/** Which of data/coverage.ts's 17 PS requirements the demo has touched this session.
  * Session-only (sessionStorage, not the Case's own localStorage), since it tracks the walkthrough
  * itself, not any one Case. */
 export function CoverageProvider({ children }: { children: ReactNode }) {

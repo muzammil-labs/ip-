@@ -19,7 +19,7 @@ import { chapterStatus, chapterGaps } from "./status";
 import { CHAPTER_ORDER, type ChapterSlug } from "./order";
 import { api } from "../api/client";
 
-/** UI-9.16: whether the stamp-in and ripple have already played once this session, tracked
+/** Whether the stamp-in and ripple have already played once this session, tracked
  * outside React state (module scope, not persisted) since it must survive Dossier unmounting
  * and remounting as the visitor navigates away and back within the same session. */
 let dossierSealPlayed = false;

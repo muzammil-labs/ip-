@@ -30,7 +30,7 @@ async function startMocking() {
   // No real backend exists yet in any environment, so the mock worker always starts,
   // not just in dev. Base-relative URL so it resolves under vite's base: "./".
   //
-  // In a built app (UI-5.2), MSW registers the PWA's own merged service worker
+  // In a built app, MSW registers the PWA's own merged service worker
   // (sw.js, built from src/sw.ts) instead of the plain mockServiceWorker.js: that
   // file already imports mockServiceWorker.js's logic via importScripts, so this is
   // still the same mock behaviour, just sharing one worker/one registration with

@@ -26,7 +26,7 @@ function resolveSlugs(formula: FormulaItem[]): Set<string> {
 }
 
 /** Each ingredient's weight is 2 for the formulation's own primary ingredient, 1 for every other
- * ingredient in the union of the Case's formula and the formulation (MASTER-PLAN UI-6.1: "the formula's
+ * ingredient in the union of the Case's formula and the formulation ("the formula's
  * primary ingredient weight 2, others 1"). Weighted Jaccard = shared weight over total weight. */
 function ingredientWeight(slug: string, formulation: FormulationRef): number {
   return slug === formulation.primary ? 2 : 1;
@@ -50,9 +50,9 @@ function setEquals(a: Set<string>, b: string[]): boolean {
   return b.every((x) => a.has(x));
 }
 
-/** Legal reading, MASTER-PLAN UI-6.1: an exact ingredient-set match reads as classical (Patents Act
+/** Legal reading: an exact ingredient-set match reads as classical (Patents Act
  * §3(p), traditional-knowledge bar). A 0.6+ overlap with real changes reads as potentially proprietary,
- * needing synergy data (Patents Act §3(e), not yet in this corpus; see docs/plan/QUESTIONS.md). Anything
+ * needing synergy data (Patents Act §3(e), not yet in this corpus). Anything
  * lower reads as a possible new ASU drug, worth a TKDL search before relying on that. */
 function readingFor(exactMatch: boolean, score: number): TkReading {
   if (exactMatch) return "classical";

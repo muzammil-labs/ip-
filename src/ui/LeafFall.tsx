@@ -34,8 +34,8 @@ function makeLeaves(): FallingLeaf[] {
 
 /**
  * A burst of leaves falling across the viewport, once, on a real moment of progress: a chapter's
- * status flipping to done (triggered from ChapterRail), or the dossier completing (UI-9.16). Not on
- * every navigation (see docs/plan/UI-POLISH-PLAN.md UI-9.14): that would fire ~15 times in a five-
+ * status flipping to done (triggered from ChapterRail), or the dossier completing. Not on
+ * every navigation: that would fire ~15 times in a five-
  * minute demo and read as a screensaver. `session.celebrate(key)` is the only trigger, and it fires
  * at most once per key per session, so this component never re-plays for the same event.
  */

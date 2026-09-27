@@ -6,7 +6,7 @@ export interface ExaminerRule {
   id: string;
   /** Cite ids in SOURCES for the objection currently shown; empty while content is pending review. */
   cites(kase: Case): string[];
-  /** Empty string while the ground has no reviewed objection text yet (see docs/plan/QUESTIONS.md). */
+  /** Empty string while the ground has no reviewed objection text yet. */
   objection(kase: Case): string;
   evidenceNeeded(kase: Case): string[];
   trigger(kase: Case): boolean;
@@ -16,8 +16,8 @@ export interface ExaminerRule {
 /** First Examination Report order: Section 3(p)/3(d)/3(e)/3(i) exclusions, then Section 10(4) disclosure and
  * Section 25 opposition grounds. Every objection and evidence line below is reused verbatim from content the
  * team already reviewed (data/classifyCategories.ts's own patent/evidence rows, engines/classify.ts's
- * nextSteps(), or the scripted answer at data/answers.ts's q1.in.pts[3]): the executing model writes only the
- * structure and the triggers, per the master plan's UI-6.7 rule, and never authors new legal statements.
+ * nextSteps(), or the scripted answer at data/answers.ts's q1.in.pts[3]): we write only the
+ * structure and the triggers, and never author new legal statements.
  * Sections 3(e) (admixture without synergy) and 3(i) (method of treatment) have no reviewed citation in the
  * corpus yet, so they render with no objection text until the patent agent supplies one; see QUESTIONS.md. */
 export const EXAMINER_RULES: ExaminerRule[] = [

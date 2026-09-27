@@ -12,15 +12,15 @@ export interface BenefitShareResult {
   rate?: number;
   /** In crore rupees, set only for "computed". */
   amountCr?: number;
-  /** True once this result also needs the still-unconfirmed reporting threshold (MASTER-PLAN UI-6.3). */
+  /** True once this result also needs the still-unconfirmed reporting threshold. */
   reportingThresholdPending: boolean;
 }
 
-/** BD (ABS) Regulations 2025 slabs, as given verbatim in MASTER-PLAN UI-6.3 (not this session's own
+/** BD (ABS) Regulations 2025 slabs, as given verbatim in the Gazette notification (not our own
  * research): up to ₹5 cr nil, ₹5-50 cr 0.2%, ₹50-250 cr 0.4% of annual gross ex-factory sale price.
  * The slab above ₹250 cr, the high-value-resource percentage and the reporting threshold are explicitly
  * left unconfirmed by that same task text ("must be confirmed from the Gazette text before being
- * coded"), so this engine never invents a number for them; see docs/plan/QUESTIONS.md (Phase 6). This
+ * coded"), so this engine never invents a number for them. This
  * also approximates "annual gross ex-factory sale price" with the Case's own turnover figure, since the
  * Case model does not collect ex-factory price separately. */
 export function computeBenefitShare(kase: Case, highValueResource: boolean): BenefitShareResult {

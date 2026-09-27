@@ -12,7 +12,7 @@ export interface ProtectionRow {
 
 /**
  * The seven IP rows for Chapter 3 Protect, one set per classify category. Patent reuses
- * CAT[cat].rows.patent verbatim (already vetted in Phase 0/1). The other six are new,
+ * CAT[cat].rows.patent verbatim (already vetted). The other six are new,
  * conservative restructuring of facts already in the corpus (trade mark, design and
  * copyright text mirrors CAT[cat].rows.other; GI, PPV&FR and trade secret are general
  * and do not vary by category, since none of them turn on the classify pathway). Logged

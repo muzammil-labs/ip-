@@ -24,7 +24,7 @@ function isChapterSlug(s: string): s is ChapterSlug {
 }
 
 /** #/case/:chapter (B2): looks up the chapter component, or redirects to the first chapter on an unknown slug.
- * UI-4.11: the chapter rail sits as a sticky left sidebar at ≥1024px; below that, a stepper bar replaces it. */
+ * The chapter rail sits as a sticky left sidebar at ≥1024px; below that, a stepper bar replaces it. */
 function CaseChapterRoute() {
   const { chapter } = useParams<{ chapter: string }>();
   if (!chapter || !isChapterSlug(chapter)) return <Redirect to={`/case/${CHAPTER_ORDER[0]}`} />;
@@ -54,7 +54,7 @@ function NotFound() {
   );
 }
 
-/** Scrolls to top on route change only, never on chapter-internal state changes (UI-3.1). */
+/** Scrolls to top on route change only, never on chapter-internal state changes. */
 function ScrollToTop() {
   const [location] = useLocation();
   useEffect(() => {

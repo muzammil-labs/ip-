@@ -27,7 +27,7 @@ describe("encodeCaseForShare / decodeSharedCase", () => {
     expect(decoded!.markets).toEqual(original.markets);
   });
 
-  it("strips the audit log and consent ledger from the encoded payload, per UI-3.4", () => {
+  it("strips the audit log and consent ledger from the encoded payload", () => {
     const original = sampleCase();
     const encoded = encodeCaseForShare(original);
     const decoded = decodeSharedCase(encoded);
@@ -49,7 +49,7 @@ describe("encodeCaseForShare / decodeSharedCase", () => {
 describe("shareLinkFor", () => {
   it("builds a #/case/describe URL with the encoded case as the c param", () => {
     // shareLinkFor reads window.location; stub the minimum this test environment doesn't provide
-    // (verified against a real browser during UI-3.4 development: the generated link opened and
+    // (verified against a real browser: the generated link opened and
     // decoded correctly end to end).
     (globalThis as { window?: unknown }).window = { location: { origin: "https://ip-sakti.example", pathname: "/" } };
     const link = shareLinkFor(sampleCase());

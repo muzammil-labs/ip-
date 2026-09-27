@@ -19,7 +19,7 @@ export interface ChapterStepperProps {
   current: ChapterSlug;
 }
 
-/** The mobile Case stepper (UI-4.11): dots plus the current chapter name; tap opens the full rail as a Sheet. */
+/** The mobile Case stepper: dots plus the current chapter name; tap opens the full rail as a Sheet. */
 export default function ChapterStepper({ current }: ChapterStepperProps) {
   const t = useT();
   const [open, setOpen] = useState(false);

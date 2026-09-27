@@ -50,9 +50,9 @@ function SourceBlock({ id, t }: { id: string; t: (k: string) => string }) {
   );
 }
 
-/** UI-7.4: renamed from components/SourceDrawer.tsx to match D2's target structure, and migrated
+/** Renamed from components/SourceDrawer.tsx to match D2's target structure, and migrated
  * off raw px font sizes, an untokened border radius and hand-set z-index values (a Part E
- * pre-flight violation left over from before the Phase 2 primitives existed): now uses the same
+ * pre-flight violation left over from an earlier pass): now uses the same
  * text-small/text-body/text-h3 scale, rounded-control, and LAYER.drawer (Sheet.tsx's own
  * convention: one z-index value shared by backdrop and panel, relying on DOM order) as every other
  * primitive. The conflict badge now reuses StatusChip instead of the bespoke EvidenceMark

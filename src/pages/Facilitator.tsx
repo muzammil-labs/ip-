@@ -1,7 +1,7 @@
 import { useT } from "../i18n/useT";
 import EmptyState from "../ui/EmptyState";
 
-/** #/facilitator (B2): the SIPP facilitator console for escalated cases. Needs api.escalate consumers and a facilitator queue view, built in Phase 6. */
+/** #/facilitator: the SIPP facilitator console for escalated cases. Needs api.escalate consumers and a facilitator queue view, still to be built. */
 export default function Facilitator() {
   const t = useT();
   return (

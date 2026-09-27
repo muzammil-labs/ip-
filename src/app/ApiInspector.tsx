@@ -13,7 +13,7 @@ export function openApiInspector() {
 }
 
 /**
- * UI-3.7: a docked panel listing every call the typed API client (src/api/client.ts) has
+ * A docked panel listing every call the typed API client (src/api/client.ts) has
  * made, backed by MSW. Toggled with the 'D' key while presenter mode is on, or by calling
  * openApiInspector() from anywhere (How it works links to it). Mounted once in Shell.
  */

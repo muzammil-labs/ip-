@@ -25,7 +25,7 @@ export interface ChapterRailProps {
 }
 
 /**
- * The desktop Case sidebar (UI-4.11): seven chapters with Seal, verb and status, a
+ * The desktop Case sidebar: seven chapters with Seal, verb and status, a
  * Thread line filling to the current chapter, and a thin evidence-spine column on the
  * right edge (one small Seal per unique clause cited by the Case so far).
  */
@@ -38,8 +38,8 @@ export default function ChapterRail({ current }: ChapterRailProps) {
   const currentIx = CHAPTER_ORDER.indexOf(current);
   const doneIx = CHAPTER_ORDER.map((slug, i) => (slug !== "dossier" && status[slug] ? i : -1)).filter((i) => i >= 0);
 
-  // UI-9.14: a leaf sprouts on the vine (and LeafFall runs once) the moment a chapter's status
-  // flips from not-done to done. Dossier is excluded here; its own moment is UI-9.16.
+  // A leaf sprouts on the vine (and LeafFall runs once) the moment a chapter's status
+  // flips from not-done to done. Dossier is excluded here; it has its own seal moment.
   const prevStatus = useRef(status);
   useEffect(() => {
     for (const slug of CHAPTER_ORDER) {

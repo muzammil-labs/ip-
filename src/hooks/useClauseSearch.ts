@@ -3,7 +3,7 @@ import type { ClauseHit } from "../workers/search.worker";
 
 export type { ClauseHit };
 
-/** UI-6.6: runs clause search (MiniSearch over data/sources.ts) in a Web Worker, off the main
+/** Runs clause search (MiniSearch over data/sources.ts) in a Web Worker, off the main
  * thread. The worker is created lazily, on the first search, and terminated on unmount. */
 export function useClauseSearch() {
   const workerRef = useRef<Worker | null>(null);

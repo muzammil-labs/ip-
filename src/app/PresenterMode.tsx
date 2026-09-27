@@ -12,7 +12,7 @@ const STEPS = ["/", "/case/describe", "/case/classify", "/case/owe", "/case/say"
 const LANG_CYCLE: Lang[] = ["en", "hi", "te"];
 
 /**
- * UI-7.2: `?present=1` (a real top-level query param, read once from window.location.search since
+ * `?present=1` (a real top-level query param, read once from window.location.search since
  * wouter's own useSearch() here reads the in-hash search per src/lib/hashLocation.ts) turns on
  * presenter mode for the session. While on: base type is one step larger everywhere (global.css's
  * [data-presenter] block, tokens only), a step counter shows bottom-left, and keyboard shortcuts

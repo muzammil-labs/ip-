@@ -10,11 +10,11 @@ export interface FormulationRef {
   citation?: { book: string; chapter: string };
 }
 
-/** UI-6.1: a small demonstration set built only from the app's 9 demo plants (data/plants.ts), for the TK
- * proximity check. Content rule (MASTER-PLAN UI-6.1): a real entry needs book and chapter from the Ayurvedic
+/** A small demonstration set built only from the app's 9 demo plants (data/plants.ts), for the TK
+ * proximity check. Content rule: a real entry needs book and chapter from the Ayurvedic
  * Formulary of India and sign-off from the team's AIIA contact before the demo. None of these are reviewed yet,
  * so `citation` is left unset and every card shows a "Review pending" chip instead of an invented page number.
- * See docs/plan/QUESTIONS.md (Phase 6) for why the executing model did not write citation text itself. */
+ * We deliberately did not write citation text ourselves for entries pending AIIA review. */
 export const FORMULATIONS: FormulationRef[] = [
   { slug: "chyawanprash", name: "Chyawanprash", primary: "amla", ingredients: ["amla", "guduchi", "ashwagandha"], reviewed: false },
   { slug: "ashwagandharishta", name: "Ashwagandharishta", primary: "ashwagandha", ingredients: ["ashwagandha", "guduchi"], reviewed: false },

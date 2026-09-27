@@ -33,10 +33,10 @@ interface SessionState {
   sahayakOpen: boolean;
   presenter: boolean;
   clauseSheet: ClauseSheetState | null;
-  /** UI-6.2 legal time machine: an ISO date ("YYYY-MM-DD") the user is viewing sources as of, or null
+  /** Legal time machine: an ISO date ("YYYY-MM-DD") the user is viewing sources as of, or null
    * for "today" (live). Session-only, not persisted. */
   asOfDate: string | null;
-  /** UI-9.14 LeafFall: bumps whenever celebrate() fires a new (not-yet-celebrated) key, so LeafFall's
+  /** LeafFall: bumps whenever celebrate() fires a new (not-yet-celebrated) key, so LeafFall's
    * effect can key off it. Null until the first celebration. */
   celebration: { key: string; at: number } | null;
 }

@@ -38,7 +38,7 @@ const PROTECT_GROUPS: { strength: ProtectionStrength; headingKey: string; state:
   { strength: "none", headingKey: "protectNoneHeading", state: "R" },
 ];
 
-/** #/dossier/print (B2, UI-6.4): A4 print view of the whole Case. "Export PDF" (Dossier.tsx) opens
+/** #/dossier/print: A4 print view of the whole Case. "Export PDF" (Dossier.tsx) opens
  * this route; the visible "Print" button here calls window.print(). No PDF library: the browser's
  * own print-to-PDF does the conversion, styled by styles/print.css. */
 export default function DossierPrint() {

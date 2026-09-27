@@ -32,9 +32,9 @@ const READING_CITE: Record<TkMatch["reading"], string[]> = {
   newAsu: ["tk-guide", "tkdl"],
 };
 
-/** UI-6.1: one TK proximity match. Two ingredient columns (the Case's formula, this reference formulation),
+/** One TK proximity match. Two ingredient columns (the Case's formula, this reference formulation),
  * shared ingredients listed first and connected by a Thread line, differing ones greyed below. Score is text,
- * not a gauge, per MASTER-PLAN. */
+ * not a gauge. */
 export default function TkMatchCard({ match }: { match: TkMatch }) {
   const t = useT();
   const { lang } = useSession();

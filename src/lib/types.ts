@@ -29,7 +29,7 @@ export interface Answer {
 }
 
 /** One period in a source's history. `from`/`to` are ISO dates, "YYYY-MM" or "YYYY" when the exact day
- * isn't confirmed (MASTER-PLAN UI-6.2: "if unsure, show the event without a day"). `to` omitted means
+ * isn't confirmed (if unsure, show the event without a day). `to` omitted means
  * this is the current period. */
 export interface SourceVersion {
   from: string;
@@ -62,9 +62,9 @@ export interface Source {
   flux?: boolean;
   paid?: boolean;
   note?: string;
-  /** UI-6.2 legal time machine: this source's status over time, oldest first. */
+  /** Legal time machine: this source's status over time, oldest first. */
   versions?: SourceVersion[];
-  /** UI-6.2: dated milestones shown as ticks on the time machine's track. */
+  /** Dated milestones shown as ticks on the time machine's track. */
   events?: SourceEvent[];
 }
 

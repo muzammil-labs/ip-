@@ -4,7 +4,7 @@ import { useCoverage } from "../state/coverage";
 import { useT } from "../i18n/useT";
 import { COVERAGE } from "../data/coverage";
 
-/** UI-7.5: presenter-mode-only 17-segment bar under the header, one segment per PS 26045
+/** Presenter-mode-only 17-segment bar under the header, one segment per PS 26045
  * requirement in data/coverage.ts. Ticks green as `useCoverage().mark(id)` calls land from the
  * chapters and pages that satisfy each requirement (see each call site's own comment). */
 export default function CoverageBar() {

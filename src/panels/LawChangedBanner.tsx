@@ -5,7 +5,7 @@ import { useT } from "../i18n/useT";
 import { useCase } from "../state/case";
 import { changedClausesSince } from "../engines/lawChanged";
 
-/** UI-6.9: "Law changed since you last opened this case." Shown at the top of every Case chapter
+/** "Law changed since you last opened this case." Shown at the top of every Case chapter
  * (mounted by CaseChapterRoute) whenever the corpus has moved on since this Case's own
  * `corpusVersion` and at least one clause it cites changed in that window. */
 export default function LawChangedBanner() {

@@ -9,11 +9,11 @@ export interface VineRailProps {
   /** Index (0-based) of the current chapter, drives how far the stem has grown. */
   currentIx: number;
   /** Which chapters (by index) are done and get a leaf. Never includes the last (dossier, its own
-   * stamp moment is UI-9.16, not a rail leaf). */
+   * stamp moment, not a rail leaf). */
   doneIx: number[];
 }
 
-/** Shared with LeafFall (UI-9.14): the one leaf shape used everywhere a leaf appears. */
+/** Shared with LeafFall: the one leaf shape used everywhere a leaf appears. */
 export const LEAF_PATH = "M0 0 C 5 -9, 19 -11, 30 -2 C 20 6, 6 7, 0 0 Z";
 
 function rowCenterY(ix: number, total: number): number {
@@ -24,7 +24,7 @@ function rowCenterY(ix: number, total: number): number {
 
 /**
  * The chapter rail's progress line, replacing a straight bar with a gently wavy stem: the tasteful
- * version of "vines" (see docs/plan/UI-POLISH-PLAN.md UI-9.13). A leaf sprouts beside each chapter
+ * version of "vines". A leaf sprouts beside each chapter
  * the moment its status flips to done, alternating sides; the current chapter gets a closed bud.
  * No thorns. Purely decorative: aria-hidden, and the rail's own StatusChips remain the real,
  * accessible status text.

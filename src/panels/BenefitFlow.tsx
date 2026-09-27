@@ -7,13 +7,13 @@ import type { BenefitShareResult } from "../engines/benefitShare";
 
 const STOPS = ["company", "nba", "bmc", "community"] as const;
 
-/** UI-6.8: company to NBA to BMC to community, the Regulation's own chain of custody for a
+/** Company to NBA to BMC to community, the Regulation's own chain of custody for a
  * benefit-share payment (BD Act, 2002, ss. 21-24: the NBA collects and, through the State
  * Biodiversity Board, channels the amount to the Biodiversity Management Committee for the
  * benefit of the claimants/local community). Only the total the Case already computes is shown
  * as a confirmed amount; the split between NBA/BMC/community is not in the corpus (no reviewed
  * Gazette percentage exists), so that leg renders "Confirm in Regulation" rather than an invented
- * split, per UI-6.3's own rule for unconfirmed benefit-share figures. */
+ * split, per our own rule for unconfirmed benefit-share figures. */
 export default function BenefitFlow({ result }: { result: BenefitShareResult }) {
   const t = useT();
   const motionOK = useMotionOK();
